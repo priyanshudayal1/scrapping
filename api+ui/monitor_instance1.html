@@ -1,0 +1,469 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Instance 1 - Judgements Scraping Monitor</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+  </head>
+  <body class="bg-gray-100 min-h-screen">
+    <div class="container mx-auto px-4 py-8">
+      <div class="max-w-6xl mx-auto">
+        <!-- Header -->
+        <div
+          class="bg-gradient-to-r from-blue-500 to-blue-600 rounded-lg shadow-md p-6 mb-6 text-white"
+        >
+          <h1 class="text-3xl font-bold mb-2">
+            Instance 1 - Judgements Scraping Monitor
+          </h1>
+          <p class="text-blue-100">Pages 1 to 42,217 (~4.2M Results)</p>
+          <p class="text-sm text-blue-200 mt-2">
+            Monitoring: <span id="apiUrl">localhost:5000</span>
+          </p>
+        </div>
+
+        <!-- Control Panel -->
+        <div class="bg-white rounded-lg shadow-md p-6 mb-6">
+          <h2 class="text-xl font-semibold text-gray-800 mb-4">
+            Control Panel
+          </h2>
+          <div class="flex space-x-4">
+            <button
+              id="startBtn"
+              onclick="startScraping()"
+              class="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-6 rounded-lg transition duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
+            >
+              Start Scraping
+            </button>
+            <button
+              id="stopBtn"
+              onclick="stopScraping()"
+              class="bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-6 rounded-lg transition duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
+            >
+              Stop Scraping
+            </button>
+            <button
+              onclick="refreshStatus()"
+              class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-6 rounded-lg transition duration-200"
+            >
+              Refresh
+            </button>
+          </div>
+        </div>
+
+        <!-- Status Indicator -->
+        <div class="bg-white rounded-lg shadow-md p-6 mb-6">
+          <div class="flex items-center justify-between">
+            <div class="flex items-center space-x-4">
+              <div
+                id="statusIndicator"
+                class="w-4 h-4 rounded-full bg-gray-400"
+              ></div>
+              <div>
+                <h3 class="text-lg font-semibold text-gray-800">Status</h3>
+                <p id="statusText" class="text-gray-600">Not Running</p>
+              </div>
+            </div>
+            <div
+              id="errorAlert"
+              class="hidden bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative max-w-md"
+            >
+              <strong class="font-bold">Error!</strong>
+              <span id="errorText" class="block sm:inline"></span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Statistics Cards -->
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-6">
+          <div class="bg-white rounded-lg shadow-md p-6">
+            <div class="flex items-center justify-between">
+              <div>
+                <p class="text-gray-500 text-sm">Total Downloads</p>
+                <p id="totalDownloads" class="text-3xl font-bold text-gray-800">
+                  0
+                </p>
+              </div>
+              <div class="bg-blue-100 rounded-full p-3">
+                <svg
+                  class="w-8 h-8 text-blue-500"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M9 19l3 3m0 0l3-3m-3 3V10"
+                  ></path>
+                </svg>
+              </div>
+            </div>
+          </div>
+
+          <div class="bg-white rounded-lg shadow-md p-6">
+            <div class="flex items-center justify-between">
+              <div>
+                <p class="text-gray-500 text-sm">Current Page</p>
+                <p id="currentPage" class="text-3xl font-bold text-gray-800">
+                  0
+                </p>
+              </div>
+              <div class="bg-green-100 rounded-full p-3">
+                <svg
+                  class="w-8 h-8 text-green-500"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"
+                  ></path>
+                </svg>
+              </div>
+            </div>
+          </div>
+
+          <div class="bg-white rounded-lg shadow-md p-6">
+            <div class="flex items-center justify-between">
+              <div>
+                <p class="text-gray-500 text-sm">Success Rate</p>
+                <p id="successRate" class="text-3xl font-bold text-gray-800">
+                  0%
+                </p>
+              </div>
+              <div class="bg-purple-100 rounded-full p-3">
+                <svg
+                  class="w-8 h-8 text-purple-500"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
+                  ></path>
+                </svg>
+              </div>
+            </div>
+          </div>
+
+          <div class="bg-white rounded-lg shadow-md p-6">
+            <div class="flex items-center justify-between">
+              <div>
+                <p class="text-gray-500 text-sm">Avg Time/File</p>
+                <p id="avgTime" class="text-3xl font-bold text-gray-800">0s</p>
+              </div>
+              <div class="bg-yellow-100 rounded-full p-3">
+                <svg
+                  class="w-8 h-8 text-yellow-500"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"
+                  ></path>
+                </svg>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Progress Details -->
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
+          <div class="bg-white rounded-lg shadow-md p-6">
+            <h3 class="text-lg font-semibold text-gray-800 mb-4">
+              Download Progress
+            </h3>
+            <div class="space-y-4">
+              <div>
+                <div class="flex justify-between text-sm text-gray-600 mb-1">
+                  <span>Files Downloaded</span>
+                  <span id="downloadProgress">0 / 0</span>
+                </div>
+                <div class="w-full bg-gray-200 rounded-full h-2">
+                  <div
+                    id="progressBar"
+                    class="bg-blue-500 h-2 rounded-full transition-all duration-300"
+                    style="width: 0%"
+                  ></div>
+                </div>
+              </div>
+              <div class="grid grid-cols-2 gap-4 text-sm">
+                <div>
+                  <p class="text-gray-500">Pages Completed</p>
+                  <p
+                    id="pagesCompleted"
+                    class="text-xl font-semibold text-gray-800"
+                  >
+                    0
+                  </p>
+                </div>
+                <div>
+                  <p class="text-gray-500">Failed Downloads</p>
+                  <p
+                    id="failedDownloads"
+                    class="text-xl font-semibold text-red-600"
+                  >
+                    0
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="bg-white rounded-lg shadow-md p-6">
+            <h3 class="text-lg font-semibold text-gray-800 mb-4">
+              Session Information
+            </h3>
+            <div class="space-y-3 text-sm">
+              <div class="flex justify-between">
+                <span class="text-gray-600">Started:</span>
+                <span id="startTime" class="font-semibold text-gray-800"
+                  >-</span
+                >
+              </div>
+              <div class="flex justify-between">
+                <span class="text-gray-600">Last Updated:</span>
+                <span id="lastUpdate" class="font-semibold text-gray-800"
+                  >-</span
+                >
+              </div>
+              <div class="flex justify-between">
+                <span class="text-gray-600">Total Processed:</span>
+                <span id="totalProcessed" class="font-semibold text-gray-800"
+                  >0</span
+                >
+              </div>
+              <div class="flex justify-between">
+                <span class="text-gray-600">Successful:</span>
+                <span id="totalSuccessful" class="font-semibold text-green-600"
+                  >0</span
+                >
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Yearly Distribution -->
+        <div class="bg-white rounded-lg shadow-md p-6">
+          <h3 class="text-lg font-semibold text-gray-800 mb-4">
+            Yearly Distribution
+          </h3>
+          <div
+            id="yearlyDistribution"
+            class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-4"
+          >
+            <p class="text-gray-500 col-span-full text-center">
+              No data available
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      // CONFIGURE YOUR API ENDPOINT HERE
+      const API_BASE_URL = "http://localhost:5000/api";
+      // For production, update to your VPS IP:
+      // const API_BASE_URL = 'http://YOUR_VPS_IP:5000/api';
+
+      let refreshInterval = null;
+
+      // Update the displayed API URL
+      document.getElementById("apiUrl").textContent = API_BASE_URL.replace(
+        "/api",
+        ""
+      );
+
+      async function startScraping() {
+        try {
+          const response = await fetch(`${API_BASE_URL}/start`, {
+            method: "POST",
+          });
+          const data = await response.json();
+
+          if (response.ok) {
+            alert(data.message);
+            startAutoRefresh();
+          } else {
+            alert("Error: " + data.message);
+          }
+        } catch (error) {
+          alert("Error starting scraping: " + error.message);
+        }
+      }
+
+      async function stopScraping() {
+        try {
+          const response = await fetch(`${API_BASE_URL}/stop`, {
+            method: "POST",
+          });
+          const data = await response.json();
+
+          if (response.ok) {
+            alert(data.message);
+            stopAutoRefresh();
+          } else {
+            alert("Error: " + data.message);
+          }
+        } catch (error) {
+          alert("Error stopping scraping: " + error.message);
+        }
+      }
+
+      async function refreshStatus() {
+        try {
+          const response = await fetch(`${API_BASE_URL}/status`);
+          const data = await response.json();
+
+          if (response.ok) {
+            updateUI(data);
+          } else {
+            console.error("Error fetching status:", data.message);
+          }
+        } catch (error) {
+          console.error("Error refreshing status:", error);
+          document.getElementById("statusText").textContent =
+            "Connection Error";
+          document.getElementById("statusIndicator").className =
+            "w-4 h-4 rounded-full bg-red-500";
+        }
+      }
+
+      function updateUI(data) {
+        const isRunning = data.is_running;
+        const progress = data.progress;
+        const timing = data.timing;
+
+        // Update status indicator
+        const statusIndicator = document.getElementById("statusIndicator");
+        const statusText = document.getElementById("statusText");
+
+        if (isRunning) {
+          statusIndicator.className =
+            "w-4 h-4 rounded-full bg-green-500 animate-pulse";
+          statusText.textContent = "Running";
+        } else {
+          statusIndicator.className = "w-4 h-4 rounded-full bg-gray-400";
+          statusText.textContent = "Not Running";
+        }
+
+        // Update error alert
+        if (data.current_error) {
+          document.getElementById("errorAlert").classList.remove("hidden");
+          document.getElementById("errorText").textContent = data.current_error;
+        } else {
+          document.getElementById("errorAlert").classList.add("hidden");
+        }
+
+        // Update statistics cards
+        document.getElementById("totalDownloads").textContent =
+          progress.total_files_downloaded || 0;
+        document.getElementById("currentPage").textContent =
+          progress.current_page || 0;
+
+        const successRate =
+          timing.total_files_processed > 0
+            ? (
+                (timing.total_successful_downloads /
+                  timing.total_files_processed) *
+                100
+              ).toFixed(1)
+            : 0;
+        document.getElementById("successRate").textContent = successRate + "%";
+
+        document.getElementById("avgTime").textContent =
+          (timing.average_time_per_file || 0).toFixed(1) + "s";
+
+        // Update progress details
+        document.getElementById("downloadProgress").textContent = `${
+          progress.total_files_downloaded || 0
+        } / ${timing.total_files_processed || 0}`;
+        document.getElementById("pagesCompleted").textContent =
+          progress.pages_completed || 0;
+        document.getElementById("failedDownloads").textContent =
+          progress.failed_downloads || 0;
+
+        // Update session information
+        document.getElementById("startTime").textContent = progress.start_time
+          ? new Date(progress.start_time).toLocaleString()
+          : "-";
+        document.getElementById("lastUpdate").textContent =
+          progress.last_updated
+            ? new Date(progress.last_updated).toLocaleString()
+            : "-";
+        document.getElementById("totalProcessed").textContent =
+          timing.total_files_processed || 0;
+        document.getElementById("totalSuccessful").textContent =
+          timing.total_successful_downloads || 0;
+
+        // Update progress bar
+        const progressPercent =
+          timing.total_files_processed > 0
+            ? (progress.total_files_downloaded / timing.total_files_processed) *
+              100
+            : 0;
+        document.getElementById("progressBar").style.width =
+          progressPercent + "%";
+
+        // Update yearly distribution
+        const yearlyDiv = document.getElementById("yearlyDistribution");
+        if (
+          progress.yearly_counts &&
+          Object.keys(progress.yearly_counts).length > 0
+        ) {
+          yearlyDiv.innerHTML = "";
+          const sortedYears = Object.keys(progress.yearly_counts).sort(
+            (a, b) => b - a
+          );
+          sortedYears.forEach((year) => {
+            const count = progress.yearly_counts[year];
+            yearlyDiv.innerHTML += `
+                        <div class="bg-gray-50 rounded-lg p-3 text-center">
+                            <p class="text-lg font-bold text-gray-800">${year}</p>
+                            <p class="text-sm text-gray-600">${count} files</p>
+                        </div>
+                    `;
+          });
+        } else {
+          yearlyDiv.innerHTML =
+            '<p class="text-gray-500 col-span-full text-center">No data available</p>';
+        }
+
+        // Update button states
+        document.getElementById("startBtn").disabled = isRunning;
+        document.getElementById("stopBtn").disabled = !isRunning;
+      }
+
+      function startAutoRefresh() {
+        if (!refreshInterval) {
+          refreshInterval = setInterval(refreshStatus, 3000);
+        }
+      }
+
+      function stopAutoRefresh() {
+        if (refreshInterval) {
+          clearInterval(refreshInterval);
+          refreshInterval = null;
+        }
+      }
+
+      // Initial load
+      window.addEventListener("load", () => {
+        refreshStatus();
+        startAutoRefresh();
+      });
+    </script>
+  </body>
+</html>

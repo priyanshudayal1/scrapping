@@ -1,0 +1,80 @@
+{
+  "script_id": 1,
+  "start_page": 1,
+  "end_page": 2559,
+  "total_pages": 2559,
+  "estimated_results": 255900,
+  "current_page": 1,
+  "total_files_downloaded": 5,
+  "start_time": "2025-10-30T15:22:37.046905",
+  "last_updated": "2025-10-30T18:11:04.345800",
+  "status": "not_started",
+  "pages_completed": [],
+  "failed_downloads": [],
+  "yearly_counts": {
+    "5000": 4,
+    "2025": 1
+  },
+  "downloaded_files": [
+    {
+      "success": true,
+      "filename": "WP_12923_2016_of_M._SEENAPPA,_CHITTOOR_DIST_AND_3_OTHERS_Vs_PRL_SECY,_ANIMAL_HUSBANDRY_DAIRY_DEV._AND_FISHERIES_DEPT.,_HYD_CNR_APHC010460892016.pdf",
+      "s3_key": "judgements/WP_12923_2016_of_M._SEENAPPA,_CHITTOOR_DIST_AND_3_OTHERS_Vs_PRL_SECY,_ANIMAL_HUSBANDRY_DAIRY_DEV._AND_FISHERIES_DEPT.,_HYD_CNR_APHC010460892016.pdf",
+      "uploaded_to_s3": true,
+      "cnr": "APHC010460892016",
+      "case_title": "WP/12923/2016 of M. SEENAPPA, CHITTOOR DIST AND 3 OTHERS Vs PRL SECY, ANIMAL HUSBANDRY DAIRY DEV. AND FISHERIES DEPT., HYD",
+      "decision_date": "01-12-5000",
+      "decision_year": 5000,
+      "download_time": "2025-10-30T18:10:32.744629",
+      "download_duration_seconds": 6.17
+    },
+    {
+      "success": true,
+      "filename": "WP(C)_1506_2023_of_KEFAYAT_AHMAD_SOFI_Vs_UNION_TERRITORY_OF_J_AND_K_AND_OTHERS._(REVENUE_DEPARTMENT)_CNR_JKHC010028062023.pdf",
+      "s3_key": "judgements/WP(C)_1506_2023_of_KEFAYAT_AHMAD_SOFI_Vs_UNION_TERRITORY_OF_J_AND_K_AND_OTHERS._(REVENUE_DEPARTMENT)_CNR_JKHC010028062023.pdf",
+      "uploaded_to_s3": true,
+      "cnr": "JKHC010028062023",
+      "case_title": "WP(C)/1506/2023 of KEFAYAT AHMAD SOFI Vs UNION TERRITORY OF J AND K AND OTHERS. (REVENUE DEPARTMENT)",
+      "decision_date": "29-08-5000",
+      "decision_year": 5000,
+      "download_time": "2025-10-30T18:10:40.646531",
+      "download_duration_seconds": 6.9
+    },
+    {
+      "success": true,
+      "filename": "WP(C)_2394_2023_of_KEFAYAT_AHMAD_SOFI_Vs_UNION_TERRITORY_OF_J_AND_K_AND_ORS._(REVENUE_DEPARTMENT)_CNR_JKHC010046592023.pdf",
+      "s3_key": "judgements/WP(C)_2394_2023_of_KEFAYAT_AHMAD_SOFI_Vs_UNION_TERRITORY_OF_J_AND_K_AND_ORS._(REVENUE_DEPARTMENT)_CNR_JKHC010046592023.pdf",
+      "uploaded_to_s3": true,
+      "cnr": "JKHC010046592023",
+      "case_title": "WP(C)/2394/2023 of KEFAYAT AHMAD SOFI Vs UNION TERRITORY OF J AND K AND ORS. (REVENUE DEPARTMENT)",
+      "decision_date": "29-08-5000",
+      "decision_year": 5000,
+      "download_time": "2025-10-30T18:10:48.538654",
+      "download_duration_seconds": 6.89
+    },
+    {
+      "success": true,
+      "filename": "APPLN_3569_2024_of_TUSHAR_SUDAMRAO_SELUKAR_AND_ANOTHER_Vs_THE_STATE_OF_MAHARASHTRA_AND_ANOTHER_CNR_HCBM030307122024.pdf",
+      "s3_key": "judgements/APPLN_3569_2024_of_TUSHAR_SUDAMRAO_SELUKAR_AND_ANOTHER_Vs_THE_STATE_OF_MAHARASHTRA_AND_ANOTHER_CNR_HCBM030307122024.pdf",
+      "uploaded_to_s3": true,
+      "cnr": "HCBM030307122024",
+      "case_title": "APPLN/3569/2024 of TUSHAR SUDAMRAO SELUKAR AND ANOTHER Vs THE STATE OF MAHARASHTRA AND ANOTHER",
+      "decision_date": "01-01-5000",
+      "decision_year": 5000,
+      "download_time": "2025-10-30T18:10:56.463193",
+      "download_duration_seconds": 6.92
+    },
+    {
+      "success": true,
+      "filename": "SA_71_2025_of_SANTANA_HAZRA_Vs_SAMARJIT_BOURI_KSHETRAPAL_AND_ORS_CNR_WBCHCA1079262020.pdf",
+      "s3_key": "judgements/SA_71_2025_of_SANTANA_HAZRA_Vs_SAMARJIT_BOURI_KSHETRAPAL_AND_ORS_CNR_WBCHCA1079262020.pdf",
+      "uploaded_to_s3": true,
+      "cnr": "WBCHCA1079262020",
+      "case_title": "SA/71/2025 of SANTANA HAZRA Vs SAMARJIT BOURI KSHETRAPAL AND ORS",
+      "decision_date": "04-12-2025",
+      "decision_year": 2025,
+      "download_time": "2025-10-30T18:11:04.344133",
+      "download_duration_seconds": 6.87
+    }
+  ]
+}

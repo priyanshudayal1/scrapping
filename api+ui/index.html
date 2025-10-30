@@ -1,0 +1,572 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Judgements Scraping Monitor</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+    <div class="container mx-auto px-4 py-8">
+      <div class="max-w-7xl mx-auto">
+        <!-- Header -->
+        <div class="glass-effect rounded-2xl shadow-2xl p-8 mb-8 slide-in border-t-4 border-indigo-500">
+          <div class="flex items-center justify-between">
+            <div>
+              <h1 class="text-5xl font-extrabold gradient-text mb-3">
+                ⚖️ Judgements Scraping Monitor
+              </h1>
+              <p class="text-gray-600 text-lg font-medium">
+                Real-time monitoring of PDF download progress across distributed instances
+              </p>
+            </div>
+            <div class="hidden md:block">
+              <div class="bg-gradient-to-r from-indigo-500 to-purple-600 text-white px-6 py-3 rounded-xl shadow-lg">
+                <p class="text-sm font-semibold">Total Target</p>
+                <p class="text-3xl font-bold">16.8M PDFs</p>
+              </div>
+            </div>
+          </div>
+        </div>-gradient {
+        background-size: 200% 200%;
+        animation: gradient 15s ease infinite;
+      }
+      
+      @keyframes pulse-glow {
+        0%, 100% { box-shadow: 0 0 20px rgba(59, 130, 246, 0.5); }
+        50% { box-shadow: 0 0 30px rgba(59, 130, 246, 0.8); }
+      }
+      
+      .pulse-glow {
+        animation: pulse-glow 2s ease-in-out infinite;
+      }
+      
+      @keyframes slideIn {
+        from {
+          opacity: 0;
+          transform: translateY(20px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+      
+      .slide-in {
+        animation: slideIn 0.5s ease-out forwards;
+      }
+      
+      .glass-effect {
+        background: rgba(255, 255, 255, 0.9);
+        backdrop-filter: blur(10px);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+      }
+      
+      .stat-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+      }
+      
+      .gradient-text {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+      }
+    </style>
+  </head>
+  <body class="min-h-screen bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50">
+    <div class="container mx-auto px-4 py-8">
+      <div class="max-w-6xl mx-auto">
+        <!-- Control Panel -->
+        <div class="glass-effect rounded-2xl shadow-xl p-6 mb-8 slide-in">
+          <h2 class="text-2xl font-bold text-gray-800 mb-6 flex items-center">
+            <span class="bg-indigo-100 text-indigo-600 p-2 rounded-lg mr-3">🎮</span>
+            Control Panel
+          </h2>
+          <div class="flex flex-wrap gap-4">
+            <button
+              id="startBtn"
+              onclick="startScraping()"
+              class="bg-gradient-to-r from-green-500 to-emerald-600 hover:from-green-600 hover:to-emerald-700 text-white font-bold py-3 px-8 rounded-xl shadow-lg transition-all duration-300 transform hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100 flex items-center"
+            >
+              <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z"></path>
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+              </svg>
+              Start Scraping
+            </button>
+            <button
+              id="stopBtn"
+              onclick="stopScraping()"
+              class="bg-gradient-to-r from-red-500 to-pink-600 hover:from-red-600 hover:to-pink-700 text-white font-bold py-3 px-8 rounded-xl shadow-lg transition-all duration-300 transform hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100 flex items-center"
+            >
+              <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 10a1 1 0 011-1h4a1 1 0 011 1v4a1 1 0 01-1 1h-4a1 1 0 01-1-1v-4z"></path>
+              </svg>
+              Stop Scraping
+            </button>
+        <!-- Status Indicator -->
+        <div class="glass-effect rounded-2xl shadow-xl p-6 mb-8 slide-in">
+          <div class="flex items-center justify-between flex-wrap gap-4">
+            <div class="flex items-center space-x-4">
+              <div class="relative">
+                <div
+                  id="statusIndicator"
+                  class="w-6 h-6 rounded-full bg-gray-400 shadow-lg"
+                ></div>
+                <div id="statusRing" class="absolute inset-0 rounded-full opacity-0"></div>
+              </div>
+              <div>
+                <h3 class="text-xl font-bold text-gray-800">System Status</h3>
+                <p id="statusText" class="text-gray-600 font-medium">Not Running</p>
+              </div>
+            </div>
+            <div
+              id="errorAlert"
+              class="hidden bg-gradient-to-r from-red-50 to-pink-50 border-2 border-red-300 text-red-800 px-6 py-4 rounded-xl relative max-w-md shadow-lg"
+            >
+              <strong class="font-bold flex items-center">
+                <svg class="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 20 20">
+                  <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd"></path>
+        <!-- Statistics Cards -->
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+          <div class="stat-card glass-effect rounded-2xl shadow-xl p-6 transition-all duration-300 border-l-4 border-blue-500">
+            <div class="flex items-center justify-between">
+              <div>
+                <p class="text-gray-600 text-sm font-semibold uppercase tracking-wide">Total Downloads</p>
+                <p id="totalDownloads" class="text-4xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-indigo-600 mt-2">
+                  0
+                </p>
+              </div>
+              <div class="bg-gradient-to-br from-blue-400 to-blue-600 rounded-2xl p-4 shadow-lg">
+                <svg
+                  class="w-10 h-10 text-white"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M9 19l3 3m0 0l3-3m-3 3V10"
+                  ></path>
+                </svg>
+              </div>
+            </div>
+          </div>
+
+          <div class="stat-card glass-effect rounded-2xl shadow-xl p-6 transition-all duration-300 border-l-4 border-green-500">
+            <div class="flex items-center justify-between">
+              <div>
+                <p class="text-gray-600 text-sm font-semibold uppercase tracking-wide">Current Page</p>
+                <p id="currentPage" class="text-4xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-green-600 to-emerald-600 mt-2">
+                  0
+                </p>
+              </div>
+              <div class="bg-gradient-to-br from-green-400 to-emerald-600 rounded-2xl p-4 shadow-lg">
+                <svg
+                  class="w-10 h-10 text-white"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"
+                  ></path>
+                </svg>
+              </div>
+            </div>
+          </div>
+
+          <div class="stat-card glass-effect rounded-2xl shadow-xl p-6 transition-all duration-300 border-l-4 border-purple-500">
+            <div class="flex items-center justify-between">
+              <div>
+                <p class="text-gray-600 text-sm font-semibold uppercase tracking-wide">Success Rate</p>
+                <p id="successRate" class="text-4xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-purple-600 to-pink-600 mt-2">
+                  0%
+                </p>
+              </div>
+              <div class="bg-gradient-to-br from-purple-400 to-pink-600 rounded-2xl p-4 shadow-lg">
+                <svg
+                  class="w-10 h-10 text-white"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
+                  ></path>
+                </svg>
+              </div>
+            </div>
+          </div>
+
+          <div class="stat-card glass-effect rounded-2xl shadow-xl p-6 transition-all duration-300 border-l-4 border-yellow-500">
+            <div class="flex items-center justify-between">
+              <div>
+                <p class="text-gray-600 text-sm font-semibold uppercase tracking-wide">Avg Time/File</p>
+                <p id="avgTime" class="text-4xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-yellow-600 to-orange-600 mt-2">0s</p>
+              </div>
+              <div class="bg-gradient-to-br from-yellow-400 to-orange-600 rounded-2xl p-4 shadow-lg">
+                <svg
+                  class="w-10 h-10 text-white"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"
+                  ></path>
+                </svg>
+              </div>
+            </div>
+          </div>
+        </div>      d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
+                  ></path>
+        <!-- Progress Details -->
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
+          <div class="glass-effect rounded-2xl shadow-xl p-8">
+            <h3 class="text-2xl font-bold text-gray-800 mb-6 flex items-center">
+              <span class="bg-gradient-to-r from-blue-500 to-indigo-500 text-white p-2 rounded-lg mr-3">📊</span>
+              Download Progress
+            </h3>
+            <div class="space-y-6">
+              <div>
+                <div class="flex justify-between text-sm font-semibold text-gray-700 mb-2">
+                  <span>Files Downloaded</span>
+                  <span id="downloadProgress" class="text-indigo-600">0 / 0</span>
+                </div>
+                <div class="w-full bg-gray-200 rounded-full h-4 shadow-inner overflow-hidden">
+                  <div
+                    id="progressBar"
+                    class="bg-gradient-to-r from-blue-500 via-indigo-500 to-purple-500 h-4 rounded-full transition-all duration-500 shadow-lg relative overflow-hidden"
+                    style="width: 0%"
+                  >
+                    <div class="absolute inset-0 bg-white opacity-20 animate-pulse"></div>
+                  </div>
+                </div>
+                <div class="mt-2 text-right">
+                  <span id="progressPercent" class="text-xs font-bold text-indigo-600">0%</span>
+                </div>
+              </div>
+              <div class="grid grid-cols-2 gap-6">
+                <div class="bg-gradient-to-br from-green-50 to-emerald-50 p-4 rounded-xl border-2 border-green-200">
+                  <p class="text-gray-600 text-sm font-semibold mb-1">Pages Completed</p>
+                  <p
+                    id="pagesCompleted"
+                    class="text-3xl font-extrabold text-green-600"
+                  >
+                    0
+                  </p>
+                </div>
+                <div class="bg-gradient-to-br from-red-50 to-pink-50 p-4 rounded-xl border-2 border-red-200">
+                  <p class="text-gray-600 text-sm font-semibold mb-1">Failed Downloads</p>
+                  <p
+                    id="failedDownloads"
+                    class="text-3xl font-extrabold text-red-600"
+                  >
+                    0
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="glass-effect rounded-2xl shadow-xl p-8">
+            <h3 class="text-2xl font-bold text-gray-800 mb-6 flex items-center">
+              <span class="bg-gradient-to-r from-purple-500 to-pink-500 text-white p-2 rounded-lg mr-3">ℹ️</span>
+              Session Information
+            </h3>
+            <div class="space-y-4">
+              <div class="flex justify-between items-center p-3 bg-gradient-to-r from-gray-50 to-gray-100 rounded-lg">
+                <span class="text-gray-700 font-semibold">Started:</span>
+                <span id="startTime" class="font-bold text-gray-800"
+                  >-</span
+                >
+              </div>
+              <div class="flex justify-between items-center p-3 bg-gradient-to-r from-gray-50 to-gray-100 rounded-lg">
+                <span class="text-gray-700 font-semibold">Last Updated:</span>
+                <span id="lastUpdate" class="font-bold text-gray-800"
+                  >-</span
+                >
+              </div>
+              <div class="flex justify-between items-center p-3 bg-gradient-to-r from-blue-50 to-indigo-50 rounded-lg">
+                <span class="text-gray-700 font-semibold">Total Processed:</span>
+                <span id="totalProcessed" class="font-bold text-indigo-600"
+                  >0</span
+                >
+              </div>
+              <div class="flex justify-between items-center p-3 bg-gradient-to-r from-green-50 to-emerald-50 rounded-lg">
+                <span class="text-gray-700 font-semibold">Successful:</span>
+                <span id="totalSuccessful" class="font-bold text-green-600"
+        <!-- Yearly Distribution -->
+        <div class="glass-effect rounded-2xl shadow-xl p-8">
+          <h3 class="text-2xl font-bold text-gray-800 mb-6 flex items-center">
+            <span class="bg-gradient-to-r from-yellow-500 to-orange-500 text-white p-2 rounded-lg mr-3">📅</span>
+            Yearly Distribution
+          </h3>
+          <div
+            id="yearlyDistribution"
+            class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-4"
+          >
+            <p class="text-gray-500 col-span-full text-center py-8 font-medium">
+              No data available yet
+            </p>
+          </div>
+        </div>
+        
+        <!-- Footer -->
+        <div class="mt-8 text-center text-gray-600">
+          <p class="text-sm font-medium">
+            Built with ❤️ for efficient distributed scraping | Last updated: <span id="footerTime">-</span>
+          </p>
+        </div>  >
+              </div>
+              <div class="flex justify-between">
+                <span class="text-gray-600">Last Updated:</span>
+                <span id="lastUpdate" class="font-semibold text-gray-800"
+                  >-</span
+                >
+              </div>
+              <div class="flex justify-between">
+                <span class="text-gray-600">Total Processed:</span>
+                <span id="totalProcessed" class="font-semibold text-gray-800"
+                  >0</span
+                >
+              </div>
+              <div class="flex justify-between">
+                <span class="text-gray-600">Successful:</span>
+                <span id="totalSuccessful" class="font-semibold text-green-600"
+                  >0</span
+                >
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Yearly Distribution -->
+        <div class="bg-white rounded-lg shadow-md p-6">
+          <h3 class="text-lg font-semibold text-gray-800 mb-4">
+            Yearly Distribution
+          </h3>
+          <div
+            id="yearlyDistribution"
+            class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-4"
+          >
+            <p class="text-gray-500 col-span-full text-center">
+              No data available
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      const API_BASE_URL = "http://localhost:5000/api";
+      let refreshInterval = null;
+
+      async function startScraping() {
+        try {
+          const response = await fetch(`${API_BASE_URL}/start`, {
+            method: "POST",
+          });
+          const data = await response.json();
+
+          if (response.ok) {
+            alert(data.message);
+            startAutoRefresh();
+          } else {
+            alert("Error: " + data.message);
+          }
+        } catch (error) {
+          alert("Error starting scraping: " + error.message);
+        if (isRunning) {
+          statusIndicator.className =
+            "w-6 h-6 rounded-full bg-gradient-to-r from-green-400 to-emerald-500 shadow-lg pulse-glow";
+          document.getElementById('statusRing').className = 
+            "absolute inset-0 rounded-full border-4 border-green-400 opacity-75 animate-ping";
+          statusText.innerHTML = '<span class="text-green-600 font-bold">🟢 Running</span>';
+        } else {
+          statusIndicator.className = "w-6 h-6 rounded-full bg-gray-400 shadow-lg";
+          document.getElementById('statusRing').className = "absolute inset-0 rounded-full opacity-0";
+          statusText.innerHTML = '<span class="text-gray-600 font-bold">⚫ Not Running</span>';
+        } });
+          const data = await response.json();
+
+          if (response.ok) {
+            alert(data.message);
+            stopAutoRefresh();
+          } else {
+            alert("Error: " + data.message);
+          }
+        } catch (error) {
+          alert("Error stopping scraping: " + error.message);
+        }
+      }
+
+      async function refreshStatus() {
+        try {
+          const response = await fetch(`${API_BASE_URL}/status`);
+          const data = await response.json();
+
+          if (response.ok) {
+            updateUI(data);
+          } else {
+            console.error("Error fetching status:", data.message);
+          }
+        } catch (error) {
+          console.error("Error refreshing status:", error);
+        }
+      }
+
+      function updateUI(data) {
+        const isRunning = data.is_running;
+        const progress = data.progress;
+        const timing = data.timing;
+
+        // Update status indicator
+        const statusIndicator = document.getElementById("statusIndicator");
+        const statusText = document.getElementById("statusText");
+
+        if (isRunning) {
+          statusIndicator.className =
+            "w-4 h-4 rounded-full bg-green-500 animate-pulse";
+          statusText.textContent = "Running";
+        } else {
+          statusIndicator.className = "w-4 h-4 rounded-full bg-gray-400";
+          statusText.textContent = "Not Running";
+        }
+
+        // Update error alert
+        // Update progress bar
+        const progressPercent =
+          timing.total_files_processed > 0
+            ? (progress.total_files_downloaded / timing.total_files_processed) *
+              100
+            : 0;
+        document.getElementById("progressBar").style.width =
+          progressPercent + "%";
+        document.getElementById("progressPercent").textContent = 
+          progressPercent.toFixed(1) + "%";ds
+        document.getElementById("totalDownloads").textContent =
+          progress.total_files_downloaded || 0;
+        document.getElementById("currentPage").textContent =
+          progress.current_page || 0;
+
+        const successRate =
+          timing.total_files_processed > 0
+            ? (
+                (timing.total_successful_downloads /
+            sortedYears.forEach((year) => {
+            const count = progress.yearly_counts[year];
+            const gradients = [
+              'from-blue-400 to-blue-600',
+              'from-green-400 to-green-600',
+              'from-purple-400 to-purple-600',
+              'from-pink-400 to-pink-600',
+              'from-yellow-400 to-yellow-600',
+              'from-indigo-400 to-indigo-600'
+            ];
+            const gradient = gradients[Math.floor(Math.random() * gradients.length)];
+            yearlyDiv.innerHTML += `
+                        <div class="bg-gradient-to-br ${gradient} rounded-xl p-4 text-center shadow-lg transform transition-all duration-300 hover:scale-105">
+                            <p class="text-2xl font-extrabold text-white">${year}</p>
+                            <p class="text-sm text-white font-semibold mt-1">${count.toLocaleString()} files</p>
+                        </div>
+                    `;
+          });
+        } else {
+          yearlyDiv.innerHTML =
+            '<p class="text-gray-500 col-span-full text-center py-8 font-medium">No data available yet</p>';
+        }
+        
+        // Update footer time
+        document.getElementById('footerTime').textContent = new Date().toLocaleString();          progress.pages_completed || 0;
+        document.getElementById("failedDownloads").textContent =
+          progress.failed_downloads || 0;
+
+        // Update session information
+        document.getElementById("startTime").textContent = progress.start_time
+          ? new Date(progress.start_time).toLocaleString()
+          : "-";
+        document.getElementById("lastUpdate").textContent =
+          progress.last_updated
+            ? new Date(progress.last_updated).toLocaleString()
+            : "-";
+        document.getElementById("totalProcessed").textContent =
+          timing.total_files_processed || 0;
+        document.getElementById("totalSuccessful").textContent =
+          timing.total_successful_downloads || 0;
+
+        // Update progress bar
+        const progressPercent =
+          timing.total_files_processed > 0
+            ? (progress.total_files_downloaded / timing.total_files_processed) *
+              100
+            : 0;
+        document.getElementById("progressBar").style.width =
+          progressPercent + "%";
+
+        // Update yearly distribution
+        const yearlyDiv = document.getElementById("yearlyDistribution");
+        if (
+          progress.yearly_counts &&
+          Object.keys(progress.yearly_counts).length > 0
+        ) {
+          yearlyDiv.innerHTML = "";
+          const sortedYears = Object.keys(progress.yearly_counts).sort(
+            (a, b) => b - a
+          );
+          sortedYears.forEach((year) => {
+            const count = progress.yearly_counts[year];
+            yearlyDiv.innerHTML += `
+                        <div class="bg-gray-50 rounded-lg p-3 text-center">
+                            <p class="text-lg font-bold text-gray-800">${year}</p>
+                            <p class="text-sm text-gray-600">${count} files</p>
+                        </div>
+                    `;
+          });
+        } else {
+          yearlyDiv.innerHTML =
+            '<p class="text-gray-500 col-span-full text-center">No data available</p>';
+        }
+
+        // Update button states
+        document.getElementById("startBtn").disabled = isRunning;
+        document.getElementById("stopBtn").disabled = !isRunning;
+      }
+
+      function startAutoRefresh() {
+        if (!refreshInterval) {
+          refreshInterval = setInterval(refreshStatus, 3000);
+        }
+      }
+
+      function stopAutoRefresh() {
+        if (refreshInterval) {
+          clearInterval(refreshInterval);
+          refreshInterval = null;
+        }
+      }
+
+      // Initial load
+      window.addEventListener("load", () => {
+        refreshStatus();
+        startAutoRefresh();
+      });
+    </script>
+  </body>
+</html>
