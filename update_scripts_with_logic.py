@@ -59,8 +59,8 @@ def create_full_script(script_id, start_page, end_page):
     chrome_options.add_argument('--disable-features=VizDisplayCompositor')
     chrome_options.add_argument('--max_old_space_size=4096')
     chrome_options.add_argument('--memory-pressure-off')
-    chrome_options.add_argument(f'--user-data-dir=C:/temp/chrome_profile_script_{script_id}')
-    chrome_options.add_argument(f'--remote-debugging-port={9222 + script_id}')
+    chrome_options.add_argument(f'--user-data-dir=C:/temp/chrome_profile_script_' + str(SCRIPT_ID))
+    chrome_options.add_argument(f'--remote-debugging-port=' + str(9222 + SCRIPT_ID))
     chrome_options.add_experimental_option('useAutomationExtension', False)
     chrome_options.add_experimental_option("excludeSwitches", ["enable-automation"])
     
