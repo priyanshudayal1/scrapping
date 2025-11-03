@@ -70,10 +70,10 @@ except Exception as e:
     s3_client = None
     S3_BUCKET_NAME = None
 
-# Email configuration
+# Email configuration - DISABLED FOR TESTING
 EMAIL_HOST_USER = os.getenv('EMAIL_HOST_USER')
 EMAIL_HOST_PASSWORD = os.getenv('EMAIL_HOST_PASSWORD')
-EMAIL_ENABLED = bool(EMAIL_HOST_USER and EMAIL_HOST_PASSWORD)
+EMAIL_ENABLED = False  # Disabled to prevent email spam during testing
 
 # Global variables
 driver = None
@@ -283,7 +283,9 @@ def delete_local_file(file_path):
 
 
 def send_email(subject, body, is_html=False):
-    """Send email notification"""
+    """Send email notification - DISABLED FOR TESTING"""
+    logger.info(f"EMAIL DISABLED - Would send: {subject}")
+    return False  # Emails disabled
     if not EMAIL_ENABLED:
         logger.warning("Email notifications disabled - missing credentials")
         return False
@@ -316,7 +318,9 @@ def send_email(subject, body, is_html=False):
 
 
 def send_error_notification(error_message, error_details=""):
-    """Send error notification email"""
+    """Send error notification email - DISABLED FOR TESTING"""
+    logger.warning(f"EMAIL DISABLED - Error notification: {error_message}")
+    return False  # Emails disabled
     subject = "[WARNING] Scraping Error Occurred"
     
     body = f"""
@@ -341,7 +345,9 @@ Automated notification from Judgement Scraping System
 
 
 def send_completion_notification(stats):
-    """Send completion notification email"""
+    """Send completion notification email - DISABLED FOR TESTING"""
+    logger.info("EMAIL DISABLED - Completion notification suppressed")
+    return False  # Emails disabled
     subject = "[SUCCESS] Scraping Completed Successfully"
     
     body = f"""
@@ -381,7 +387,9 @@ Automated notification from Judgement Scraping System
 
 
 def send_shutdown_notification(reason="Unknown"):
-    """Send notification when script stops unexpectedly"""
+    """Send notification when script stops unexpectedly - DISABLED FOR TESTING"""
+    logger.warning(f"EMAIL DISABLED - Shutdown notification: {reason}")
+    return False  # Emails disabled
     subject = "🛑 Scraping Process Stopped"
     
     body = f"""

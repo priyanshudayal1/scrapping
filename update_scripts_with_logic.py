@@ -43,6 +43,40 @@ def create_full_script(script_id, start_page, end_page):
     functions_code = functions_code.replace('logger.info(f"Instance ID: {INSTANCE_ID}', 'logger.info(f"Script ID: {SCRIPT_ID}')
     functions_code = functions_code.replace('timing_data["instance_id"] = INSTANCE_ID', 'timing_data["script_id"] = SCRIPT_ID')
     
+    # Comment out email functions to disable notifications
+    functions_code = functions_code.replace(
+        'def send_email(subject, body, is_html=False):',
+        'def send_email(subject, body, is_html=False):'
+    )
+    functions_code = functions_code.replace(
+        '    """Send email notification"""',
+        '    """Send email notification - DISABLED FOR TESTING"""\n    logger.info(f"EMAIL DISABLED - Would send: {subject}")\n    return False  # Emails disabled'
+    )
+    functions_code = functions_code.replace(
+        'def send_error_notification(error_message, error_details=""):',
+        'def send_error_notification(error_message, error_details=""):'
+    )
+    functions_code = functions_code.replace(
+        '    """Send error notification email"""',
+        '    """Send error notification email - DISABLED FOR TESTING"""\n    logger.warning(f"EMAIL DISABLED - Error notification: {error_message}")\n    return False  # Emails disabled'
+    )
+    functions_code = functions_code.replace(
+        'def send_completion_notification(stats):',
+        'def send_completion_notification(stats):'
+    )
+    functions_code = functions_code.replace(
+        '    """Send completion notification email"""',
+        '    """Send completion notification email - DISABLED FOR TESTING"""\n    logger.info("EMAIL DISABLED - Completion notification suppressed")\n    return False  # Emails disabled'
+    )
+    functions_code = functions_code.replace(
+        'def send_shutdown_notification(reason="Unknown"):',
+        'def send_shutdown_notification(reason="Unknown"):'
+    )
+    functions_code = functions_code.replace(
+        '    """Send notification when script stops unexpectedly"""',
+        '    """Send notification when script stops unexpectedly - DISABLED FOR TESTING"""\n    logger.warning(f"EMAIL DISABLED - Shutdown notification: {reason}")\n    return False  # Emails disabled'
+    )
+    
     # Make Chrome headless and add stability improvements
     functions_code = functions_code.replace(
         "# chrome_options.add_argument('--headless')  # Commented out to show browser",
@@ -795,10 +829,10 @@ except Exception as e:
     s3_client = None
     S3_BUCKET_NAME = None
 
-# Email configuration
+# Email configuration - DISABLED FOR TESTING
 EMAIL_HOST_USER = os.getenv('EMAIL_HOST_USER')
 EMAIL_HOST_PASSWORD = os.getenv('EMAIL_HOST_PASSWORD')
-EMAIL_ENABLED = bool(EMAIL_HOST_USER and EMAIL_HOST_PASSWORD)
+EMAIL_ENABLED = False  # Disabled to prevent email spam during testing
 
 # Global variables
 driver = None
