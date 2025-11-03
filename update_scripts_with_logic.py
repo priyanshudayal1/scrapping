@@ -8,7 +8,7 @@ def create_full_script(script_id, start_page, end_page):
     """Generate a complete script with all scraping logic"""
     
     # Read the legacy script
-    legacy_file = os.path.join("..", "legacy_judgements.py")
+    legacy_file = os.path.join(os.path.dirname(os.path.dirname(__file__)), "legacy_judgements.py")
     
     with open(legacy_file, 'r', encoding='utf-8') as f:
         legacy_content = f.read()
@@ -581,7 +581,7 @@ def update_all_scripts():
     """Update all 66 scripts with full scraping logic"""
     
     # Load configuration
-    config_path = os.path.join("..", "scripts_distribution_config.json")
+    config_path = os.path.join(os.path.dirname(__file__), "scripts_distribution_config.json")
     with open(config_path, 'r') as f:
         config = json.load(f)
     
@@ -602,7 +602,7 @@ def update_all_scripts():
             content = create_full_script(script_id, start_page, end_page)
             
             # Write to file
-            script_path = f"scripts/script{script_id}/script{script_id}.py"
+            script_path = os.path.join(os.path.dirname(__file__), f"scripts/script{script_id}/script{script_id}.py")
             
             with open(script_path, 'w', encoding='utf-8') as f:
                 f.write(content)
