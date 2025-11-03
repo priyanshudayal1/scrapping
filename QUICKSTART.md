@@ -28,7 +28,7 @@ AWS_SECRET_ACCESS_KEY=your_actual_secret_here
 
 ### 4️⃣ Open Dashboard
 ```
-http://localhost:5000/
+http://35.226.62.197/
 ```
 
 ### 5️⃣ Start Scripts
@@ -108,19 +108,19 @@ Each script card has:
 
 ### Start 5 Scripts
 ```bash
-curl -X POST http://localhost:5000/api/scripts/start \
+curl -X POST http://35.226.62.197/api/scripts/start \
   -H "Content-Type: application/json" \
   -d '{"num_scripts": 5, "delay": 2}'
 ```
 
 ### Check Status
 ```bash
-curl http://localhost:5000/api/status
+curl http://35.226.62.197/api/status
 ```
 
 ### Stop All
 ```bash
-curl -X POST http://localhost:5000/api/scripts/stop-all
+curl -X POST http://35.226.62.197/api/scripts/stop-all
 ```
 
 ---
@@ -195,7 +195,7 @@ cat scripts\script1\script1.log
 cat scripts\script1\script1_progress.json
 
 # Test API health
-curl http://localhost:5000/api/health
+curl http://35.226.62.197/api/health
 ```
 
 ---
@@ -235,9 +235,9 @@ curl http://localhost:5000/api/health
 
 ## 🔗 Important URLs
 
-- **Dashboard**: `http://localhost:5000/`
+- **Dashboard**: `http://35.226.62.197/`
 - **API Docs**: See `README.md` for all endpoints
-- **Health Check**: `http://localhost:5000/api/health`
+- **Health Check**: `http://35.226.62.197/api/health`
 
 ---
 

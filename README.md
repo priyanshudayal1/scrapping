@@ -127,7 +127,7 @@ POST /api/scripts/start/<script_id>
 
 **Example:**
 ```bash
-curl -X POST http://localhost:5000/api/scripts/start/1
+curl -X POST http://35.226.62.197/api/scripts/start/1
 ```
 
 #### Stop Single Script
@@ -218,7 +218,7 @@ GET /api/health
 
 **Local:**
 ```
-http://localhost:5000/
+http://35.226.62.197/
 ```
 
 **VPS:**
@@ -391,7 +391,7 @@ cat scripts/script1/script1.log
 ### Scripts Not Showing in Dashboard
 
 **Check:**
-1. API server running: `http://localhost:5000/api/health`
+1. API server running: `http://35.226.62.197/api/health`
 2. Orchestrator initialized correctly
 3. Instance ID matches environment
 4. Browser console for JavaScript errors (F12)
@@ -468,30 +468,30 @@ Plain text log file with timestamped entries.
 
 ```bash
 # Health check
-curl http://localhost:5000/api/health
+curl http://35.226.62.197/api/health
 
 # Get status
-curl http://localhost:5000/api/status
+curl http://35.226.62.197/api/status
 
 # Start 3 scripts
-curl -X POST http://localhost:5000/api/scripts/start \
+curl -X POST http://35.226.62.197/api/scripts/start \
   -H "Content-Type: application/json" \
   -d '{"num_scripts": 3, "delay": 2}'
 
 # Start script 5
-curl -X POST http://localhost:5000/api/scripts/start/5
+curl -X POST http://35.226.62.197/api/scripts/start/5
 
 # Stop script 5
-curl -X POST http://localhost:5000/api/scripts/stop/5
+curl -X POST http://35.226.62.197/api/scripts/stop/5
 
 # Stop all
-curl -X POST http://localhost:5000/api/scripts/stop-all
+curl -X POST http://35.226.62.197/api/scripts/stop-all
 
 # Get script 1 status
-curl http://localhost:5000/api/scripts/1/status
+curl http://35.226.62.197/api/scripts/1/status
 
 # Get script 1 logs
-curl http://localhost:5000/api/scripts/1/logs?lines=20
+curl http://35.226.62.197/api/scripts/1/logs?lines=20
 ```
 
 ### Using Python
@@ -499,7 +499,7 @@ curl http://localhost:5000/api/scripts/1/logs?lines=20
 ```python
 import requests
 
-API_URL = "http://localhost:5000/api"
+API_URL = "http://35.226.62.197/api"
 
 # Start 5 scripts
 response = requests.post(f"{API_URL}/scripts/start", json={
@@ -540,14 +540,14 @@ cat scripts\script1\script1.log
 ps aux | grep python
 
 # Stop all
-curl -X POST http://localhost:5000/api/scripts/stop-all
+curl -X POST http://35.226.62.197/api/scripts/stop-all
 ```
 
 ### Important URLs
 
-- **Dashboard**: `http://localhost:5000/`
-- **API Status**: `http://localhost:5000/api/status`
-- **Health Check**: `http://localhost:5000/api/health`
+- **Dashboard**: `http://35.226.62.197/`
+- **API Status**: `http://35.226.62.197/api/status`
+- **Health Check**: `http://35.226.62.197/api/health`
 
 ---
 
@@ -555,7 +555,7 @@ curl -X POST http://localhost:5000/api/scripts/stop-all
 
 For issues or questions:
 1. Check logs: `scripts/scriptN/scriptN.log`
-2. Verify API: `http://localhost:5000/api/health`
+2. Verify API: `http://35.226.62.197/api/health`
 3. Review configuration: `.env` files
 4. Test individual script: `python scripts/script1/script1.py`
 

@@ -79,9 +79,9 @@ S3_BUCKET_NAME=s3-vector-storage
 ```
 - [ ] API server starts without errors
 - [ ] Port 5000 is accessible
-- [ ] Dashboard loads at http://localhost:5000/
-- [ ] API health check responds: http://localhost:5000/api/health
-- [ ] Instance info shows correct scripts: http://localhost:5000/api/instance/info
+- [ ] Dashboard loads at http://35.226.62.197/
+- [ ] API health check responds: http://35.226.62.197/api/health
+- [ ] Instance info shows correct scripts: http://35.226.62.197/api/instance/info
 
 ### 4. Single Script Test
 In dashboard:
@@ -331,7 +331,7 @@ sudo apt install htop iotop iftop -y
 crontab -e
 
 # Add:
-*/5 * * * * curl -s http://localhost:5000/api/health || mail -s "VPS1 API Down" your@email.com
+*/5 * * * * curl -s http://35.226.62.197/api/health || mail -s "VPS1 API Down" your@email.com
 ```
 - [ ] Cron jobs created for health checks
 - [ ] Alerting configured

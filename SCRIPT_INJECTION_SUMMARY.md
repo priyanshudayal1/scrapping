@@ -85,7 +85,7 @@ Or use the startup script:
 ```
 
 ### 3. Access Dashboard
-- Open browser to: http://localhost:5000/
+- Open browser to: http://35.226.62.197/
 - Dashboard: `multi_script_dashboard.html`
 
 ### 4. Start Scripts

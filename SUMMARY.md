@@ -145,7 +145,7 @@ pip install -r requirements.txt
 .\start_instance1.ps1
 
 # 5. Open dashboard
-# http://localhost:5000/
+# http://35.226.62.197/
 
 # 6. Start scripts
 # Enter quantity (e.g., 5)
@@ -156,18 +156,18 @@ pip install -r requirements.txt
 
 ```bash
 # Start 5 scripts with 2-second delay
-curl -X POST http://localhost:5000/api/scripts/start \
+curl -X POST http://35.226.62.197/api/scripts/start \
   -H "Content-Type: application/json" \
   -d '{"num_scripts": 5, "delay": 2}'
 
 # Check overall status
-curl http://localhost:5000/api/status
+curl http://35.226.62.197/api/status
 
 # View script 1 logs
-curl http://localhost:5000/api/scripts/1/logs?lines=50
+curl http://35.226.62.197/api/scripts/1/logs?lines=50
 
 # Stop all scripts
-curl -X POST http://localhost:5000/api/scripts/stop-all
+curl -X POST http://35.226.62.197/api/scripts/stop-all
 ```
 
 ---
@@ -438,7 +438,7 @@ cd scrapping-app
 
 **Then open:**
 ```
-http://localhost:5000/
+http://35.226.62.197/
 ```
 
 **And click:**
