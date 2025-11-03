@@ -33,6 +33,22 @@ from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
 import traceback
 
+logger = logging.getLogger(__name__)
+
+# Import for process management and cleanup
+try:
+    import psutil
+    PSUTIL_AVAILABLE = True
+except ImportError:
+    PSUTIL_AVAILABLE = False
+    logger.warning("psutil not available - process cleanup will be limited")
+
+try:
+    import shutil
+    SHUTIL_AVAILABLE = True
+except ImportError:
+    SHUTIL_AVAILABLE = False
+
 # Script Configuration
 SCRIPT_ID = 63
 START_PAGE = 158659
@@ -51,7 +67,7 @@ logging.basicConfig(
         logging.StreamHandler()
     ]
 )
-logger = logging.getLogger(__name__)
+
 
 # Initialize AWS clients
 try:
@@ -81,16 +97,6 @@ wait = None
 current_page = START_PAGE
 total_files_downloaded = 0
 start_time = None
-batch_size = 25
-
-# Batch processing variables
-current_batch_files = []
-batch_download_dir = os.path.join(SCRIPT_DIR, f"batch_downloads_script63")
-
-# Ensure batch download directory exists
-if not os.path.exists(batch_download_dir):
-    os.makedirs(batch_download_dir)
-    logger.info(f"Created batch download directory: {batch_download_dir}")
 
 
 def cleanup_resources():
@@ -99,10 +105,173 @@ def cleanup_resources():
     try:
         if driver:
             logger.info(f"Cleaning up browser resources for Script {SCRIPT_ID}")
-            driver.quit()
+            
+            # Close all browser windows gracefully
+            try:
+                driver.close()
+                logger.debug("Browser windows closed")
+            except Exception as close_error:
+                logger.warning(f"Error closing browser windows: {close_error}")
+            
+            # Quit the driver
+            try:
+                driver.quit()
+                logger.debug("WebDriver quit successfully")
+            except Exception as quit_error:
+                logger.warning(f"Error quitting WebDriver: {quit_error}")
+            
             driver = None
+            
+            # Additional cleanup for Chrome processes (Windows)
+            try:
+                import subprocess
+                import psutil
+                
+                # Find and kill any remaining Chrome processes for this script
+                for proc in psutil.process_iter(['pid', 'name', 'cmdline']):
+                    try:
+                        if proc.info['name'] and 'chrome' in proc.info['name'].lower():
+                            if proc.info['cmdline']:
+                                cmdline = ' '.join(proc.info['cmdline'])
+                                if f'chrome_profile_script_{SCRIPT_ID}' in cmdline or f'remote-debugging-port={9222 + SCRIPT_ID}' in cmdline:
+                                    logger.debug(f"Terminating Chrome process {proc.info['pid']} for Script {SCRIPT_ID}")
+                                    proc.terminate()
+                                    proc.wait(timeout=3)
+                    except (psutil.NoSuchProcess, psutil.AccessDenied, psutil.TimeoutExpired):
+                        pass
+                        
+            except ImportError:
+                logger.debug("psutil not available for process cleanup")
+            except Exception as proc_error:
+                logger.warning(f"Error during process cleanup: {proc_error}")
+                
+            # Clean up profile directory if it exists
+            try:
+                import shutil
+                profile_pattern = f'C:/temp/chrome_profile_script_{SCRIPT_ID}'
+                temp_dir = 'C:/temp'
+                if os.path.exists(temp_dir):
+                    for item in os.listdir(temp_dir):
+                        if item.startswith(f'chrome_profile_script_{SCRIPT_ID}'):
+                            profile_path = os.path.join(temp_dir, item)
+                            if os.path.isdir(profile_path):
+                                try:
+                                    shutil.rmtree(profile_path, ignore_errors=True)
+                                    logger.debug(f"Cleaned up profile directory: {profile_path}")
+                                except Exception as cleanup_error:
+                                    logger.debug(f"Could not clean up {profile_path}: {cleanup_error}")
+            except Exception as dir_cleanup_error:
+                logger.debug(f"Error during directory cleanup: {dir_cleanup_error}")
+                
+            logger.info(f"Cleanup completed for Script {SCRIPT_ID}")
+            
     except Exception as e:
         logger.warning(f"Error during cleanup: {e}")
+
+
+def force_cleanup_chrome_processes():
+    """Force cleanup of any hanging Chrome processes for this script"""
+    try:
+        if not PSUTIL_AVAILABLE:
+            logger.debug("psutil not available for force cleanup")
+            return
+            
+        logger.info(f"Force cleaning Chrome processes for Script {SCRIPT_ID}")
+        
+        terminated_count = 0
+        for proc in psutil.process_iter(['pid', 'name', 'cmdline']):
+            try:
+                if proc.info['name'] and 'chrome' in proc.info['name'].lower():
+                    if proc.info['cmdline']:
+                        cmdline = ' '.join(proc.info['cmdline'])
+                        if f'chrome_profile_script_{SCRIPT_ID}' in cmdline or f'remote-debugging-port={9222 + SCRIPT_ID}' in cmdline:
+                            logger.debug(f"Force terminating Chrome process {proc.info['pid']} for Script {SCRIPT_ID}")
+                            proc.kill()
+                            terminated_count += 1
+            except (psutil.NoSuchProcess, psutil.AccessDenied):
+                pass
+                
+        if terminated_count > 0:
+            logger.info(f"Force terminated {terminated_count} Chrome processes for Script {SCRIPT_ID}")
+        else:
+            logger.debug(f"No hanging Chrome processes found for Script {SCRIPT_ID}")
+            
+    except Exception as e:
+        logger.warning(f"Error during force cleanup: {e}")
+
+
+def check_port_availability():
+    """Check if the debugging port for this script is available"""
+    try:
+        import socket
+        
+        debug_port = 9222 + SCRIPT_ID
+        sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        sock.settimeout(1)
+        result = sock.connect_ex(('127.0.0.1', debug_port))
+        sock.close()
+        
+        if result == 0:
+            logger.warning(f"Port {debug_port} is already in use by another process")
+            
+            # Try to find and terminate the conflicting process
+            if PSUTIL_AVAILABLE:
+                for proc in psutil.process_iter(['pid', 'name', 'cmdline']):
+                    try:
+                        if proc.info['cmdline']:
+                            cmdline = ' '.join(proc.info['cmdline'])
+                            if f'remote-debugging-port={debug_port}' in cmdline:
+                                logger.info(f"Terminating conflicting process {proc.info['pid']} using port {debug_port}")
+                                proc.terminate()
+                                proc.wait(timeout=5)
+                                break
+                    except (psutil.NoSuchProcess, psutil.AccessDenied, psutil.TimeoutExpired):
+                        pass
+            
+            return False
+        else:
+            logger.debug(f"Port {debug_port} is available for Script {SCRIPT_ID}")
+            return True
+            
+    except Exception as e:
+        logger.warning(f"Error checking port availability: {e}")
+        return True  # Assume available if we can't check
+
+
+def pre_launch_cleanup():
+    """Cleanup any existing resources before launching new browser instance"""
+    logger.info(f"Performing pre-launch cleanup for Script {SCRIPT_ID}")
+    
+    # Check and cleanup port conflicts
+    if not check_port_availability():
+        logger.info("Waiting for port to become available...")
+        time.sleep(5)
+        
+        # Check again after cleanup
+        if not check_port_availability():
+            logger.warning(f"Port {9222 + SCRIPT_ID} still in use, but proceeding anyway")
+    
+    # Cleanup any existing profile directories
+    try:
+        temp_dir = 'C:/temp'
+        if os.path.exists(temp_dir):
+            for item in os.listdir(temp_dir):
+                if item.startswith(f'chrome_profile_script_{SCRIPT_ID}'):
+                    profile_path = os.path.join(temp_dir, item)
+                    if os.path.isdir(profile_path):
+                        try:
+                            if SHUTIL_AVAILABLE:
+                                shutil.rmtree(profile_path, ignore_errors=True)
+                                logger.debug(f"Cleaned up existing profile: {profile_path}")
+                        except Exception as cleanup_error:
+                            logger.debug(f"Could not clean up {profile_path}: {cleanup_error}")
+    except Exception as e:
+        logger.debug(f"Error during pre-launch directory cleanup: {e}")
+    
+    # Force cleanup any hanging Chrome processes for this script
+    force_cleanup_chrome_processes()
+    
+    logger.info(f"Pre-launch cleanup completed for Script {SCRIPT_ID}")
 
 # All scraping functions from legacy_judgements.py
 def load_progress():
@@ -605,24 +774,96 @@ def initialize_browser():
     global driver, wait
     # Setup Chrome options
     chrome_options = Options()
-    chrome_options.add_argument('--headless')  # Run in headless mode
+    #chrome_options.add_argument('--headless')  # Run in headless mode
     chrome_options.add_argument('--disable-gpu')
     chrome_options.add_argument('--no-sandbox')
     chrome_options.add_argument('--disable-dev-shm-usage')
     chrome_options.add_argument('--window-size=1920,1080')
+    
+    # Multi-instance isolation options
+    chrome_options.add_argument('--no-first-run')
+    chrome_options.add_argument('--no-default-browser-check')
+    chrome_options.add_argument('--disable-default-apps')
+    chrome_options.add_argument('--disable-background-timer-throttling')
+    chrome_options.add_argument('--disable-backgrounding-occluded-windows')
+    chrome_options.add_argument('--disable-renderer-backgrounding')
+    chrome_options.add_argument('--disable-background-networking')
+    
+    # Process isolation and stability
     chrome_options.add_argument('--disable-blink-features=AutomationControlled')
     chrome_options.add_argument('--disable-extensions')
     chrome_options.add_argument('--disable-web-security')
-    chrome_options.add_argument('--disable-features=VizDisplayCompositor')
+    chrome_options.add_argument('--disable-features=VizDisplayCompositor,TranslateUI')
+    chrome_options.add_argument('--disable-ipc-flooding-protection')
+    chrome_options.add_argument('--disable-component-extensions-with-background-pages')
+    
+    # Memory and performance optimization
     chrome_options.add_argument('--max_old_space_size=4096')
     chrome_options.add_argument('--memory-pressure-off')
-    chrome_options.add_argument(f'--user-data-dir=C:/temp/chrome_profile_script_' + str(SCRIPT_ID))
-    chrome_options.add_argument(f'--remote-debugging-port=' + str(9222 + SCRIPT_ID))
+    chrome_options.add_argument('--max-unused-resource-memory-usage-percentage=5')
+    chrome_options.add_argument('--aggressive-cache-discard')
+    
+    # Unique profile and debugging port for each script instance
+    profile_dir = f'C:/temp/chrome_profile_script_{SCRIPT_ID}_{int(time.time())}'
+    chrome_options.add_argument(f'--user-data-dir={profile_dir}')
+    chrome_options.add_argument(f'--remote-debugging-port={9222 + SCRIPT_ID}')
+    
+    # Additional isolation options
+    chrome_options.add_argument(f'--crash-dumps-dir=C:/temp/chrome_crashes_script_{SCRIPT_ID}')
+    chrome_options.add_argument('--enable-crash-reporter=false')
+    chrome_options.add_argument('--disable-crash-reporter')
+    
+    # Automation detection prevention
     chrome_options.add_experimental_option('useAutomationExtension', False)
     chrome_options.add_experimental_option("excludeSwitches", ["enable-automation"])
+    chrome_options.add_experimental_option("detach", True)
     
-    # Create new Chrome instance (allow multiple instances)
-    driver = webdriver.Chrome(options=chrome_options)
+    # Set custom user agent to avoid detection
+    chrome_options.add_argument('--user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36')
+    
+    # Create new Chrome instance with enhanced isolation and retry logic
+    max_init_attempts = 3
+    
+    for attempt in range(max_init_attempts):
+        try:
+            logger.info(f"Attempting to create Chrome instance (attempt {attempt + 1}/{max_init_attempts}) for Script {SCRIPT_ID}")
+            driver = webdriver.Chrome(options=chrome_options)
+            
+            # Verify driver is working
+            driver.get("data:text/html,<html><body><h1>Browser Initialized</h1></body></html>")
+            
+            # Additional post-initialization isolation
+            try:
+                driver.execute_cdp_cmd('Network.setUserAgentOverride', {
+                    "userAgent": 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36'
+                })
+                driver.execute_script("Object.defineProperty(navigator, 'webdriver', {get: () => undefined})")
+                logger.debug(f"Applied stealth settings for Script {SCRIPT_ID}")
+            except Exception as stealth_error:
+                logger.warning(f"Could not apply stealth settings: {stealth_error}")
+            
+            logger.info(f"Chrome instance created successfully for Script {SCRIPT_ID}")
+            break
+            
+        except Exception as init_error:
+            logger.warning(f"Chrome initialization attempt {attempt + 1} failed: {init_error}")
+            
+            # Cleanup failed attempt
+            try:
+                if 'driver' in locals():
+                    driver.quit()
+            except Exception:
+                pass
+                
+            if attempt < max_init_attempts - 1:
+                logger.info("Waiting before retry...")
+                time.sleep(5 + attempt * 2)  # Increasing delay
+                
+                # Try cleanup before retry
+                force_cleanup_chrome_processes()
+            else:
+                logger.error(f"Failed to initialize Chrome after {max_init_attempts} attempts")
+                raise init_error
        
     try:
         # Navigate to the webpage
@@ -988,43 +1229,84 @@ def download_pdf(judgment_data):
         # Wait for PDF object to load
         time.sleep(3)
         
-        # Get the PDF URL from the object element
+        # Get the PDF URL from the object element to construct download URL
         pdf_object = wait.until(EC.presence_of_element_located((By.CSS_SELECTOR, "#viewFiles-body object")))
-        pdf_url = pdf_object.get_attribute("data")
+        pdf_temp_url = pdf_object.get_attribute("data")
         
-        if pdf_url:
-            # Convert relative URL to absolute URL
-            if pdf_url.startswith("/"):
-                pdf_url = "https://judgments.ecourts.gov.in" + pdf_url
+        if pdf_temp_url:
+            # Extract the file hash from the temp URL
+            # URL format: /pdfsearch/tmp/HASH.pdf
+            import re
+            hash_match = re.search(r'/tmp/([a-f0-9]+\.pdf)', pdf_temp_url)
             
-            logger.info(f"PDF URL: {pdf_url}")
-            
-            # Download the PDF using requests
-            response = requests.get(pdf_url)
+            if hash_match:
+                pdf_filename = hash_match.group(1)
+                # Construct the actual download URL (not the temp viewer URL)
+                pdf_url = f"https://judgments.ecourts.gov.in/pdfsearch/tmp/{pdf_filename}"
+                
+                logger.info(f"Extracted PDF filename: {pdf_filename}")
+                logger.info(f"Downloading from: {pdf_url}")
+                
+                # Download the PDF using requests with retries
+                max_retries = 3
+                response = None
+                
+                for attempt in range(max_retries):
+                    try:
+                        # Use session cookies from selenium to maintain session
+                        session = requests.Session()
+                        
+                        # Add cookies from selenium driver
+                        for cookie in driver.get_cookies():
+                            session.cookies.set(cookie['name'], cookie['value'])
+                        
+                        # Add headers to mimic browser request
+                        headers = {
+                            'User-Agent': driver.execute_script("return navigator.userAgent;"),
+                            'Referer': 'https://judgments.ecourts.gov.in/pdfsearch/',
+                            'Accept': 'application/pdf,*/*'
+                        }
+                        
+                        response = session.get(pdf_url, headers=headers, timeout=30)
+                        
+                        if response.status_code == 200 and len(response.content) > 0:
+                            logger.info(f"Successfully fetched PDF content ({len(response.content)} bytes)")
+                            break
+                        else:
+                            logger.warning(f"Download attempt {attempt + 1} returned status {response.status_code} with {len(response.content)} bytes")
+                            if attempt < max_retries - 1:
+                                time.sleep(2)
+                    except requests.RequestException as req_error:
+                        logger.warning(f"Download attempt {attempt + 1} failed: {req_error}")
+                        if attempt < max_retries - 1:
+                            time.sleep(2)
+                        else:
+                            raise
+                
+                if response is None or response.status_code != 200:
+                    raise Exception("Failed to download PDF after retries")
+            else:
+                raise Exception(f"Could not extract PDF hash from URL: {pdf_temp_url}")
             
             if response.status_code == 200:
                 # Use the sanitized case title as filename
                 safe_filename = judgment_data['filename']
                 
-                # Save the PDF to batch download directory
-                local_file_path = os.path.join(batch_download_dir, safe_filename)
-                with open(local_file_path, 'wb') as f:
+                # Save the PDF locally first
+                with open(safe_filename, 'wb') as f:
                     f.write(response.content)
                 
                 logger.info(f"Successfully downloaded: {safe_filename}")
                 
-                # Add to current batch for later S3 upload
+                # Upload to S3
                 s3_key = f"judgements/{safe_filename}"
-                file_info = {
-                    'filename': safe_filename,
-                    'local_path': local_file_path,
-                    's3_key': s3_key,
-                    'judgment_data': judgment_data,
-                    'download_time': datetime.now().isoformat()
-                }
+                upload_success = upload_to_s3(safe_filename, s3_key)
                 
-                current_batch_files.append(file_info)
-                logger.info(f"Added to batch: {len(current_batch_files)}/{batch_size} files")
+                # Delete local file after successful upload
+                if upload_success:
+                    delete_local_file(safe_filename)
+                else:
+                    logger.warning(f"Failed to upload to S3, keeping local file: {safe_filename}")
                 
                 # Calculate download time
                 download_end_time = time.time()
@@ -1034,16 +1316,14 @@ def download_pdf(judgment_data):
                 return {
                     "success": True,
                     "filename": safe_filename,
-                    "s3_key": s3_key,
-                    "local_path": local_file_path,
-                    "uploaded_to_s3": False,  # Will be updated after batch upload
+                    "s3_key": s3_key if upload_success else None,
+                    "uploaded_to_s3": upload_success,
                     "cnr": judgment_data['cnr'],
                     "case_title": judgment_data['case_title'],
                     "decision_date": judgment_data.get('decision_date', ''),
                     "decision_year": judgment_data.get('decision_year'),
                     "download_time": datetime.now().isoformat(),
-                    "download_duration_seconds": round(download_duration, 2),
-                    "in_batch": True
+                    "download_duration_seconds": round(download_duration, 2)
                 }
                 
             else:
@@ -1087,7 +1367,7 @@ def download_pdfs_in_batches(judgments_data, start_index=0):
     global total_files_downloaded
     
     total_judgments = len(judgments_data)
-    end_index = min(start_index + batch_size, total_judgments)
+    end_index = min(start_index + 25, total_judgments)
     
     logger.info(f"Starting batch download: files {start_index+1} to {end_index} of {total_judgments}")
     
@@ -1153,34 +1433,65 @@ def recover_browser_session():
     global driver, wait
     
     try:
-        logger.warning("Browser session crashed or became unresponsive. Attempting recovery...")
+        logger.warning(f"Browser session crashed or became unresponsive for Script {{SCRIPT_ID}}. Attempting recovery...")
         
-        # Force close only the current driver instance
-        if driver:
-            try:
-                driver.quit()
-                logger.info("Closed crashed browser session for this script")
-            except Exception as quit_error:
-                logger.warning(f"Error closing crashed browser: {quit_error}")
+        # Force cleanup any hanging processes
+        force_cleanup_chrome_processes()
         
-        # Wait before reinitialization
-        time.sleep(5)
+        # Set driver to None to ensure clean state
+        driver = None
+        wait = None
+        
+        # Wait before reinitialization to allow system cleanup
+        logger.info("Waiting for system cleanup before recovery...")
+        time.sleep(10)
         
         # Reinitialize browser completely
+        logger.info("Reinitializing browser with new profile...")
         initialize_browser()
         
-        # Navigate to the main URL
+        # Navigate to the main URL with retries
         url = "https://judgments.ecourts.gov.in/pdfsearch/index.php"
-        logger.info(f"Navigating to {url}")
-        driver.get(url)
+        max_retries = 3
         
-        wait = WebDriverWait(driver, 10)
-        wait.until(EC.presence_of_element_located((By.ID, "captcha_image")))
-        logger.info("Page loaded successfully after recovery")
+        for attempt in range(max_retries):
+            try:
+                logger.info(f"Navigating to {{url}} (attempt {{attempt + 1}}/{{max_retries}})")
+                driver.get(url)
+                
+                wait = WebDriverWait(driver, 15)
+                wait.until(EC.presence_of_element_located((By.ID, "captcha_image")))
+                logger.info("Page loaded successfully after recovery")
+                break
+                
+            except Exception as nav_error:
+                logger.warning(f"Navigation attempt {{attempt + 1}} failed: {{nav_error}}")
+                if attempt == max_retries - 1:
+                    raise nav_error
+                time.sleep(5)
         
         # Solve captcha with retry logic
-        if not fill_captcha():
-            logger.error("Failed to solve captcha during recovery")
+        captcha_attempts = 0
+        max_captcha_attempts = 50
+        
+        while captcha_attempts < max_captcha_attempts:
+            try:
+                if fill_captcha():
+                    logger.info("Captcha solved successfully during recovery")
+                    break
+                else:
+                    captcha_attempts += 1
+                    logger.warning(f"Captcha attempt {{captcha_attempts}} failed during recovery")
+                    if captcha_attempts < max_captcha_attempts:
+                        time.sleep(3)
+            except Exception as captcha_error:
+                captcha_attempts += 1
+                logger.warning(f"Captcha error during recovery: {{captcha_error}}")
+                if captcha_attempts < max_captcha_attempts:
+                    time.sleep(3)
+        
+        if captcha_attempts >= max_captcha_attempts:
+            logger.error("Failed to solve captcha during recovery after multiple attempts")
             return False
         
         # Wait for loading to complete
@@ -1189,11 +1500,16 @@ def recover_browser_session():
         # Set table display count to 100
         set_table_display_count()
         
-        logger.info("Browser session recovered successfully")
+        logger.info(f"Browser session recovered successfully for Script {{SCRIPT_ID}}")
         return True
         
     except Exception as e:
-        logger.error(f"Failed to recover browser session: {e}")
+        logger.error(f"Failed to recover browser session for Script {{SCRIPT_ID}}: {{e}}")
+        # Final cleanup attempt
+        try:
+            force_cleanup_chrome_processes()
+        except Exception:
+            pass
         return False
 
 
@@ -1203,13 +1519,6 @@ def reinitialize_session():
     
     try:
         logger.info("Reinitializing session - going back to main URL...")
-        
-        # Check if driver is responsive
-        try:
-            driver.current_url
-        except Exception as driver_error:
-            logger.warning(f"Driver unresponsive: {driver_error}. Attempting full recovery...")
-            return recover_browser_session()
         
         # Navigate back to the main URL
         url = "https://judgments.ecourts.gov.in/pdfsearch/index.php"
@@ -1235,8 +1544,7 @@ def reinitialize_session():
         
     except Exception as e:
         logger.error(f"Error reinitializing session: {e}")
-        # Try full recovery as fallback
-        return recover_browser_session()
+        return False
 
 
 def process_all_pages():
@@ -1344,7 +1652,7 @@ def process_all_pages():
             
             while files_processed_on_page < len(judgments_data):
                 batch_start = files_processed_on_page
-                batch_end = min(files_processed_on_page + batch_size, len(judgments_data))
+                batch_end = min(files_processed_on_page + 25, len(judgments_data))
                 
                 logger.info(f"\n--- Processing batch {batch_start+1}-{batch_end} on page {current_page} ---")
                 
@@ -1403,22 +1711,6 @@ def process_all_pages():
                         download_duration = download_result.get('download_duration_seconds', 0)
                         timing_data = update_timing_stats(timing_data, judgment, download_duration, success=True)
                         
-                        # Check if batch is full and process upload
-                        if len(current_batch_files) >= batch_size:
-                            logger.info(f"\n📦 Batch of {batch_size} files ready for S3 upload")
-                            
-                            # Process batch upload
-                            batch_success = process_batch_upload()
-                            
-                            if batch_success:
-                                logger.info(f"✅ Batch upload completed successfully")
-                            else:
-                                logger.warning(f"⚠️  Some files in batch failed to upload")
-                                send_error_notification(
-                                    f"Batch upload issues on page {current_page}",
-                                    "Some files in the batch failed to upload to S3. Check logs for details."
-                                )
-                        
                         # Save progress and timing after each successful download
                         save_progress(progress)
                         save_timing_data(timing_data)
@@ -1452,8 +1744,8 @@ def process_all_pages():
                 files_processed_on_page = batch_end
                 
                 # If we've processed a full batch of 25 and there are more files on this page
-                if (batch_end - batch_start) == batch_size and files_processed_on_page < len(judgments_data):
-                    logger.info(f"Completed batch of {batch_size} files. Reinitializing session before next batch...")
+                if (batch_end - batch_start) == 25 and files_processed_on_page < len(judgments_data):
+                    logger.info(f"Completed batch of {25} files. Reinitializing session before next batch...")
                     
                     if not reinitialize_session():
                         logger.error("Failed to reinitialize session. Stopping process.")
@@ -1464,16 +1756,6 @@ def process_all_pages():
                     if not judgments_data:
                         logger.error("Failed to re-extract table data after reinitialization")
                         return
-            
-            # Process any remaining files in the current batch at the end of the page
-            if current_batch_files:
-                logger.info(f"\n📦 Processing remaining {len(current_batch_files)} files in batch at end of page {current_page}")
-                batch_success = process_batch_upload()
-                
-                if batch_success:
-                    logger.info(f"✅ Final batch upload for page {current_page} completed successfully")
-                else:
-                    logger.warning(f"⚠️  Some files in final batch failed to upload")
             
             logger.info(f"Completed page {current_page}. Total files downloaded so far: {total_files_downloaded}")
             
@@ -1562,28 +1844,6 @@ def process_all_pages():
     if 'session_statistics' not in timing_data:
         timing_data['session_statistics'] = []
     timing_data['session_statistics'].append(session_summary)
-    
-    # Process any remaining files in the final batch
-    if current_batch_files:
-        logger.info(f"\n📦 Processing final batch of {len(current_batch_files)} files")
-        final_batch_success = process_batch_upload()
-        
-        if final_batch_success:
-            logger.info(f"✅ Final batch upload completed successfully")
-        else:
-            logger.warning(f"⚠️  Some files in final batch failed to upload")
-            send_error_notification(
-                "Final batch upload issues",
-                f"Script {SCRIPT_ID}: Some files in the final batch failed to upload to S3. Check logs for details."
-            )
-    
-    # Clean up batch download directory if empty
-    try:
-        if os.path.exists(batch_download_dir) and not os.listdir(batch_download_dir):
-            os.rmdir(batch_download_dir)
-            logger.info(f"Cleaned up empty batch download directory")
-    except Exception as cleanup_error:
-        logger.debug(f"Error cleaning up batch directory: {cleanup_error}")
     
     save_progress(progress)
     save_timing_data(timing_data)
@@ -1699,148 +1959,19 @@ def main():
             driver.quit()
         raise
 
-def upload_batch_to_s3(batch_files):
-    """Upload a batch of files to S3 and verify all uploads"""
-    try:
-        if not batch_files:
-            logger.warning("No files in batch to upload")
-            return [], []
-        
-        logger.info(f"Starting batch upload of {len(batch_files)} files to S3...")
-        
-        successful_uploads = []
-        failed_uploads = []
-        
-        # Upload each file in the batch
-        for file_info in batch_files:
-            file_path = file_info['local_path']
-            s3_key = file_info['s3_key']
-            
-            try:
-                if not os.path.exists(file_path):
-                    logger.error(f"Local file not found: {file_path}")
-                    failed_uploads.append(file_info)
-                    continue
-                
-                logger.info(f"Uploading {os.path.basename(file_path)} to S3...")
-                
-                with open(file_path, 'rb') as file_data:
-                    s3_client.put_object(
-                        Bucket=S3_BUCKET_NAME,
-                        Key=s3_key,
-                        Body=file_data,
-                        ContentType='application/pdf'
-                    )
-                
-                # Verify the upload by checking if file exists in S3
-                try:
-                    s3_client.head_object(Bucket=S3_BUCKET_NAME, Key=s3_key)
-                    logger.info(f"✅ Successfully uploaded and verified: {s3_key}")
-                    successful_uploads.append(file_info)
-                except Exception as verify_error:
-                    logger.error(f"❌ Upload verification failed for {s3_key}: {verify_error}")
-                    failed_uploads.append(file_info)
-                
-            except Exception as upload_error:
-                logger.error(f"❌ Failed to upload {file_path}: {upload_error}")
-                failed_uploads.append(file_info)
-        
-        logger.info(f"Batch upload completed: {len(successful_uploads)} successful, {len(failed_uploads)} failed")
-        return successful_uploads, failed_uploads
-        
-    except Exception as e:
-        logger.error(f"Error in batch upload process: {e}")
-        return [], batch_files
-
-
-def cleanup_successful_files(successful_uploads):
-    """Delete local files that were successfully uploaded to S3"""
-    try:
-        deleted_count = 0
-        
-        for file_info in successful_uploads:
-            file_path = file_info['local_path']
-            
-            try:
-                if os.path.exists(file_path):
-                    os.remove(file_path)
-                    logger.debug(f"Deleted local file: {os.path.basename(file_path)}")
-                    deleted_count += 1
-                else:
-                    logger.warning(f"File not found for deletion: {file_path}")
-            except Exception as delete_error:
-                logger.error(f"Error deleting local file {file_path}: {delete_error}")
-        
-        logger.info(f"Cleaned up {deleted_count} local files after successful S3 upload")
-        return deleted_count
-        
-    except Exception as e:
-        logger.error(f"Error during cleanup: {e}")
-        return 0
-
-
-def process_batch_upload():
-    """Process the current batch of downloaded files for S3 upload"""
-    global current_batch_files
-    
-    if not current_batch_files:
-        logger.debug("No files in current batch to upload")
-        return True
-    
-    try:
-        logger.info(f"\n=== BATCH UPLOAD PROCESS ===")
-        logger.info(f"Processing batch of {len(current_batch_files)} files")
-        
-        # Upload batch to S3
-        successful_uploads, failed_uploads = upload_batch_to_s3(current_batch_files)
-        
-        # Clean up successfully uploaded files
-        if successful_uploads:
-            cleanup_successful_files(successful_uploads)
-            logger.info(f"✅ Successfully processed {len(successful_uploads)} files")
-        
-        # Handle failed uploads
-        if failed_uploads:
-            logger.warning(f"❌ {len(failed_uploads)} files failed to upload")
-            
-            # Move failed files to a failed directory for manual review
-            failed_dir = os.path.join(batch_download_dir, "failed_uploads")
-            if not os.path.exists(failed_dir):
-                os.makedirs(failed_dir)
-            
-            for file_info in failed_uploads:
-                try:
-                    src_path = file_info['local_path']
-                    if os.path.exists(src_path):
-                        dst_path = os.path.join(failed_dir, os.path.basename(src_path))
-                        os.rename(src_path, dst_path)
-                        logger.info(f"Moved failed file to: {dst_path}")
-                except Exception as move_error:
-                    logger.error(f"Error moving failed file: {move_error}")
-        
-        # Clear the current batch
-        current_batch_files = []
-        
-        # Log batch processing summary
-        total_processed = len(successful_uploads) + len(failed_uploads)
-        success_rate = (len(successful_uploads) / total_processed * 100) if total_processed > 0 else 0
-        logger.info(f"Batch processing complete: {success_rate:.1f}% success rate")
-        
-        return len(failed_uploads) == 0  # Return True if no failures
-        
-    except Exception as e:
-        logger.error(f"Error processing batch upload: {e}")
-        return False
-
-
-
 
 if __name__ == "__main__":
     try:
         logger.info("=" * 80)
         logger.info(f"Starting Script 63")
         logger.info(f"Page Range: 158,659 to 161,217")
+        logger.info(f"Debugging Port: {9222 + SCRIPT_ID}")
+        logger.info(f"Profile Directory: C:/temp/chrome_profile_script_{SCRIPT_ID}_*")
         logger.info("=" * 80)
+        
+        # Step 0: Pre-launch cleanup and preparation
+        logger.info("Performing pre-launch cleanup...")
+        pre_launch_cleanup()
         
         # Step 1: Initialize browser and load page
         logger.info("Initializing browser...")
@@ -1870,28 +2001,11 @@ if __name__ == "__main__":
         # Final cleanup and summary
         logger.info("\n=== SCRIPT COMPLETION SUMMARY ===")
         logger.info(f"Total files processed: {total_files_downloaded}")
-        if current_batch_files:
-            logger.info(f"Files in final batch: {len(current_batch_files)}")
-        
-        # Check for any remaining files in batch directory
-        remaining_files = []
-        if os.path.exists(batch_download_dir):
-            remaining_files = [f for f in os.listdir(batch_download_dir) if f.endswith('.pdf')]
-            if remaining_files:
-                logger.warning(f"⚠️  {len(remaining_files)} files remain in batch directory - may need manual upload")
         
         cleanup_resources()
         
     except KeyboardInterrupt:
         logger.info("\\nScript interrupted by user")
-        
-        # Process any pending batch files before exit
-        if current_batch_files:
-            logger.info("Processing pending batch files before exit...")
-            try:
-                process_batch_upload()
-            except Exception as batch_error:
-                logger.error(f"Error processing batch during interruption: {batch_error}")
         
         cleanup_resources()
         sys.exit(0)
@@ -1900,13 +2014,7 @@ if __name__ == "__main__":
         logger.error(f"Fatal error in main: {str(e)}")
         logger.error(traceback.format_exc())
         
-        # Try to process any pending batch files before exit
-        if current_batch_files:
-            logger.info("Attempting to save pending batch files before exit...")
-            try:
-                process_batch_upload()
-            except Exception as batch_error:
-                logger.error(f"Error processing batch during error handling: {batch_error}")
+        # Clean up resources before exit
         
         if EMAIL_ENABLED:
             send_error_notification(

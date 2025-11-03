@@ -4,3 +4,7 @@
 .env.development.local
 .env.test.local
 .env.production.local
+.env.instance1
+.env.instance2
+.env.instance3
+.env.instance4

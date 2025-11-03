@@ -6,9 +6,13 @@ Write-Host "Scripts: 1-17 (17 scripts)" -ForegroundColor Cyan
 Write-Host "Pages: 1 to 43,503" -ForegroundColor Cyan
 Write-Host ""
 
-# Copy environment file
-Copy-Item -Path ".env.instance1" -Destination "api+ui\.env" -Force
-Write-Host "Environment configured for Instance 1" -ForegroundColor Green
+# Check if .env file exists in api+ui directory
+if (Test-Path "api+ui\.env") {
+    Write-Host "Environment file found" -ForegroundColor Green
+} else {
+    Write-Host "Warning: No .env file found in api+ui directory" -ForegroundColor Yellow
+    Write-Host "The API server will use default settings" -ForegroundColor Yellow
+}
 
 # Navigate to API directory
 Set-Location "api+ui"
