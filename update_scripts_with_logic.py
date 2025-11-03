@@ -8,7 +8,7 @@ def create_full_script(script_id, start_page, end_page):
     """Generate a complete script with all scraping logic"""
     
     # Read the legacy script
-    legacy_file = "legacy_judgements.py"
+    legacy_file = os.path.join("..", "legacy_judgements.py")
     
     with open(legacy_file, 'r', encoding='utf-8') as f:
         legacy_content = f.read()
@@ -43,11 +43,379 @@ def create_full_script(script_id, start_page, end_page):
     functions_code = functions_code.replace('logger.info(f"Instance ID: {INSTANCE_ID}', 'logger.info(f"Script ID: {SCRIPT_ID}')
     functions_code = functions_code.replace('timing_data["instance_id"] = INSTANCE_ID', 'timing_data["script_id"] = SCRIPT_ID')
     
-    # Make Chrome headless
+    # Make Chrome headless and add stability improvements
     functions_code = functions_code.replace(
         "# chrome_options.add_argument('--headless')  # Commented out to show browser",
         "chrome_options.add_argument('--headless')  # Run in headless mode"
     )
+    
+    # Add browser stability improvements
+    functions_code = functions_code.replace(
+        "chrome_options.add_argument('--window-size=1920,1080')\n    driver = webdriver.Chrome(options=chrome_options)",
+        """chrome_options.add_argument('--window-size=1920,1080')
+    chrome_options.add_argument('--disable-blink-features=AutomationControlled')
+    chrome_options.add_argument('--disable-extensions')
+    chrome_options.add_argument('--disable-web-security')
+    chrome_options.add_argument('--disable-features=VizDisplayCompositor')
+    chrome_options.add_argument('--max_old_space_size=4096')
+    chrome_options.add_argument('--memory-pressure-off')
+    chrome_options.add_argument(f'--user-data-dir=C:/temp/chrome_profile_script_{script_id}')
+    chrome_options.add_argument(f'--remote-debugging-port={9222 + script_id}')
+    chrome_options.add_experimental_option('useAutomationExtension', False)
+    chrome_options.add_experimental_option("excludeSwitches", ["enable-automation"])
+    
+    # Create new Chrome instance (allow multiple instances)
+    driver = webdriver.Chrome(options=chrome_options)"""
+    )
+    
+    # Add browser recovery function - look for reinitialize_session function and add recovery before it
+    if "def reinitialize_session():" in functions_code:
+        functions_code = functions_code.replace(
+            "def reinitialize_session():",
+            """def recover_browser_session():
+    \"\"\"Recover from browser crashes by completely reinitializing everything\"\"\"
+    global driver, wait
+    
+    try:
+        logger.warning("Browser session crashed or became unresponsive. Attempting recovery...")
+        
+        # Force close only the current driver instance
+        if driver:
+            try:
+                driver.quit()
+                logger.info("Closed crashed browser session for this script")
+            except Exception as quit_error:
+                logger.warning(f"Error closing crashed browser: {quit_error}")
+        
+        # Wait before reinitialization
+        time.sleep(5)
+        
+        # Reinitialize browser completely
+        initialize_browser()
+        
+        # Navigate to the main URL
+        url = "https://judgments.ecourts.gov.in/pdfsearch/index.php"
+        logger.info(f"Navigating to {url}")
+        driver.get(url)
+        
+        wait = WebDriverWait(driver, 10)
+        wait.until(EC.presence_of_element_located((By.ID, "captcha_image")))
+        logger.info("Page loaded successfully after recovery")
+        
+        # Solve captcha with retry logic
+        if not fill_captcha():
+            logger.error("Failed to solve captcha during recovery")
+            return False
+        
+        # Wait for loading to complete
+        wait_for_loading_component()
+        
+        # Set table display count to 100
+        set_table_display_count()
+        
+        logger.info("Browser session recovered successfully")
+        return True
+        
+    except Exception as e:
+        logger.error(f"Failed to recover browser session: {e}")
+        return False
+
+
+def reinitialize_session():"""
+        )
+    
+    # Update the reinitialize_session function to use recovery as fallback
+    if "def reinitialize_session():" in functions_code:
+        old_reinit = """def reinitialize_session():
+    \"\"\"Reinitialize the browser session by going back to the main URL\"\"\"
+    global driver, wait
+    
+    try:
+        logger.info("Reinitializing session - going back to main URL...")
+        
+        # Navigate back to the main URL
+        url = "https://judgments.ecourts.gov.in/pdfsearch/index.php"
+        driver.get(url)
+        
+        # Wait for page to load
+        wait.until(EC.presence_of_element_located((By.ID, "captcha_image")))
+        logger.info("Main page loaded successfully")
+        
+        # Solve captcha again with retry logic
+        if not fill_captcha():
+            logger.error("Failed to solve captcha during session reinitialization")
+            return False
+        
+        # Wait for loading to complete
+        wait_for_loading_component()
+        
+        # Set table display count to 100
+        set_table_display_count()
+        
+        logger.info("Session reinitialized successfully")
+        return True
+        
+    except Exception as e:
+        logger.error(f"Error reinitializing session: {e}")
+        return False"""
+        
+        new_reinit = """def reinitialize_session():
+    \"\"\"Reinitialize the browser session by going back to the main URL\"\"\"
+    global driver, wait
+    
+    try:
+        logger.info("Reinitializing session - going back to main URL...")
+        
+        # Check if driver is responsive
+        try:
+            driver.current_url
+        except Exception as driver_error:
+            logger.warning(f"Driver unresponsive: {driver_error}. Attempting full recovery...")
+            return recover_browser_session()
+        
+        # Navigate back to the main URL
+        url = "https://judgments.ecourts.gov.in/pdfsearch/index.php"
+        driver.get(url)
+        
+        # Wait for page to load
+        wait.until(EC.presence_of_element_located((By.ID, "captcha_image")))
+        logger.info("Main page loaded successfully")
+        
+        # Solve captcha again with retry logic
+        if not fill_captcha():
+            logger.error("Failed to solve captcha during session reinitialization")
+            return False
+        
+        # Wait for loading to complete
+        wait_for_loading_component()
+        
+        # Set table display count to 100
+        set_table_display_count()
+        
+        logger.info("Session reinitialized successfully")
+        return True
+        
+    except Exception as e:
+        logger.error(f"Error reinitializing session: {e}")
+        # Try full recovery as fallback
+        return recover_browser_session()"""
+        
+        functions_code = functions_code.replace(old_reinit, new_reinit)
+    
+    # Improve navigate_to_specific_page function
+    if "def navigate_to_specific_page(target_page):" in functions_code:
+        old_navigate = """def navigate_to_specific_page(target_page):
+    \"\"\"Navigate to a specific page number\"\"\"
+    global current_page
+    
+    try:
+        logger.info(f"Navigating to page {target_page}...")
+        
+        # Find the page input field
+        page_input = wait.until(EC.presence_of_element_located((By.CSS_SELECTOR, "input[aria-controls='example_pdf']")))
+        
+        # Clear and enter the target page number
+        page_input.clear()
+        page_input.send_keys(str(target_page))
+        page_input.send_keys(Keys.RETURN)
+        
+        # Wait for page to load
+        time.sleep(3)
+        
+        # Wait for table to reload
+        wait.until(EC.presence_of_element_located((By.ID, "report_body")))
+        
+        current_page = target_page
+        logger.info(f"Successfully navigated to page {current_page}")
+        return True
+        
+    except Exception as e:
+        logger.error(f"Error navigating to page {target_page}: {e}")
+        return False"""
+        
+        new_navigate = """def navigate_to_specific_page(target_page, max_retries=3):
+    \"\"\"Navigate to a specific page number with retry logic\"\"\"
+    global current_page
+    
+    for attempt in range(max_retries):
+        try:
+            logger.info(f"Navigating to page {target_page} (attempt {attempt + 1}/{max_retries})...")
+            
+            # Check if driver is still responsive
+            try:
+                driver.current_url
+            except Exception as driver_error:
+                logger.warning(f"Driver unresponsive during navigation: {driver_error}")
+                if not recover_browser_session():
+                    logger.error("Failed to recover browser session")
+                    continue
+            
+            # Find the page input field with multiple selectors
+            page_input = None
+            selectors = [
+                "input[aria-controls='example_pdf']",
+                "input[name='example_pdf_goto_page']",
+                "input.form-control[type='text']"
+            ]
+            
+            for selector in selectors:
+                try:
+                    page_input = wait.until(EC.presence_of_element_located((By.CSS_SELECTOR, selector)))
+                    break
+                except:
+                    continue
+            
+            if not page_input:
+                logger.error("Could not find page input field")
+                if attempt < max_retries - 1:
+                    time.sleep(5)
+                    continue
+                return False
+            
+            # Clear and enter the target page number
+            page_input.clear()
+            time.sleep(0.5)
+            page_input.send_keys(str(target_page))
+            time.sleep(0.5)
+            page_input.send_keys(Keys.RETURN)
+            
+            # Wait for page to load with longer timeout
+            logger.info("Waiting for page navigation to complete...")
+            time.sleep(5)
+            
+            # Wait for table to reload with extended timeout
+            wait.until(EC.presence_of_element_located((By.ID, "report_body")))
+            
+            # Verify we're on the correct page by checking page info
+            try:
+                # Look for pagination info to confirm page number
+                page_info_elements = driver.find_elements(By.CSS_SELECTOR, ".dataTables_info")
+                if page_info_elements and str(target_page) in page_info_elements[0].text:
+                    logger.info(f"Page navigation verified: {page_info_elements[0].text}")
+            except Exception as verify_error:
+                logger.debug(f"Could not verify page number: {verify_error}")
+            
+            current_page = target_page
+            logger.info(f"Successfully navigated to page {current_page}")
+            return True
+            
+        except Exception as e:
+            logger.error(f"Error navigating to page {target_page} (attempt {attempt + 1}): {e}")
+            
+            if attempt < max_retries - 1:
+                logger.info(f"Retrying navigation after {5 * (attempt + 1)} seconds...")
+                time.sleep(5 * (attempt + 1))  # Exponential backoff
+                
+                # Try to recover session before retry if it's the last attempt before giving up
+                if attempt == max_retries - 2:
+                    logger.info("Attempting session recovery before final retry...")
+                    if not recover_browser_session():
+                        logger.error("Session recovery failed")
+                        return False
+            else:
+                logger.error(f"Failed to navigate to page {target_page} after {max_retries} attempts")
+                return False
+    
+    return False"""
+        
+        functions_code = functions_code.replace(old_navigate, new_navigate)
+    
+    # Improve error handling in process_all_pages for navigation to starting page
+    if "# If starting from a page other than 1, navigate to it" in functions_code:
+        old_start_nav = """# If starting from a page other than 1, navigate to it
+    if current_page > 1:
+        logger.info(f"Navigating to starting page {current_page}...")
+        if not navigate_to_specific_page(current_page):
+            logger.error(f"Failed to navigate to starting page {current_page}")
+            return"""
+        
+        new_start_nav = """# If starting from a page other than 1, navigate to it with multiple attempts
+    if current_page > 1:
+        logger.info(f"Navigating to starting page {current_page}...")
+        navigation_success = False
+        
+        for nav_attempt in range(3):
+            if navigate_to_specific_page(current_page, max_retries=2):
+                navigation_success = True
+                break
+            else:
+                logger.warning(f"Navigation attempt {nav_attempt + 1} failed")
+                if nav_attempt < 2:
+                    logger.info("Attempting full browser recovery before next navigation attempt...")
+                    if not recover_browser_session():
+                        logger.error("Browser recovery failed")
+                        continue
+                    time.sleep(10)  # Additional wait after recovery
+        
+        if not navigation_success:
+            logger.error(f"Failed to navigate to starting page {current_page} after multiple attempts")
+            send_error_notification(
+                f"Failed to navigate to starting page {current_page}",
+                "Navigation failed after multiple recovery attempts. Script may need manual intervention."
+            )
+            return"""
+        
+        functions_code = functions_code.replace(old_start_nav, new_start_nav)
+    
+    # Improve error handling in the main processing loop
+    if "# Try to reinitialize and continue" in functions_code:
+        old_error_handling = """# Send error notification
+            error_details = traceback.format_exc()
+            send_error_notification(
+                f"Error processing page {current_page}: {str(e)}",
+                error_details
+            )
+            
+            # Try to reinitialize and continue
+            if reinitialize_session():
+                logger.info("Session reinitialized after error. Continuing...")
+                continue
+            else:
+                logger.error("Failed to recover from error. Stopping process.")
+                send_shutdown_notification("Failed to recover from error")
+                break"""
+        
+        new_error_handling = """# Send error notification
+            error_details = traceback.format_exc()
+            send_error_notification(
+                f"Error processing page {current_page}: {str(e)}",
+                error_details
+            )
+            
+            # Try multiple recovery attempts
+            recovery_success = False
+            
+            for recovery_attempt in range(3):
+                logger.info(f"Recovery attempt {recovery_attempt + 1}/3...")
+                
+                if recovery_attempt == 0:
+                    # First try simple session reinitialization
+                    if reinitialize_session():
+                        recovery_success = True
+                        break
+                else:
+                    # For subsequent attempts, try full browser recovery
+                    if recover_browser_session():
+                        # After recovery, navigate back to current page
+                        if navigate_to_specific_page(current_page, max_retries=2):
+                            recovery_success = True
+                            break
+                        else:
+                            logger.warning(f"Recovery attempt {recovery_attempt + 1}: Navigation failed after browser recovery")
+                
+                if recovery_attempt < 2:
+                    logger.info(f"Recovery attempt {recovery_attempt + 1} failed, waiting before next attempt...")
+                    time.sleep(30)  # Wait before next recovery attempt
+            
+            if recovery_success:
+                logger.info("Successfully recovered from error. Continuing...")
+                continue
+            else:
+                logger.error("Failed to recover from error after multiple attempts. Stopping process.")
+                send_shutdown_notification("Failed to recover from error after multiple attempts")
+                break"""
+        
+        functions_code = functions_code.replace(old_error_handling, new_error_handling)
     
     # Fix any remaining tracking/timing file references in strings
     functions_code = functions_code.replace('f"Progress tracking file: {tracking_file}"', 'f"Progress tracking file: {PROGRESS_FILE}"')
@@ -139,6 +507,18 @@ total_files_downloaded = 0
 start_time = None
 batch_size = 25
 
+
+def cleanup_resources():
+    \"\"\"Clean up browser resources for this script instance\"\"\"
+    global driver
+    try:
+        if driver:
+            logger.info(f"Cleaning up browser resources for Script {{SCRIPT_ID}}")
+            driver.quit()
+            driver = None
+    except Exception as e:
+        logger.warning(f"Error during cleanup: {{e}}")
+
 # All scraping functions from legacy_judgements.py
 {functions_code}
 '''
@@ -180,8 +560,7 @@ if __name__ == "__main__":
         
     except KeyboardInterrupt:
         logger.info("\\nScript interrupted by user")
-        if driver:
-            driver.quit()
+        cleanup_resources()
         sys.exit(0)
     except Exception as e:
         logger.error(f"Fatal error in main: {{str(e)}}")
@@ -191,8 +570,7 @@ if __name__ == "__main__":
                 f"Script {script_id} - Fatal Error",
                 f"Error: {{str(e)}}\\n\\nTraceback:\\n{{traceback.format_exc()}}"
             )
-        if driver:
-            driver.quit()
+        cleanup_resources()
         sys.exit(1)
 '''
     
@@ -203,7 +581,8 @@ def update_all_scripts():
     """Update all 66 scripts with full scraping logic"""
     
     # Load configuration
-    with open("scripts_distribution_config.json", 'r') as f:
+    config_path = os.path.join("..", "scripts_distribution_config.json")
+    with open(config_path, 'r') as f:
         config = json.load(f)
     
     print("\n🔄 Updating all scripts with full scraping logic...")
@@ -223,7 +602,7 @@ def update_all_scripts():
             content = create_full_script(script_id, start_page, end_page)
             
             # Write to file
-            script_path = f"scrapping-app/scripts/script{script_id}/script{script_id}.py"
+            script_path = f"scripts/script{script_id}/script{script_id}.py"
             
             with open(script_path, 'w', encoding='utf-8') as f:
                 f.write(content)
