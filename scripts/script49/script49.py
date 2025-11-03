@@ -1299,7 +1299,7 @@ def download_pdf(judgment_data):
                 logger.info(f"Successfully downloaded: {safe_filename}")
                 
                 # Upload to S3
-                s3_key = f"judgements/{safe_filename}"
+                s3_key = f"judgements-test/{safe_filename}"
                 upload_success = upload_to_s3(safe_filename, s3_key)
                 
                 # Delete local file after successful upload
