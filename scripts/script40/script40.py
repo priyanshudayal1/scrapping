@@ -83,6 +83,15 @@ total_files_downloaded = 0
 start_time = None
 batch_size = 25
 
+# Batch processing variables
+current_batch_files = []
+batch_download_dir = os.path.join(SCRIPT_DIR, f"batch_downloads_script40")
+
+# Ensure batch download directory exists
+if not os.path.exists(batch_download_dir):
+    os.makedirs(batch_download_dir)
+    logger.info(f"Created batch download directory: {batch_download_dir}")
+
 
 def cleanup_resources():
     """Clean up browser resources for this script instance"""
@@ -989,21 +998,25 @@ def download_pdf(judgment_data):
                 # Use the sanitized case title as filename
                 safe_filename = judgment_data['filename']
                 
-                # Save the PDF locally first
-                with open(safe_filename, 'wb') as f:
+                # Save the PDF to batch download directory
+                local_file_path = os.path.join(batch_download_dir, safe_filename)
+                with open(local_file_path, 'wb') as f:
                     f.write(response.content)
                 
                 logger.info(f"Successfully downloaded: {safe_filename}")
                 
-                # Upload to S3
+                # Add to current batch for later S3 upload
                 s3_key = f"judgements/{safe_filename}"
-                upload_success = upload_to_s3(safe_filename, s3_key)
+                file_info = {
+                    'filename': safe_filename,
+                    'local_path': local_file_path,
+                    's3_key': s3_key,
+                    'judgment_data': judgment_data,
+                    'download_time': datetime.now().isoformat()
+                }
                 
-                # Delete local file after successful upload
-                if upload_success:
-                    delete_local_file(safe_filename)
-                else:
-                    logger.warning(f"Failed to upload to S3, keeping local file: {safe_filename}")
+                current_batch_files.append(file_info)
+                logger.info(f"Added to batch: {len(current_batch_files)}/{batch_size} files")
                 
                 # Calculate download time
                 download_end_time = time.time()
@@ -1013,14 +1026,16 @@ def download_pdf(judgment_data):
                 return {
                     "success": True,
                     "filename": safe_filename,
-                    "s3_key": s3_key if upload_success else None,
-                    "uploaded_to_s3": upload_success,
+                    "s3_key": s3_key,
+                    "local_path": local_file_path,
+                    "uploaded_to_s3": False,  # Will be updated after batch upload
                     "cnr": judgment_data['cnr'],
                     "case_title": judgment_data['case_title'],
                     "decision_date": judgment_data.get('decision_date', ''),
                     "decision_year": judgment_data.get('decision_year'),
                     "download_time": datetime.now().isoformat(),
-                    "download_duration_seconds": round(download_duration, 2)
+                    "download_duration_seconds": round(download_duration, 2),
+                    "in_batch": True
                 }
                 
             else:
@@ -1380,6 +1395,22 @@ def process_all_pages():
                         download_duration = download_result.get('download_duration_seconds', 0)
                         timing_data = update_timing_stats(timing_data, judgment, download_duration, success=True)
                         
+                        # Check if batch is full and process upload
+                        if len(current_batch_files) >= batch_size:
+                            logger.info(f"\n📦 Batch of {batch_size} files ready for S3 upload")
+                            
+                            # Process batch upload
+                            batch_success = process_batch_upload()
+                            
+                            if batch_success:
+                                logger.info(f"✅ Batch upload completed successfully")
+                            else:
+                                logger.warning(f"⚠️  Some files in batch failed to upload")
+                                send_error_notification(
+                                    f"Batch upload issues on page {current_page}",
+                                    "Some files in the batch failed to upload to S3. Check logs for details."
+                                )
+                        
                         # Save progress and timing after each successful download
                         save_progress(progress)
                         save_timing_data(timing_data)
@@ -1425,6 +1456,16 @@ def process_all_pages():
                     if not judgments_data:
                         logger.error("Failed to re-extract table data after reinitialization")
                         return
+            
+            # Process any remaining files in the current batch at the end of the page
+            if current_batch_files:
+                logger.info(f"\n📦 Processing remaining {len(current_batch_files)} files in batch at end of page {current_page}")
+                batch_success = process_batch_upload()
+                
+                if batch_success:
+                    logger.info(f"✅ Final batch upload for page {current_page} completed successfully")
+                else:
+                    logger.warning(f"⚠️  Some files in final batch failed to upload")
             
             logger.info(f"Completed page {current_page}. Total files downloaded so far: {total_files_downloaded}")
             
@@ -1513,6 +1554,28 @@ def process_all_pages():
     if 'session_statistics' not in timing_data:
         timing_data['session_statistics'] = []
     timing_data['session_statistics'].append(session_summary)
+    
+    # Process any remaining files in the final batch
+    if current_batch_files:
+        logger.info(f"\n📦 Processing final batch of {len(current_batch_files)} files")
+        final_batch_success = process_batch_upload()
+        
+        if final_batch_success:
+            logger.info(f"✅ Final batch upload completed successfully")
+        else:
+            logger.warning(f"⚠️  Some files in final batch failed to upload")
+            send_error_notification(
+                "Final batch upload issues",
+                f"Script {SCRIPT_ID}: Some files in the final batch failed to upload to S3. Check logs for details."
+            )
+    
+    # Clean up batch download directory if empty
+    try:
+        if os.path.exists(batch_download_dir) and not os.listdir(batch_download_dir):
+            os.rmdir(batch_download_dir)
+            logger.info(f"Cleaned up empty batch download directory")
+    except Exception as cleanup_error:
+        logger.debug(f"Error cleaning up batch directory: {cleanup_error}")
     
     save_progress(progress)
     save_timing_data(timing_data)
@@ -1628,6 +1691,141 @@ def main():
             driver.quit()
         raise
 
+def upload_batch_to_s3(batch_files):
+    """Upload a batch of files to S3 and verify all uploads"""
+    try:
+        if not batch_files:
+            logger.warning("No files in batch to upload")
+            return [], []
+        
+        logger.info(f"Starting batch upload of {len(batch_files)} files to S3...")
+        
+        successful_uploads = []
+        failed_uploads = []
+        
+        # Upload each file in the batch
+        for file_info in batch_files:
+            file_path = file_info['local_path']
+            s3_key = file_info['s3_key']
+            
+            try:
+                if not os.path.exists(file_path):
+                    logger.error(f"Local file not found: {file_path}")
+                    failed_uploads.append(file_info)
+                    continue
+                
+                logger.info(f"Uploading {os.path.basename(file_path)} to S3...")
+                
+                with open(file_path, 'rb') as file_data:
+                    s3_client.put_object(
+                        Bucket=S3_BUCKET_NAME,
+                        Key=s3_key,
+                        Body=file_data,
+                        ContentType='application/pdf'
+                    )
+                
+                # Verify the upload by checking if file exists in S3
+                try:
+                    s3_client.head_object(Bucket=S3_BUCKET_NAME, Key=s3_key)
+                    logger.info(f"✅ Successfully uploaded and verified: {s3_key}")
+                    successful_uploads.append(file_info)
+                except Exception as verify_error:
+                    logger.error(f"❌ Upload verification failed for {s3_key}: {verify_error}")
+                    failed_uploads.append(file_info)
+                
+            except Exception as upload_error:
+                logger.error(f"❌ Failed to upload {file_path}: {upload_error}")
+                failed_uploads.append(file_info)
+        
+        logger.info(f"Batch upload completed: {len(successful_uploads)} successful, {len(failed_uploads)} failed")
+        return successful_uploads, failed_uploads
+        
+    except Exception as e:
+        logger.error(f"Error in batch upload process: {e}")
+        return [], batch_files
+
+
+def cleanup_successful_files(successful_uploads):
+    """Delete local files that were successfully uploaded to S3"""
+    try:
+        deleted_count = 0
+        
+        for file_info in successful_uploads:
+            file_path = file_info['local_path']
+            
+            try:
+                if os.path.exists(file_path):
+                    os.remove(file_path)
+                    logger.debug(f"Deleted local file: {os.path.basename(file_path)}")
+                    deleted_count += 1
+                else:
+                    logger.warning(f"File not found for deletion: {file_path}")
+            except Exception as delete_error:
+                logger.error(f"Error deleting local file {file_path}: {delete_error}")
+        
+        logger.info(f"Cleaned up {deleted_count} local files after successful S3 upload")
+        return deleted_count
+        
+    except Exception as e:
+        logger.error(f"Error during cleanup: {e}")
+        return 0
+
+
+def process_batch_upload():
+    """Process the current batch of downloaded files for S3 upload"""
+    global current_batch_files
+    
+    if not current_batch_files:
+        logger.debug("No files in current batch to upload")
+        return True
+    
+    try:
+        logger.info(f"\n=== BATCH UPLOAD PROCESS ===")
+        logger.info(f"Processing batch of {len(current_batch_files)} files")
+        
+        # Upload batch to S3
+        successful_uploads, failed_uploads = upload_batch_to_s3(current_batch_files)
+        
+        # Clean up successfully uploaded files
+        if successful_uploads:
+            cleanup_successful_files(successful_uploads)
+            logger.info(f"✅ Successfully processed {len(successful_uploads)} files")
+        
+        # Handle failed uploads
+        if failed_uploads:
+            logger.warning(f"❌ {len(failed_uploads)} files failed to upload")
+            
+            # Move failed files to a failed directory for manual review
+            failed_dir = os.path.join(batch_download_dir, "failed_uploads")
+            if not os.path.exists(failed_dir):
+                os.makedirs(failed_dir)
+            
+            for file_info in failed_uploads:
+                try:
+                    src_path = file_info['local_path']
+                    if os.path.exists(src_path):
+                        dst_path = os.path.join(failed_dir, os.path.basename(src_path))
+                        os.rename(src_path, dst_path)
+                        logger.info(f"Moved failed file to: {dst_path}")
+                except Exception as move_error:
+                    logger.error(f"Error moving failed file: {move_error}")
+        
+        # Clear the current batch
+        current_batch_files = []
+        
+        # Log batch processing summary
+        total_processed = len(successful_uploads) + len(failed_uploads)
+        success_rate = (len(successful_uploads) / total_processed * 100) if total_processed > 0 else 0
+        logger.info(f"Batch processing complete: {success_rate:.1f}% success rate")
+        
+        return len(failed_uploads) == 0  # Return True if no failures
+        
+    except Exception as e:
+        logger.error(f"Error processing batch upload: {e}")
+        return False
+
+
+
 
 if __name__ == "__main__":
     try:
@@ -1661,16 +1859,50 @@ if __name__ == "__main__":
         logger.info("Script execution started successfully")
         process_all_pages()
         
+        # Final cleanup and summary
+        logger.info("\n=== SCRIPT COMPLETION SUMMARY ===")
+        logger.info(f"Total files processed: {total_files_downloaded}")
+        if current_batch_files:
+            logger.info(f"Files in final batch: {len(current_batch_files)}")
+        
+        # Check for any remaining files in batch directory
+        remaining_files = []
+        if os.path.exists(batch_download_dir):
+            remaining_files = [f for f in os.listdir(batch_download_dir) if f.endswith('.pdf')]
+            if remaining_files:
+                logger.warning(f"⚠️  {len(remaining_files)} files remain in batch directory - may need manual upload")
+        
+        cleanup_resources()
+        
     except KeyboardInterrupt:
-        logger.info("\nScript interrupted by user")
+        logger.info("\\nScript interrupted by user")
+        
+        # Process any pending batch files before exit
+        if current_batch_files:
+            logger.info("Processing pending batch files before exit...")
+            try:
+                process_batch_upload()
+            except Exception as batch_error:
+                logger.error(f"Error processing batch during interruption: {batch_error}")
+        
         cleanup_resources()
         sys.exit(0)
+        
     except Exception as e:
         logger.error(f"Fatal error in main: {str(e)}")
         logger.error(traceback.format_exc())
+        
+        # Try to process any pending batch files before exit
+        if current_batch_files:
+            logger.info("Attempting to save pending batch files before exit...")
+            try:
+                process_batch_upload()
+            except Exception as batch_error:
+                logger.error(f"Error processing batch during error handling: {batch_error}")
+        
         if EMAIL_ENABLED:
             send_error_notification(
-                f"Script 40 - Fatal Error",
+                f"Script {SCRIPT_ID} - Fatal Error",
                 f"Error: {str(e)}\n\nTraceback:\n{traceback.format_exc()}"
             )
         cleanup_resources()
