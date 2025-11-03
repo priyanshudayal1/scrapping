@@ -101,7 +101,7 @@ def create_full_script(script_id, start_page, end_page):
     # Make Chrome headless and add stability improvements
     functions_code = functions_code.replace(
         "# chrome_options.add_argument('--headless')  # Commented out to show browser",
-        "#chrome_options.add_argument('--headless')  # Run in headless mode"
+        "chrome_options.add_argument('--headless')  # Run in headless mode"
     )
     
     # Add comprehensive browser isolation and stability improvements
