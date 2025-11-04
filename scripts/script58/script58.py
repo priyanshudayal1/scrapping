@@ -630,90 +630,53 @@ def extract_total_results():
         return None
 
 
-def navigate_to_specific_page(target_page, max_retries=3):
-    """Navigate to a specific page number with retry logic"""
-    global current_page
+def navigate_to_specific_page(target_page):
+    """Navigate to a specific page number by clicking 'Next'"""
+    global current_page, driver, wait
     
-    for attempt in range(max_retries):
+    try:
+        if driver is None:
+            logger.error("Driver is None, cannot navigate")
+            return False
+        
         try:
-            logger.info(f"Navigating to page {target_page} (attempt {attempt + 1}/{max_retries})...")
-            
-            # Check if driver is still responsive
-            try:
-                driver.current_url
-            except Exception as driver_error:
-                logger.warning(f"Driver unresponsive during navigation: {driver_error}")
-                if not recover_browser_session():
-                    logger.error("Failed to recover browser session")
-                    continue
-            
-            # Find the page input field with multiple selectors
-            page_input = None
-            selectors = [
-                "input[aria-controls='example_pdf']",
-                "input[name='example_pdf_goto_page']",
-                "input.form-control[type='text']"
-            ]
-            
-            for selector in selectors:
-                try:
-                    page_input = wait.until(EC.presence_of_element_located((By.CSS_SELECTOR, selector)))
-                    break
-                except:
-                    continue
-            
-            if not page_input:
-                logger.error("Could not find page input field")
-                if attempt < max_retries - 1:
-                    time.sleep(5)
-                    continue
+            driver.current_url
+        except Exception as e:
+            logger.error(f"Driver is not responsive: {e}")
+            return False
+        
+        logger.info(f"Navigating to page {target_page} from {current_page}...")
+
+        if target_page <= current_page:
+            logger.warning(f"Target page {target_page} is not greater than current page {current_page}. Navigation might not be as expected.")
+            if target_page < current_page:
+                logger.error("Cannot navigate backwards with this method. Reinitialization would be required.")
                 return False
+
+        while current_page < target_page:
+            logger.info(f"Current page: {current_page}, Target: {target_page}. Clicking 'Next'.")
             
-            # Clear and enter the target page number
-            page_input.clear()
-            time.sleep(0.5)
-            page_input.send_keys(str(target_page))
-            time.sleep(0.5)
-            page_input.send_keys(Keys.RETURN)
+            next_button = wait.until(EC.element_to_be_clickable((By.ID, "example_pdf_next")))
             
-            # Wait for page to load with longer timeout
-            logger.info("Waiting for page navigation to complete...")
-            time.sleep(5)
+            if "disabled" in next_button.get_attribute("class"):
+                logger.error(f"Cannot navigate further. 'Next' button is disabled on page {current_page}.")
+                return False
+
+            next_button.click()
             
-            # Wait for table to reload with extended timeout
+            time.sleep(2) 
             wait.until(EC.presence_of_element_located((By.ID, "report_body")))
             
-            # Verify we're on the correct page by checking page info
-            try:
-                # Look for pagination info to confirm page number
-                page_info_elements = driver.find_elements(By.CSS_SELECTOR, ".dataTables_info")
-                if page_info_elements and str(target_page) in page_info_elements[0].text:
-                    logger.info(f"Page navigation verified: {page_info_elements[0].text}")
-            except Exception as verify_error:
-                logger.debug(f"Could not verify page number: {verify_error}")
-            
-            current_page = target_page
+            current_page += 1
             logger.info(f"Successfully navigated to page {current_page}")
-            return True
-            
-        except Exception as e:
-            logger.error(f"Error navigating to page {target_page} (attempt {attempt + 1}): {e}")
-            
-            if attempt < max_retries - 1:
-                logger.info(f"Retrying navigation after {5 * (attempt + 1)} seconds...")
-                time.sleep(5 * (attempt + 1))  # Exponential backoff
-                
-                # Try to recover session before retry if it's the last attempt before giving up
-                if attempt == max_retries - 2:
-                    logger.info("Attempting session recovery before final retry...")
-                    if not recover_browser_session():
-                        logger.error("Session recovery failed")
-                        return False
-            else:
-                logger.error(f"Failed to navigate to page {target_page} after {max_retries} attempts")
-                return False
-    
-    return False
+
+        logger.info(f"Reached target page {target_page}")
+        return True
+        
+    except Exception as e:
+        logger.error(f"Error navigating to page {target_page}: {e}")
+        logger.error(traceback.format_exc())
+        return False
 
 
 def close_any_open_modal():
@@ -926,11 +889,11 @@ def fill_captcha():
         logger.error("AWS Bedrock runtime client is not initialized.")
         return False
 
-    max_captcha_retries = 3
-    
-    for attempt in range(max_captcha_retries):
+    attempt = 0
+    while True:
+        attempt += 1
         try:
-            logger.info(f"Attempting to solve captcha (attempt {attempt + 1}/{max_captcha_retries})...")
+            logger.info(f"Attempting to solve captcha (attempt {attempt})...")
             
             # Ensure we have a fresh captcha image
             try:
@@ -939,12 +902,9 @@ def fill_captcha():
                 logger.info("Captcha image captured")
             except Exception as img_error:
                 logger.error(f"Failed to capture captcha image: {img_error}")
-                if attempt < max_captcha_retries - 1:
-                    driver.refresh()
-                    time.sleep(3)
-                    continue
-                else:
-                    return False
+                driver.refresh()
+                time.sleep(3)
+                continue
             
             # calling bedrock to solve captcha
             with open("captcha.png", "rb") as image_file:
@@ -999,39 +959,30 @@ def fill_captcha():
             
             # Check if captcha error occurred
             if check_captcha_error():
-                logger.warning(f"Captcha validation failed on attempt {attempt + 1}")
+                logger.warning(f"Captcha validation failed on attempt {attempt}")
                 close_captcha_error_modal()
                 
-                if attempt < max_captcha_retries - 1:
-                    logger.info("Refreshing page and retrying captcha...")
-                    driver.refresh()
-                    time.sleep(3)
-                    # Wait for page to reload
-                    wait.until(EC.presence_of_element_located((By.ID, "captcha_image")))
-                    continue
-                else:
-                    logger.error("Failed to solve captcha after maximum retries")
-                    return False
+                logger.info("Refreshing page and retrying captcha...")
+                driver.refresh()
+                time.sleep(3)
+                # Wait for page to reload
+                wait.until(EC.presence_of_element_located((By.ID, "captcha_image")))
+                continue
             else:
                 # Captcha seems to be successful
                 logger.info("Captcha submitted successfully")
                 return True
                 
         except Exception as e:
-            logger.error(f"Failed to solve captcha on attempt {attempt + 1}: {str(e)}")
-            if attempt < max_captcha_retries - 1:
-                logger.info("Refreshing page and retrying...")
-                driver.refresh()
-                time.sleep(3)
-                try:
-                    wait.until(EC.presence_of_element_located((By.ID, "captcha_image")))
-                except:
-                    pass
-                continue
-            else:
-                return False
-    
-    return False
+            logger.error(f"Failed to solve captcha on attempt {attempt}: {str(e)}")
+            logger.info("Refreshing page and retrying...")
+            driver.refresh()
+            time.sleep(3)
+            try:
+                wait.until(EC.presence_of_element_located((By.ID, "captcha_image")))
+            except:
+                pass
+            continue
     
 
 def wait_for_loading_component():
@@ -1455,7 +1406,7 @@ def navigate_to_next_page():
         logger.info(f"Navigating to page {current_page + 1}...")
         
         next_button = wait.until(EC.element_to_be_clickable((By.ID, "example_pdf_next")))
-        next_button.click()
+        driver.execute_script("arguments[0].click();", next_button)
         
         # Wait for page to load
         time.sleep(3)
@@ -1562,7 +1513,35 @@ def reinitialize_session():
     global driver, wait
     
     try:
-        logger.info("Reinitializing session - going back to main URL...")
+        logger.info("Reinitializing session...")
+        
+        # Check if driver is still valid, if not, recreate it
+        driver_valid = False
+        if driver is not None:
+            try:
+                driver.current_url
+                driver_valid = True
+            except Exception as e:
+                logger.warning(f"Driver is not responsive: {e}. Will recreate.")
+                try:
+                    driver.quit()
+                except:
+                    pass
+                driver = None
+        
+        # If driver is invalid, reinitialize completely
+        if not driver_valid:
+            logger.info("Recreating browser instance...")
+            initialize_browser()
+            if not fill_captcha():
+                logger.error("Failed to solve captcha after browser recreation")
+                return False
+            wait_for_loading_component()
+            set_table_display_count()
+            logger.info("Browser recreated and initialized successfully")
+            return True
+        
+        logger.info("Going back to main URL...")
         
         # Navigate back to the main URL
         url = "https://judgments.ecourts.gov.in/pdfsearch/index.php"

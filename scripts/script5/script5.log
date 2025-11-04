@@ -50,3 +50,33 @@
 2025-11-04 11:06:45,218 - [Script 5] - INFO - Refreshing page and retrying captcha...
 2025-11-04 11:06:48,488 - [Script 5] - INFO - Attempting to solve captcha (attempt 3/3)...
 2025-11-04 11:06:48,558 - [Script 5] - INFO - Captcha image captured
+2025-11-04 12:44:02,529 - [Script 5] - INFO - AWS clients initialized successfully
+2025-11-04 12:44:02,530 - [Script 5] - INFO - ================================================================================
+2025-11-04 12:44:02,530 - [Script 5] - INFO - Starting Script 5
+2025-11-04 12:44:02,530 - [Script 5] - INFO - Page Range: 10,237 to 12,795
+2025-11-04 12:44:02,530 - [Script 5] - INFO - Debugging Port: 9227
+2025-11-04 12:44:02,530 - [Script 5] - INFO - Profile Directory: C:/temp/chrome_profile_script_5_*
+2025-11-04 12:44:02,530 - [Script 5] - INFO - ================================================================================
+2025-11-04 12:44:02,530 - [Script 5] - INFO - Performing pre-launch cleanup...
+2025-11-04 12:44:02,530 - [Script 5] - INFO - Performing pre-launch cleanup for Script 5
+2025-11-04 12:44:03,628 - [Script 5] - INFO - Force cleaning Chrome processes for Script 5
+2025-11-04 12:44:03,679 - [Script 5] - INFO - Pre-launch cleanup completed for Script 5
+2025-11-04 12:44:03,679 - [Script 5] - INFO - Initializing browser...
+2025-11-04 12:44:03,679 - [Script 5] - INFO - Attempting to create Chrome instance (attempt 1/3) for Script 5
+2025-11-04 12:44:04,755 - [Script 5] - INFO - Chrome instance created successfully for Script 5
+2025-11-04 12:44:04,755 - [Script 5] - INFO - Navigating to https://judgments.ecourts.gov.in/pdfsearch/index.php
+2025-11-04 12:44:06,087 - [Script 5] - INFO - Page loaded successfully.
+2025-11-04 12:44:06,142 - [Script 5] - INFO - Captcha image saved as captcha.png
+2025-11-04 12:44:06,142 - [Script 5] - INFO - Solving captcha...
+2025-11-04 12:44:06,142 - [Script 5] - INFO - Attempting to solve captcha (attempt 1/3)...
+2025-11-04 12:44:06,192 - [Script 5] - INFO - Captcha image captured
+2025-11-04 12:44:13,298 - [Script 5] - ERROR - Failed to solve captcha on attempt 1: An error occurred (ServiceUnavailableException) when calling the InvokeModel operation (reached max retries: 4): Too many connections, please wait before trying again.
+2025-11-04 12:44:13,299 - [Script 5] - INFO - Refreshing page and retrying...
+2025-11-04 12:44:22,242 - [Script 5] - INFO - Attempting to solve captcha (attempt 2/3)...
+2025-11-04 12:44:22,325 - [Script 5] - INFO - Captcha image captured
+2025-11-04 12:44:33,483 - [Script 5] - ERROR - Failed to solve captcha on attempt 2: An error occurred (ThrottlingException) when calling the InvokeModel operation (reached max retries: 4): Too many requests, please wait before trying again.
+2025-11-04 12:44:33,483 - [Script 5] - INFO - Refreshing page and retrying...
+2025-11-04 12:44:36,839 - [Script 5] - INFO - Attempting to solve captcha (attempt 3/3)...
+2025-11-04 12:44:36,892 - [Script 5] - INFO - Captcha image captured
+2025-11-04 12:44:44,689 - [Script 5] - ERROR - Failed to solve captcha on attempt 3: An error occurred (ThrottlingException) when calling the InvokeModel operation (reached max retries: 4): Too many requests, please wait before trying again.
+2025-11-04 12:44:44,689 - [Script 5] - ERROR - Failed to solve captcha after multiple attempts
