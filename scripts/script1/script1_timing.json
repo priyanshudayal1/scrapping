@@ -1,0 +1,248 @@
+{
+  "session_start": null,
+  "session_end": null,
+  "total_files_processed": 25,
+  "total_successful_downloads": 25,
+  "total_failed_downloads": 0,
+  "total_time_seconds": 0,
+  "average_time_per_file": 6.77,
+  "individual_file_times": [
+    {
+      "filename": "WP_12923_2016_of_M._SEENAPPA,_CHITTOOR_DIST_AND_3_OTHERS_Vs_PRL_SECY,_ANIMAL_HUSBANDRY_DAIRY_DEV._AND_FISHERIES_DEPT.,_HYD_CNR_APHC010460892016.pdf",
+      "case_title": "WP/12923/2016 of M. SEENAPPA, CHITTOOR DIST AND 3 ",
+      "download_time_seconds": 6.39,
+      "success": true,
+      "timestamp": "2025-11-04T10:52:58.317222",
+      "cnr": "APHC010460892016",
+      "decision_year": 5000
+    },
+    {
+      "filename": "WP(C)_1506_2023_of_KEFAYAT_AHMAD_SOFI_Vs_UNION_TERRITORY_OF_J_AND_K_AND_OTHERS._(REVENUE_DEPARTMENT)_CNR_JKHC010028062023.pdf",
+      "case_title": "WP(C)/1506/2023 of KEFAYAT AHMAD SOFI Vs UNION TER",
+      "download_time_seconds": 6.74,
+      "success": true,
+      "timestamp": "2025-11-04T10:53:07.643264",
+      "cnr": "JKHC010028062023",
+      "decision_year": 5000
+    },
+    {
+      "filename": "WP(C)_2394_2023_of_KEFAYAT_AHMAD_SOFI_Vs_UNION_TERRITORY_OF_J_AND_K_AND_ORS._(REVENUE_DEPARTMENT)_CNR_JKHC010046592023.pdf",
+      "case_title": "WP(C)/2394/2023 of KEFAYAT AHMAD SOFI Vs UNION TER",
+      "download_time_seconds": 7.89,
+      "success": true,
+      "timestamp": "2025-11-04T10:53:18.130066",
+      "cnr": "JKHC010046592023",
+      "decision_year": 5000
+    },
+    {
+      "filename": "APPLN_3569_2024_of_TUSHAR_SUDAMRAO_SELUKAR_AND_ANOTHER_Vs_THE_STATE_OF_MAHARASHTRA_AND_ANOTHER_CNR_HCBM030307122024.pdf",
+      "case_title": "APPLN/3569/2024 of TUSHAR SUDAMRAO SELUKAR AND ANO",
+      "download_time_seconds": 6.34,
+      "success": true,
+      "timestamp": "2025-11-04T10:53:27.064635",
+      "cnr": "HCBM030307122024",
+      "decision_year": 5000
+    },
+    {
+      "filename": "SA_71_2025_of_SANTANA_HAZRA_Vs_SAMARJIT_BOURI_KSHETRAPAL_AND_ORS_CNR_WBCHCA1079262020.pdf",
+      "case_title": "SA/71/2025 of SANTANA HAZRA Vs SAMARJIT BOURI KSHE",
+      "download_time_seconds": 6.46,
+      "success": true,
+      "timestamp": "2025-11-04T10:53:36.152777",
+      "cnr": "WBCHCA1079262020",
+      "decision_year": 2025
+    },
+    {
+      "filename": "CRLP_2640_2021_of_Pathri_Vijayalaxmi_and_another_Vs_The_State_of_Telangana_and_another_CNR_HBHC010128432021.pdf",
+      "case_title": "CRLP/2640/2021 of Pathri Vijayalaxmi and another V",
+      "download_time_seconds": 7.4,
+      "success": true,
+      "timestamp": "2025-11-04T10:53:46.154710",
+      "cnr": "HBHC010128432021",
+      "decision_year": 2025
+    },
+    {
+      "filename": "CR._APP_(SJ)_2203_2024_of_RAJESH_KUMAR_SINHA_Vs_THE_STATE_OF_BIHAR_CNR_BRHC010453962024.pdf",
+      "case_title": "CR. APP (SJ)/2203/2024 of RAJESH KUMAR SINHA Vs TH",
+      "download_time_seconds": 6.56,
+      "success": true,
+      "timestamp": "2025-11-04T10:53:55.323501",
+      "cnr": "BRHC010453962024",
+      "decision_year": 2025
+    },
+    {
+      "filename": "CR._MISC._70605_2025_of_Sarita_Devi_Vs_The_State_of_Bihar_CNR_BRHC011028252025.pdf",
+      "case_title": "CR. MISC./70605/2025 of Sarita Devi Vs The State o",
+      "download_time_seconds": 6.48,
+      "success": true,
+      "timestamp": "2025-11-04T10:54:04.433629",
+      "cnr": "BRHC011028252025",
+      "decision_year": 2025
+    },
+    {
+      "filename": "CR._MISC._74176_2025_of_Bishnukant_Bharti_@_Bishnu_Kumar_@_Bishnu_Sharan_@_Bharti_Vs_The_State_of_Bihar_CNR_BRHC011048592025.pdf",
+      "case_title": "CR. MISC./74176/2025 of Bishnukant Bharti @ Bishnu",
+      "download_time_seconds": 6.95,
+      "success": true,
+      "timestamp": "2025-11-04T10:54:13.988248",
+      "cnr": "BRHC011048592025",
+      "decision_year": 2025
+    },
+    {
+      "filename": "CR._MISC._35867_2025_of_Pintu_Kumar_Vs_The_State_of_Bihar_CNR_BRHC010379092025.pdf",
+      "case_title": "CR. MISC./35867/2025 of Pintu Kumar Vs The State o",
+      "download_time_seconds": 6.43,
+      "success": true,
+      "timestamp": "2025-11-04T10:54:23.029899",
+      "cnr": "BRHC010379092025",
+      "decision_year": 2025
+    },
+    {
+      "filename": "CR._MISC._73802_2025_of_Punni_Patel_@_Abhishek_Kumar_Vs_The_State_of_Bihar_CNR_BRHC011056352025.pdf",
+      "case_title": "CR. MISC./73802/2025 of Punni Patel @ Abhishek Kum",
+      "download_time_seconds": 6.92,
+      "success": true,
+      "timestamp": "2025-11-04T10:54:32.576186",
+      "cnr": "BRHC011056352025",
+      "decision_year": 2025
+    },
+    {
+      "filename": "CR._MISC._73737_2025_of_Shambhu_kumar_Mukhiya_Vs_The_State_of_Bihar_CNR_BRHC011042312025.pdf",
+      "case_title": "CR. MISC./73737/2025 of Shambhu kumar Mukhiya Vs T",
+      "download_time_seconds": 6.58,
+      "success": true,
+      "timestamp": "2025-11-04T10:54:41.778167",
+      "cnr": "BRHC011042312025",
+      "decision_year": 2025
+    },
+    {
+      "filename": "CR._MISC._46552_2025_of_Ali_Hassan_Ansari_@_Alihasan_Mansuri_Vs_The_State_of_Bihar_CNR_BRHC010627772025.pdf",
+      "case_title": "CR. MISC./46552/2025 of Ali Hassan Ansari @ Alihas",
+      "download_time_seconds": 6.46,
+      "success": true,
+      "timestamp": "2025-11-04T10:54:50.837566",
+      "cnr": "BRHC010627772025",
+      "decision_year": 2025
+    },
+    {
+      "filename": "CR._MISC._73816_2025_of_Shambu_Bhuiyan_Vs_The_State_of_Bihar_CNR_BRHC011074882025.pdf",
+      "case_title": "CR. MISC./73816/2025 of Shambu Bhuiyan Vs The Stat",
+      "download_time_seconds": 6.41,
+      "success": true,
+      "timestamp": "2025-11-04T10:54:59.837393",
+      "cnr": "BRHC011074882025",
+      "decision_year": 2025
+    },
+    {
+      "filename": "PLA_140_2015_of_IN_THE_GOODS_OF___SMT._PRATIMA_BRAMACHARI_(DECEASED)_Vs_CNR_WBCHCO0035792015.pdf",
+      "case_title": "PLA/140/2015 of IN THE GOODS OF : SMT. PRATIMA BRA",
+      "download_time_seconds": 6.65,
+      "success": true,
+      "timestamp": "2025-11-04T10:55:09.084167",
+      "cnr": "WBCHCO0035792015",
+      "decision_year": 2025
+    },
+    {
+      "filename": "Bail_App_144_2024_of_UNION_TERRITORY_THROUGH_POLICE_STATION_MATTAN_(HOME)_Vs_MUZAFFAR_AHMAD_KHAN_AND_ANR._CNR_JKHC010060692024.pdf",
+      "case_title": "Bail App/144/2024 of UNION TERRITORY THROUGH POLIC",
+      "download_time_seconds": 7.06,
+      "success": true,
+      "timestamp": "2025-11-04T10:55:18.742567",
+      "cnr": "JKHC010060692024",
+      "decision_year": 2025
+    },
+    {
+      "filename": "CRM(M)_1965_2025_of_AVISHEK_SONKAR_@_ABHISEKH_SONKAR_AND_ORS._Vs_STATE_OF_WEST_BENGAL_CNR_WBCHCA0486062025.pdf",
+      "case_title": "CRM(M)/1965/2025 of AVISHEK SONKAR @ ABHISEKH SONK",
+      "download_time_seconds": 6.65,
+      "success": true,
+      "timestamp": "2025-11-04T10:55:27.985493",
+      "cnr": "WBCHCA0486062025",
+      "decision_year": 2025
+    },
+    {
+      "filename": "WPA_2173_2025_of_CHANDRUL_ISLAM_Vs_THE_STATE_OF_WEST_BENGAL_AND_ORS_CNR_WBCHCJ0051912025.pdf",
+      "case_title": "WPA/2173/2025 of CHANDRUL ISLAM Vs THE STATE OF WE",
+      "download_time_seconds": 6.48,
+      "success": true,
+      "timestamp": "2025-11-04T10:55:37.072620",
+      "cnr": "WBCHCJ0051912025",
+      "decision_year": 2025
+    },
+    {
+      "filename": "WPA_2175_2025_of_SESHNATH_LALA_Vs_STATE_OF_WEST_BENGAL_AND_ORS._CNR_WBCHCJ0051972025.pdf",
+      "case_title": "WPA/2175/2025 of SESHNATH LALA Vs STATE OF WEST BE",
+      "download_time_seconds": 6.63,
+      "success": true,
+      "timestamp": "2025-11-04T10:55:46.322760",
+      "cnr": "WBCHCJ0051972025",
+      "decision_year": 2025
+    },
+    {
+      "filename": "C.Rev._74_2023_of_UNION_OF_INDIA_THROUGH_SECRETARY_MINISTRY_OF_DEFENCE_Vs_THE_STATE_OF_JHARKHAND_THROUGH_THE_PRINCIPAL_SECRETARY_DEPTT_OF_REVENUE_AND_LAND_REFORMS_CNR_JHHC010334962023.pdf",
+      "case_title": "C.Rev./74/2023 of UNION OF INDIA THROUGH SECRETARY",
+      "download_time_seconds": 7.82,
+      "success": true,
+      "timestamp": "2025-11-04T10:55:56.767910",
+      "cnr": "JHHC010334962023",
+      "decision_year": 2025
+    },
+    {
+      "filename": "CRLA_689_2024_of_MOHD_NAZIM_Vs_STATE_OF_UTTARAKHAND_CNR_UKHC010179212024.pdf",
+      "case_title": "CRLA/689/2024 of MOHD NAZIM Vs STATE OF UTTARAKHAN",
+      "download_time_seconds": 6.75,
+      "success": true,
+      "timestamp": "2025-11-04T10:56:06.116022",
+      "cnr": "UKHC010179212024",
+      "decision_year": 2025
+    },
+    {
+      "filename": "ABA_1197_2025_of_VINOD_KUMAR_MAHESHWARI_Vs_STATE_OF_UTTARAKHAND_CNR_UKHC010171582025.pdf",
+      "case_title": "ABA/1197/2025 of VINOD KUMAR MAHESHWARI Vs STATE O",
+      "download_time_seconds": 7.14,
+      "success": true,
+      "timestamp": "2025-11-04T10:56:15.884242",
+      "cnr": "UKHC010171582025",
+      "decision_year": 2025
+    },
+    {
+      "filename": "WPMS_3052_2025_of_VIKAS_RAWAT_Vs_PRINCIPAL_COMMISSIONER_OF_INCOME_TAX_CNR_UKHC010171872025.pdf",
+      "case_title": "WPMS/3052/2025 of VIKAS RAWAT Vs PRINCIPAL COMMISS",
+      "download_time_seconds": 6.76,
+      "success": true,
+      "timestamp": "2025-11-04T10:56:25.264989",
+      "cnr": "UKHC010171872025",
+      "decision_year": 2025
+    },
+    {
+      "filename": "CR.MA_2273_2017_of_ISHAQ_AHMAD_PATEL_(FATHER_IN_KAW)_Vs_STATE_OF_GUJARAT_CNR_GJHC240612932017.pdf",
+      "case_title": "CR.MA/2273/2017 of ISHAQ AHMAD PATEL (FATHER IN KA",
+      "download_time_seconds": 6.6,
+      "success": true,
+      "timestamp": "2025-11-04T10:56:34.483038",
+      "cnr": "GJHC240612932017",
+      "decision_year": 2025
+    },
+    {
+      "filename": "SCR.A_13766_2024_of_HARSHIDABEN_HITESHBHAI_KAPURIYA_Vs_STATE_OF_GUJARAT_CNR_GJHC240691842024.pdf",
+      "case_title": "SCR.A/13766/2024 of HARSHIDABEN HITESHBHAI KAPURIY",
+      "download_time_seconds": 6.61,
+      "success": true,
+      "timestamp": "2025-11-04T10:56:43.716571",
+      "cnr": "GJHC240691842024",
+      "decision_year": 2025
+    }
+  ],
+  "session_statistics": [],
+  "fastest_download": {
+    "filename": "APPLN_3569_2024_of_TUSHAR_SUDAMRAO_SELUKAR_AND_ANOTHER_Vs_THE_STATE_OF_MAHARASHTRA_AND_ANOTHER_CNR_HCBM030307122024.pdf",
+    "time": 6.34,
+    "case_title": "APPLN/3569/2024 of TUSHAR SUDAMRAO SELUKAR AND ANO"
+  },
+  "slowest_download": {
+    "filename": "WP(C)_2394_2023_of_KEFAYAT_AHMAD_SOFI_Vs_UNION_TERRITORY_OF_J_AND_K_AND_ORS._(REVENUE_DEPARTMENT)_CNR_JKHC010046592023.pdf",
+    "time": 7.89,
+    "case_title": "WP(C)/2394/2023 of KEFAYAT AHMAD SOFI Vs UNION TER"
+  },
+  "last_updated": "2025-11-04T11:03:36.116404"
+}

@@ -100,20 +100,13 @@ start_time = None
 
 
 def cleanup_resources():
-    """Clean up browser resources for this script instance"""
+    """Clean up browser resources for this script instance ONLY"""
     global driver
     try:
         if driver:
             logger.info(f"Cleaning up browser resources for Script {SCRIPT_ID}")
             
-            # Close all browser windows gracefully
-            try:
-                driver.close()
-                logger.debug("Browser windows closed")
-            except Exception as close_error:
-                logger.warning(f"Error closing browser windows: {close_error}")
-            
-            # Quit the driver
+            # Quit the driver gracefully - this will close only this script's Chrome instance
             try:
                 driver.quit()
                 logger.debug("WebDriver quit successfully")
@@ -122,46 +115,43 @@ def cleanup_resources():
             
             driver = None
             
-            # Additional cleanup for Chrome processes (Windows)
-            try:
-                import subprocess
-                import psutil
+            # Only clean up Chrome processes that specifically belong to THIS script's profile
+            # This ensures we don't touch any other Chrome windows or instances
+            if PSUTIL_AVAILABLE:
+                try:
+                    # Only terminate Chrome processes with OUR SPECIFIC profile in the command line
+                    for proc in psutil.process_iter(['pid', 'name', 'cmdline']):
+                        try:
+                            if proc.info['name'] and 'chrome' in proc.info['name'].lower():
+                                if proc.info['cmdline']:
+                                    cmdline = ' '.join(proc.info['cmdline'])
+                                    # CRITICAL: Only match Chrome processes with this exact profile
+                                    if f'chrome_profile_script_{SCRIPT_ID}_' in cmdline:
+                                        logger.debug(f"Terminating Chrome process {proc.info['pid']} for Script {SCRIPT_ID}")
+                                        proc.terminate()
+                                        proc.wait(timeout=3)
+                        except (psutil.NoSuchProcess, psutil.AccessDenied, psutil.TimeoutExpired):
+                            pass
+                except Exception as proc_error:
+                    logger.warning(f"Error during process cleanup: {proc_error}")
                 
-                # Find and kill any remaining Chrome processes for this script
-                for proc in psutil.process_iter(['pid', 'name', 'cmdline']):
-                    try:
-                        if proc.info['name'] and 'chrome' in proc.info['name'].lower():
-                            if proc.info['cmdline']:
-                                cmdline = ' '.join(proc.info['cmdline'])
-                                if f'chrome_profile_script_{SCRIPT_ID}' in cmdline or f'remote-debugging-port={9222 + SCRIPT_ID}' in cmdline:
-                                    logger.debug(f"Terminating Chrome process {proc.info['pid']} for Script {SCRIPT_ID}")
-                                    proc.terminate()
-                                    proc.wait(timeout=3)
-                    except (psutil.NoSuchProcess, psutil.AccessDenied, psutil.TimeoutExpired):
-                        pass
-                        
-            except ImportError:
-                logger.debug("psutil not available for process cleanup")
-            except Exception as proc_error:
-                logger.warning(f"Error during process cleanup: {proc_error}")
-                
-            # Clean up profile directory if it exists
-            try:
-                import shutil
-                profile_pattern = f'C:/temp/chrome_profile_script_{SCRIPT_ID}'
-                temp_dir = 'C:/temp'
-                if os.path.exists(temp_dir):
-                    for item in os.listdir(temp_dir):
-                        if item.startswith(f'chrome_profile_script_{SCRIPT_ID}'):
-                            profile_path = os.path.join(temp_dir, item)
-                            if os.path.isdir(profile_path):
-                                try:
-                                    shutil.rmtree(profile_path, ignore_errors=True)
-                                    logger.debug(f"Cleaned up profile directory: {profile_path}")
-                                except Exception as cleanup_error:
-                                    logger.debug(f"Could not clean up {profile_path}: {cleanup_error}")
-            except Exception as dir_cleanup_error:
-                logger.debug(f"Error during directory cleanup: {dir_cleanup_error}")
+            # Clean up only THIS script's profile directory
+            if SHUTIL_AVAILABLE:
+                try:
+                    temp_dir = 'C:/temp'
+                    if os.path.exists(temp_dir):
+                        for item in os.listdir(temp_dir):
+                            # Only delete profiles that start with our script ID and have timestamp
+                            if item.startswith(f'chrome_profile_script_{SCRIPT_ID}_'):
+                                profile_path = os.path.join(temp_dir, item)
+                                if os.path.isdir(profile_path):
+                                    try:
+                                        shutil.rmtree(profile_path, ignore_errors=True)
+                                        logger.debug(f"Cleaned up profile directory: {profile_path}")
+                                    except Exception as cleanup_error:
+                                        logger.debug(f"Could not clean up {profile_path}: {cleanup_error}")
+                except Exception as dir_cleanup_error:
+                    logger.debug(f"Error during directory cleanup: {dir_cleanup_error}")
                 
             logger.info(f"Cleanup completed for Script {SCRIPT_ID}")
             
@@ -170,7 +160,7 @@ def cleanup_resources():
 
 
 def force_cleanup_chrome_processes():
-    """Force cleanup of any hanging Chrome processes for this script"""
+    """Force cleanup of any hanging Chrome processes for this script ONLY"""
     try:
         if not PSUTIL_AVAILABLE:
             logger.debug("psutil not available for force cleanup")
@@ -184,7 +174,9 @@ def force_cleanup_chrome_processes():
                 if proc.info['name'] and 'chrome' in proc.info['name'].lower():
                     if proc.info['cmdline']:
                         cmdline = ' '.join(proc.info['cmdline'])
-                        if f'chrome_profile_script_{SCRIPT_ID}' in cmdline or f'remote-debugging-port={9222 + SCRIPT_ID}' in cmdline:
+                        # CRITICAL: Only terminate Chrome with THIS script's unique profile (with timestamp)
+                        # This prevents killing other Chrome instances including user's personal browser
+                        if f'chrome_profile_script_{SCRIPT_ID}_' in cmdline:
                             logger.debug(f"Force terminating Chrome process {proc.info['pid']} for Script {SCRIPT_ID}")
                             proc.kill()
                             terminated_count += 1
@@ -214,13 +206,15 @@ def check_port_availability():
         if result == 0:
             logger.warning(f"Port {debug_port} is already in use by another process")
             
-            # Try to find and terminate the conflicting process
+            # Try to find and terminate the conflicting process ONLY if it's our script's Chrome
             if PSUTIL_AVAILABLE:
                 for proc in psutil.process_iter(['pid', 'name', 'cmdline']):
                     try:
                         if proc.info['cmdline']:
                             cmdline = ' '.join(proc.info['cmdline'])
-                            if f'remote-debugging-port={debug_port}' in cmdline:
+                            # Only terminate if BOTH the port AND our profile are in the command line
+                            # This prevents terminating other Chrome instances that happen to use the same port
+                            if f'remote-debugging-port={debug_port}' in cmdline and f'chrome_profile_script_{SCRIPT_ID}_' in cmdline:
                                 logger.info(f"Terminating conflicting process {proc.info['pid']} using port {debug_port}")
                                 proc.terminate()
                                 proc.wait(timeout=5)
@@ -256,7 +250,7 @@ def pre_launch_cleanup():
         temp_dir = 'C:/temp'
         if os.path.exists(temp_dir):
             for item in os.listdir(temp_dir):
-                if item.startswith(f'chrome_profile_script_{SCRIPT_ID}'):
+                if item.startswith(f'chrome_profile_script_{SCRIPT_ID}_'):
                     profile_path = os.path.join(temp_dir, item)
                     if os.path.isdir(profile_path):
                         try:
@@ -816,7 +810,7 @@ def initialize_browser():
     # Automation detection prevention
     chrome_options.add_experimental_option('useAutomationExtension', False)
     chrome_options.add_experimental_option("excludeSwitches", ["enable-automation"])
-    chrome_options.add_experimental_option("detach", True)
+    # Note: detach option removed to ensure proper cleanup and avoid interference with other instances
     
     # Set custom user agent to avoid detection
     chrome_options.add_argument('--user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36')

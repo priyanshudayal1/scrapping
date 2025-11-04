@@ -3,7 +3,6 @@ from flask_cors import CORS
 import threading
 import json
 import os
-
 import logging
 from datetime import datetime
 import smtplib
@@ -19,7 +18,6 @@ import legacy_judgements
 
 app = Flask(__name__)
 CORS(app)
-
 
 # Configure logging
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
