@@ -487,95 +487,190 @@ def reinitialize_session():"""
         
         functions_code = functions_code.replace(old_reinit, new_reinit)
     
-    # Update download_pdf function to use download button and better error handling
-    if "# Wait for modal to appear" in functions_code and "pdf_object.get_attribute(\"data\")" in functions_code:
-        functions_code = functions_code.replace(
-            """        # Wait for modal to appear
+    # Update download_pdf function to use improved object/embed selector approach
+    if "# Wait for modal to appear" in functions_code and "New approach: Look for object/embed tags" in functions_code:
+        # Replace the PDF download logic section
+        old_pdf_logic = """        # Wait for modal to appear
         modal = wait.until(EC.visibility_of_element_located((By.ID, "viewFiles")))
         logger.info("Modal appeared, waiting for PDF to load...")
         
         # Wait for PDF object to load
         time.sleep(3)
         
-        # Get the PDF URL from the object element
-        pdf_object = wait.until(EC.presence_of_element_located((By.CSS_SELECTOR, "#viewFiles-body object")))
-        pdf_url = pdf_object.get_attribute("data")
+        # New approach: Look for object/embed tags with multiple selectors
+        pdf_downloaded_success = False
+        response = None
         
-        if pdf_url:
-            # Convert relative URL to absolute URL
-            if pdf_url.startswith("/"):
-                pdf_url = "https://judgments.ecourts.gov.in" + pdf_url
+        try:
+            pdf_selectors = [
+                "object[data*='.pdf']",
+                "object[type='application/pdf']", 
+                "embed[src*='.pdf']",
+                "embed[type='application/pdf']",
+                "object",
+                "embed"
+            ]
             
-            logger.info(f"PDF URL: {pdf_url}")
+            for selector in pdf_selectors:
+                try:
+                    pdf_objects = driver.find_elements(By.CSS_SELECTOR, selector)
+                    logger.info(f"Found {len(pdf_objects)} objects with selector: {selector}")
+                    
+                    for obj in pdf_objects:
+                        if obj.is_displayed():
+                            # Check both 'data' and 'src' attributes
+                            pdf_url = obj.get_attribute("data") or obj.get_attribute("src")
+                            logger.info(f"Object URL: {pdf_url}")
+                            
+                            if pdf_url and (".pdf" in pdf_url.lower()):
+                                # Get cookies and headers
+                                cookies = driver.get_cookies()
+                                session = requests.Session()
+                                for cookie in cookies:
+                                    session.cookies.set(cookie['name'], cookie['value'])
+                                
+                                headers = {
+                                    'User-Agent': driver.execute_script("return navigator.userAgent;"),
+                                    'Referer': driver.current_url
+                                }
+                                
+                                try:
+                                    # Construct full URL if needed
+                                    if pdf_url.startswith('/'):
+                                        base_url = "https://services.ecourts.gov.in"
+                                        pdf_url = base_url + pdf_url
+                                    
+                                    response = session.get(pdf_url, timeout=20, headers=headers)
+                                    if response.status_code == 200:
+                                        if (response.headers.get('content-type', '').lower().startswith('application/pdf') or 
+                                            response.content.startswith(b'%PDF')):
+                                            logger.info(f"Successfully fetched PDF content ({len(response.content)} bytes)")
+                                            pdf_downloaded_success = True
+                                            break
+                                        else:
+                                            logger.warning(f"Object response is not a PDF file")
+                                except Exception as obj_download_error:
+                                    logger.error(f"Error downloading from object: {str(obj_download_error)}")
+                                    continue
+                    
+                    if pdf_downloaded_success:
+                        break
+                except Exception as selector_error:
+                    logger.debug(f"Selector {selector} failed: {str(selector_error)}")
+                    continue
             
-            # Download the PDF using requests
-            response = requests.get(pdf_url)""",
-            """        # Wait for modal to appear
+            if not pdf_downloaded_success:
+                raise Exception("Could not download PDF using any selector")
+                
+        except Exception as e:
+            logger.error(f"Error in new download approach: {e}")
+            raise"""
+        
+        new_pdf_logic = """        # Wait for modal to appear
         modal = wait.until(EC.visibility_of_element_located((By.ID, "viewFiles")))
         logger.info("Modal appeared, waiting for PDF to load...")
         
         # Wait for PDF object to load
         time.sleep(3)
         
-        # Get the PDF URL from the object element to construct download URL
-        pdf_object = wait.until(EC.presence_of_element_located((By.CSS_SELECTOR, "#viewFiles-body object")))
-        pdf_temp_url = pdf_object.get_attribute("data")
+        # New approach: Look for object/embed tags with multiple selectors
+        pdf_downloaded_success = False
+        response = None
         
-        if pdf_temp_url:
-            # Extract the file hash from the temp URL
-            # URL format: /pdfsearch/tmp/HASH.pdf
-            import re
-            hash_match = re.search(r'/tmp/([a-f0-9]+\\.pdf)', pdf_temp_url)
+        try:
+            pdf_selectors = [
+                "object[data*='.pdf']",
+                "object[type='application/pdf']", 
+                "embed[src*='.pdf']",
+                "embed[type='application/pdf']",
+                "#viewFiles-body object",
+                "#viewFiles-body embed",
+                "object",
+                "embed"
+            ]
             
-            if hash_match:
-                pdf_filename = hash_match.group(1)
-                # Construct the actual download URL (not the temp viewer URL)
-                pdf_url = f"https://judgments.ecourts.gov.in/pdfsearch/tmp/{pdf_filename}"
+            for selector in pdf_selectors:
+                try:
+                    pdf_objects = driver.find_elements(By.CSS_SELECTOR, selector)
+                    logger.info(f"Found {len(pdf_objects)} objects with selector: {selector}")
+                    
+                    for obj in pdf_objects:
+                        if obj.is_displayed():
+                            # Check both 'data' and 'src' attributes
+                            pdf_url = obj.get_attribute("data") or obj.get_attribute("src")
+                            
+                            if not pdf_url:
+                                logger.warning(f"No URL found for displayed object with selector: {selector}")
+                                continue
+                            
+                            logger.info(f"Object URL: {pdf_url}")
+                            
+                            if pdf_url and (".pdf" in pdf_url.lower() or "pdfsearch/tmp/" in pdf_url.lower()):
+                                # Get cookies and headers
+                                cookies = driver.get_cookies()
+                                session = requests.Session()
+                                for cookie in cookies:
+                                    session.cookies.set(cookie['name'], cookie['value'])
+                                
+                                headers = {
+                                    'User-Agent': driver.execute_script("return navigator.userAgent;"),
+                                    'Referer': driver.current_url
+                                }
+                                
+                                try:
+                                    # Construct full URL if needed
+                                    if pdf_url.startswith('/'):
+                                        base_url = "https://services.ecourts.gov.in"
+                                        pdf_url = base_url + pdf_url
+                                    elif not pdf_url.startswith('http'):
+                                        # Handle relative URLs
+                                        base_url = "https://services.ecourts.gov.in"
+                                        pdf_url = base_url + "/" + pdf_url
+                                    
+                                    logger.info(f"Attempting to download from: {pdf_url}")
+                                    response = session.get(pdf_url, timeout=30, headers=headers)
+                                    
+                                    if response.status_code == 200:
+                                        # Check if response is actually a PDF
+                                        content_type = response.headers.get('content-type', '').lower()
+                                        is_pdf_content = content_type.startswith('application/pdf')
+                                        has_pdf_signature = response.content[:4] == b'%PDF'
+                                        
+                                        if is_pdf_content or has_pdf_signature:
+                                            logger.info(f"Successfully fetched PDF content ({len(response.content)} bytes)")
+                                            pdf_downloaded_success = True
+                                            break
+                                        else:
+                                            logger.error(f"❌ Invalid PDF content - Content-Type: {content_type}, Size: {len(response.content)} bytes")
+                                            logger.error(f"❌ URL: {pdf_url}")
+                                            if len(response.content) < 1000:
+                                                logger.error(f"❌ Response preview: {response.text[:500]}")
+                                    else:
+                                        logger.error(f"❌ HTTP {response.status_code} for URL: {pdf_url}")
+                                        logger.error(f"❌ Response headers: {dict(response.headers)}")
+                                        
+                                except Exception as obj_download_error:
+                                    logger.error(f"Error downloading from object: {str(obj_download_error)}")
+                                    continue
+                    
+                    if pdf_downloaded_success:
+                        break
+                except Exception as selector_error:
+                    logger.debug(f"Selector {selector} failed: {str(selector_error)}")
+                    continue
+            
+            if not pdf_downloaded_success:
+                logger.error(f"❌ FAILED: Could not download PDF using any selector")
+                logger.error(f"❌ Tried {len(pdf_selectors)} different selectors")
+                logger.error(f"❌ Case: {judgment_data.get('case_title', 'Unknown')[:100]}")
+                raise Exception("Could not download PDF using any selector")
                 
-                logger.info(f"Extracted PDF filename: {pdf_filename}")
-                logger.info(f"Downloading from: {pdf_url}")
-                
-                # Download the PDF using requests with retries
-                max_retries = 3
-                response = None
-                
-                for attempt in range(max_retries):
-                    try:
-                        # Use session cookies from selenium to maintain session
-                        session = requests.Session()
-                        
-                        # Add cookies from selenium driver
-                        for cookie in driver.get_cookies():
-                            session.cookies.set(cookie['name'], cookie['value'])
-                        
-                        # Add headers to mimic browser request
-                        headers = {
-                            'User-Agent': driver.execute_script("return navigator.userAgent;"),
-                            'Referer': 'https://judgments.ecourts.gov.in/pdfsearch/',
-                            'Accept': 'application/pdf,*/*'
-                        }
-                        
-                        response = session.get(pdf_url, headers=headers, timeout=30)
-                        
-                        if response.status_code == 200 and len(response.content) > 0:
-                            logger.info(f"Successfully fetched PDF content ({len(response.content)} bytes)")
-                            break
-                        else:
-                            logger.warning(f"Download attempt {attempt + 1} returned status {response.status_code} with {len(response.content)} bytes")
-                            if attempt < max_retries - 1:
-                                time.sleep(2)
-                    except requests.RequestException as req_error:
-                        logger.warning(f"Download attempt {attempt + 1} failed: {req_error}")
-                        if attempt < max_retries - 1:
-                            time.sleep(2)
-                        else:
-                            raise
-                
-                if response is None or response.status_code != 200:
-                    raise Exception("Failed to download PDF after retries")
-            else:
-                raise Exception(f"Could not extract PDF hash from URL: {pdf_temp_url}")"""
-        )
+        except Exception as e:
+            logger.error(f"❌ Error in PDF download approach: {e}")
+            logger.error(f"❌ Case: {judgment_data.get('case_title', 'Unknown')[:100]}")
+            raise"""
+        
+        functions_code = functions_code.replace(old_pdf_logic, new_pdf_logic)
     
     # Improve navigate_to_specific_page function
     if "def navigate_to_specific_page(target_page):" in functions_code:
@@ -791,6 +886,95 @@ def reinitialize_session():"""
                 break"""
         
         functions_code = functions_code.replace(old_error_handling, new_error_handling)
+    
+    # Fix batch processing logic to properly continue after each batch
+    if "# Process in batches of 25" in functions_code and "files_processed_on_page = 0" in functions_code:
+        # Update batch processing header
+        functions_code = functions_code.replace(
+            """            # Process in batches of 25
+            files_processed_on_page = 0
+            
+            while files_processed_on_page < len(judgments_data):
+                batch_start = files_processed_on_page
+                batch_end = min(files_processed_on_page + 25, len(judgments_data))
+                
+                logger.info(f"\\n--- Processing batch {batch_start+1}-{batch_end} on page {current_page} ---")""",
+            """            # Process in batches of 25
+            files_processed_on_page = 0
+            
+            while files_processed_on_page < len(judgments_data):
+                batch_start = files_processed_on_page
+                batch_end = min(files_processed_on_page + 25, len(judgments_data))
+                
+                logger.info(f"\\n--- Processing batch {batch_start+1}-{batch_end} on page {current_page} (Total on page: {len(judgments_data)}) ---")"""
+        )
+        
+        # Update batch continuation logic
+        functions_code = functions_code.replace(
+            """                files_processed_on_page = batch_end
+                
+                # If we've processed a full batch of 25 and there are more files on this page
+                if (batch_end - batch_start) == 25 and files_processed_on_page < len(judgments_data):
+                    logger.info(f"Completed batch of 25 files. Reinitializing session before next batch...")
+                    
+                    if not reinitialize_session():
+                        logger.error("Failed to reinitialize session. Stopping process.")
+                        return
+                    
+                    # Re-extract table data after reinitialization
+                    judgments_data = extract_table_data()
+                    if not judgments_data:
+                        logger.error("Failed to re-extract table data after reinitialization")
+                        return""",
+            """                files_processed_on_page = batch_end
+                logger.info(f"Batch complete. Processed {files_processed_on_page}/{len(judgments_data)} files on page {current_page}")
+                
+                # If we've processed a full batch of 25 and there are more files on this page
+                if (batch_end - batch_start) == 25 and files_processed_on_page < len(judgments_data):
+                    logger.info(f"Completed batch of 25 files. Reinitializing session before next batch...")
+                    
+                    if not reinitialize_session():
+                        logger.error("Failed to reinitialize session. Stopping process.")
+                        return
+                    
+                    # Navigate back to current page
+                    if not navigate_to_specific_page(current_page):
+                        logger.error(f"Failed to navigate back to page {current_page} after reinitialization")
+                        return
+                    
+                    # Re-extract table data after reinitialization
+                    judgments_data = extract_table_data()
+                    if not judgments_data:
+                        logger.error("Failed to re-extract table data after reinitialization")
+                        return
+                    
+                    logger.info(f"Successfully re-extracted {len(judgments_data)} judgments on page {current_page}")
+                else:
+                    logger.info(f"No reinitialization needed. Continuing to next page.")"""
+        )
+    
+    # Add enhanced error logging for download failures
+    if 'logger.error(f"Failed to download PDF. Status code:' in functions_code:
+        functions_code = functions_code.replace(
+            'logger.error(f"Failed to download PDF. Status code: {response.status_code if response else \'No response\'}")',
+            '''logger.error(f"❌ DOWNLOAD FAILED for: {judgment_data['case_title'][:50]}")
+            logger.error(f"❌ Status code: {response.status_code if response else 'No response'}")
+            logger.error(f"❌ CNR: {judgment_data.get('cnr', 'N/A')}")
+            if response:
+                logger.error(f"❌ Response size: {len(response.content)} bytes")
+                logger.error(f"❌ Content-Type: {response.headers.get('content-type', 'Unknown')}")'''
+        )
+    
+    # Add enhanced exception logging
+    if 'logger.error(f"Error downloading PDF for {judgment_data' in functions_code:
+        functions_code = functions_code.replace(
+            'logger.error(f"Error downloading PDF for {judgment_data[\'case_title\'][:50]}: {e}")',
+            '''logger.error(f"❌ EXCEPTION during PDF download")
+        logger.error(f"❌ Case: {judgment_data['case_title'][:50]}")
+        logger.error(f"❌ CNR: {judgment_data.get('cnr', 'N/A')}")
+        logger.error(f"❌ Error: {str(e)}")
+        logger.error(f"❌ Error type: {type(e).__name__}")'''
+        )
     
     # Fix any remaining tracking/timing file references in strings
     functions_code = functions_code.replace('f"Progress tracking file: {tracking_file}"', 'f"Progress tracking file: {PROGRESS_FILE}"')
