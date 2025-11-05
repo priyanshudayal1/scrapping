@@ -850,43 +850,159 @@ def reinitialize_session():"""
         
         functions_code = functions_code.replace(old_pdf_logic, new_pdf_logic)
     
-    # Improve navigate_to_specific_page function - make it accept max_retries parameter
-    # Update function signature to include max_retries with default value
-    functions_code = functions_code.replace(
-        'def navigate_to_specific_page(target_page):',
-        'def navigate_to_specific_page(target_page, max_retries=3):'
-    )
-    
-    # Now update the implementation if the old simple version exists
-    if "def navigate_to_specific_page(target_page" in functions_code:
-        old_navigate = """def navigate_to_specific_page(target_page, max_retries=3):
-    \"\"\"Navigate to a specific page number\"\"\"
-    global current_page
+    # Replace navigate_to_specific_page function with proper implementation
+    if "def navigate_to_specific_page(target_page):" in functions_code:
+        old_navigate = """def navigate_to_specific_page(target_page):
+    \"\"\"Navigate to a specific page number by clicking 'Next'\"\"\"
+    global current_page, driver, wait
     
     try:
-        logger.info(f"Navigating to page {target_page}...")
+        if driver is None:
+            logger.error("Driver is None, cannot navigate")
+            return False
         
-        # Find the page input field
-        page_input = wait.until(EC.presence_of_element_located((By.CSS_SELECTOR, "input[aria-controls='example_pdf']")))
+        try:
+            driver.current_url
+        except Exception as e:
+            logger.error(f"Driver is not responsive: {e}")
+            return False
         
-        # Clear and enter the target page number
-        page_input.clear()
-        page_input.send_keys(str(target_page))
-        page_input.send_keys(Keys.RETURN)
-        
-        # Wait for page to load
-        time.sleep(3)
-        
-        # Wait for table to reload
-        wait.until(EC.presence_of_element_located((By.ID, "report_body")))
-        
-        current_page = target_page
-        logger.info(f"Successfully navigated to page {current_page}")
+        logger.info(f"Navigating to page {target_page} from {current_page}...")
+
+        if target_page <= current_page:
+            logger.warning(f"Target page {target_page} is not greater than current page {current_page}. Navigation might not be as expected.")
+            if target_page < current_page:
+                logger.error("Cannot navigate backwards with this method. Reinitialization would be required.")
+                return False
+
+        while current_page < target_page:
+            logger.info(f"Current page: {current_page}, Target: {target_page}. Clicking 'Next'.")
+            
+            next_button = wait.until(EC.element_to_be_clickable((By.ID, "example_pdf_next")))
+            
+            if "disabled" in next_button.get_attribute("class"):
+                logger.error(f"Cannot navigate further. 'Next' button is disabled on page {current_page}.")
+                return False
+
+            next_button.click()
+            
+            time.sleep(2) 
+            wait.until(EC.presence_of_element_located((By.ID, "report_body")))
+            
+            current_page += 1
+            logger.info(f"Successfully navigated to page {current_page}")
+
+        logger.info(f"Reached target page {target_page}")
         return True
         
     except Exception as e:
         logger.error(f"Error navigating to page {target_page}: {e}")
+        logger.error(traceback.format_exc())
         return False"""
+        
+        new_navigate = """def navigate_to_specific_page(target_page, max_retries=3):
+    \"\"\"Navigate to a specific page number by clicking 'Next' button repeatedly\"\"\"
+    global current_page, driver, wait
+    
+    for retry in range(max_retries):
+        try:
+            if driver is None:
+                logger.error("Driver is None, cannot navigate")
+                return False
+            
+            try:
+                driver.current_url
+            except Exception as e:
+                logger.error(f"Driver is not responsive: {e}")
+                if retry < max_retries - 1:
+                    logger.info("Attempting to recover browser session...")
+                    if recover_browser_session():
+                        continue
+                return False
+            
+            # CRITICAL FIX: Always start from page 1 when we need to navigate
+            # The website pagination works by clicking Next from page 1
+            actual_current = 1  # We always assume we're starting from page 1 after captcha
+            
+            logger.info(f"Navigating from page {actual_current} to page {target_page}...")
+            logger.info(f"This will require clicking 'Next' {target_page - actual_current} times")
+            
+            if target_page == 1:
+                logger.info("Already on page 1, no navigation needed")
+                current_page = 1
+                return True
+            
+            # Click Next button (target_page - 1) times to reach the target page
+            clicks_needed = target_page - actual_current
+            
+            for click_num in range(clicks_needed):
+                try:
+                    logger.info(f"Navigation progress: {click_num + 1}/{clicks_needed} (Current page: {actual_current + click_num}, Target: {target_page})")
+                    
+                    # Find and verify Next button
+                    next_button = wait.until(EC.element_to_be_clickable((By.ID, "example_pdf_next")))
+                    
+                    # Check if button is disabled
+                    button_class = next_button.get_attribute("class") or ""
+                    if "disabled" in button_class:
+                        logger.error(f"Cannot navigate further. 'Next' button is disabled after {click_num} clicks.")
+                        logger.error(f"Reached page {actual_current + click_num}, but target was {target_page}")
+                        return False
+                    
+                    # Click the Next button
+                    next_button.click()
+                    
+                    # Wait for page transition
+                    time.sleep(2)
+                    
+                    # Wait for new table data to load
+                    wait.until(EC.presence_of_element_located((By.ID, "report_body")))
+                    
+                    # Add extra wait for table to fully render
+                    time.sleep(1)
+                    
+                    # Log progress every 100 pages
+                    if (click_num + 1) % 100 == 0:
+                        logger.info(f"✓ Navigated through {click_num + 1} pages...")
+                    
+                except Exception as click_error:
+                    logger.error(f"Error clicking Next button at iteration {click_num + 1}: {click_error}")
+                    
+                    # Try to recover and continue
+                    if click_num > 0 and retry < max_retries - 1:
+                        logger.warning(f"Navigation interrupted at page {actual_current + click_num}. Retrying entire navigation...")
+                        time.sleep(5)
+                        break
+                    else:
+                        raise click_error
+            
+            else:
+                # Successfully completed all clicks
+                current_page = target_page
+                logger.info(f"✓ Successfully navigated to page {target_page}")
+                return True
+            
+        except Exception as e:
+            logger.error(f"Error navigating to page {target_page} (attempt {retry + 1}/{max_retries}): {e}")
+            logger.error(traceback.format_exc())
+            
+            if retry < max_retries - 1:
+                logger.info(f"Retrying navigation after {10 * (retry + 1)} seconds...")
+                time.sleep(10 * (retry + 1))
+                
+                # Try to reinitialize session before retry
+                if retry == max_retries - 2:
+                    logger.info("Last retry - attempting full session recovery...")
+                    if not recover_browser_session():
+                        logger.error("Session recovery failed")
+                        return False
+            else:
+                logger.error(f"Failed to navigate to page {target_page} after {max_retries} attempts")
+                return False
+    
+    return False"""
+        
+        functions_code = functions_code.replace(old_navigate, new_navigate)
         
         new_navigate = """def navigate_to_specific_page(target_page, max_retries=3):
     \"\"\"Navigate to a specific page number with retry logic\"\"\"
