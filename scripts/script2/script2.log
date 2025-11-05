@@ -696,3 +696,13 @@ Symbols not available. Dumping unresolved backtrace:
 2025-11-05 12:42:03,657 - [Script 2] - INFO - Claude Prediction: 6HC1he
 2025-11-05 12:42:03,657 - [Script 2] - INFO - Filling captcha input field...
 2025-11-05 12:42:03,779 - [Script 2] - INFO - Submitting the captcha...
+2025-11-05 12:42:08,483 - [Script 2] - INFO - Captcha submitted successfully
+2025-11-05 12:42:08,484 - [Script 2] - INFO - Captcha solved successfully during recovery
+2025-11-05 12:42:09,484 - [Script 2] - INFO - Waiting for loading modal to appear...
+2025-11-05 12:42:15,723 - [Script 2] - INFO - Loading modal appeared, waiting for it to disappear...
+2025-11-05 12:42:16,245 - [Script 2] - INFO - Loading modal disappeared.
+2025-11-05 12:42:16,252 - [Script 2] - INFO - Page processing completed.
+2025-11-05 12:42:16,860 - [Script 2] - INFO - \nScript interrupted by user
+2025-11-05 12:42:16,860 - [Script 2] - INFO - Cleaning up browser resources for Script 2
+2025-11-05 12:42:16,862 - [Script 2] - WARNING - Retrying (Retry(total=2, connect=None, read=None, redirect=None, status=None)) after connection broken by 'ConnectionResetError(10054, 'An existing connection was forcibly closed by the remote host', None, 10054, None)': /session/c493c147ca4542706b74bdcac869da76
+2025-11-05 12:42:20,931 - [Script 2] - WARNING - Retrying (Retry(total=1, connect=None, read=None, redirect=None, status=None)) after connection broken by 'NewConnectionError('<urllib3.connection.HTTPConnection object at 0x000001E3A4F91E50>: Failed to establish a new connection: [WinError 10061] No connection could be made because the target machine actively refused it')': /session/c493c147ca4542706b74bdcac869da76
