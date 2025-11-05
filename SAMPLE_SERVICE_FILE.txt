@@ -1,0 +1,52 @@
+# This is a SAMPLE service file to show you what will be generated
+# The actual files will be created when you run generate_services.py
+# This file is for reference only
+
+[Unit]
+Description=Scraping Script 1 Service
+After=network.target
+StartLimitIntervalSec=0
+
+[Service]
+Type=simple
+User=your_username
+WorkingDirectory=/path/to/your/scrapping-app
+Environment="PYTHONUNBUFFERED=1"
+ExecStart=/usr/bin/python3 /path/to/your/scrapping-app/scripts/script1/script1.py
+Restart=always
+RestartSec=10
+StandardOutput=append:/var/log/scraping/script1.log
+StandardError=append:/var/log/scraping/script1.error.log
+
+# Resource limits (optional - uncomment and adjust as needed)
+# MemoryLimit=2G
+# CPUQuota=50%
+
+[Install]
+WantedBy=multi-user.target
+
+# Explanation of key settings:
+#
+# Restart=always
+#   - The service will always restart when it stops, regardless of exit code
+#   - Options: always, on-failure, on-abnormal, on-abort, never
+#
+# RestartSec=10
+#   - Wait 10 seconds before restarting
+#   - Prevents rapid restart loops
+#
+# StartLimitIntervalSec=0
+#   - No limit on restart attempts (will keep trying forever)
+#   - Set to a number (e.g., 300) to reset counter after X seconds
+#
+# StandardOutput/StandardError
+#   - Logs are appended to files in /var/log/scraping/
+#   - Use 'append:' to keep historical logs
+#
+# After=network.target
+#   - Wait for network to be available before starting
+#   - Important for scripts that need internet
+#
+# WantedBy=multi-user.target
+#   - Start during normal system boot
+#   - Enables the service to start on boot when enabled
