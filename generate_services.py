@@ -4,6 +4,7 @@ Generate systemd service files for scraping scripts
 This script reads service_config.json and generates systemd service files
 """
 
+
 import json
 import os
 import sys
