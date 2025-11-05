@@ -639,7 +639,7 @@ def extract_total_results():
         return None
 
 
-def navigate_to_specific_page(target_page):
+def navigate_to_specific_page(target_page, max_retries=3):
     """Navigate to a specific page number by clicking 'Next'"""
     global current_page, driver, wait
     

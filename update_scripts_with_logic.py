@@ -850,9 +850,16 @@ def reinitialize_session():"""
         
         functions_code = functions_code.replace(old_pdf_logic, new_pdf_logic)
     
-    # Improve navigate_to_specific_page function
-    if "def navigate_to_specific_page(target_page):" in functions_code:
-        old_navigate = """def navigate_to_specific_page(target_page):
+    # Improve navigate_to_specific_page function - make it accept max_retries parameter
+    # Update function signature to include max_retries with default value
+    functions_code = functions_code.replace(
+        'def navigate_to_specific_page(target_page):',
+        'def navigate_to_specific_page(target_page, max_retries=3):'
+    )
+    
+    # Now update the implementation if the old simple version exists
+    if "def navigate_to_specific_page(target_page" in functions_code:
+        old_navigate = """def navigate_to_specific_page(target_page, max_retries=3):
     \"\"\"Navigate to a specific page number\"\"\"
     global current_page
     
