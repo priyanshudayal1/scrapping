@@ -640,7 +640,7 @@ def extract_total_results():
 
 
 def navigate_to_specific_page(target_page, max_retries=3):
-    """Navigate to a specific page number by clicking 'Next' button repeatedly"""
+    """Navigate to a specific page number using JavaScript pagination control"""
     global current_page, driver, wait
     
     for retry in range(max_retries):
@@ -659,67 +659,69 @@ def navigate_to_specific_page(target_page, max_retries=3):
                         continue
                 return False
             
-            # CRITICAL FIX: Always start from page 1 when we need to navigate
-            # The website pagination works by clicking Next from page 1
-            actual_current = 1  # We always assume we're starting from page 1 after captcha
-            
-            logger.info(f"Navigating from page {actual_current} to page {target_page}...")
-            logger.info(f"This will require clicking 'Next' {target_page - actual_current} times")
+            logger.info(f"Navigating to page {target_page} using DataTables API...")
             
             if target_page == 1:
                 logger.info("Already on page 1, no navigation needed")
                 current_page = 1
                 return True
             
-            # Click Next button (target_page - 1) times to reach the target page
-            clicks_needed = target_page - actual_current
-            
-            for click_num in range(clicks_needed):
-                try:
-                    logger.info(f"Navigation progress: {click_num + 1}/{clicks_needed} (Current page: {actual_current + click_num}, Target: {target_page})")
+            # Use DataTables API to directly jump to the target page
+            # DataTables page() function uses 0-based indexing, so subtract 1
+            try:
+                # First check if DataTables is initialized
+                is_initialized = driver.execute_script("""
+                    return typeof $.fn.dataTable !== 'undefined' && 
+                           $('#example_pdf').length > 0 && 
+                           $.fn.dataTable.isDataTable('#example_pdf');
+                """)
+                
+                if not is_initialized:
+                    logger.error("DataTables is not initialized on the page")
+                    # Fallback to clicking navigation if DataTables not available
+                    return navigate_by_clicking(target_page)
+                
+                # Navigate to the target page using DataTables API
+                logger.info(f"Using DataTables API to jump directly to page {target_page}")
+                
+                # Execute the page navigation
+                script = f"""
+                    var table = $('#example_pdf').DataTable();
+                    table.page({target_page - 1}).draw('page');
+                    return table.page.info().page + 1;
+                """
+                
+                resulting_page = driver.execute_script(script)
+                
+                # Wait for the table to redraw
+                time.sleep(3)
+                
+                # Verify the navigation was successful
+                wait.until(EC.presence_of_element_located((By.ID, "report_body")))
+                time.sleep(1)
+                
+                # Verify current page number
+                actual_page = driver.execute_script("""
+                    var table = $('#example_pdf').DataTable();
+                    return table.page.info().page + 1;
+                """)
+                
+                if actual_page == target_page:
+                    current_page = target_page
+                    logger.info(f"✓ Successfully navigated to page {target_page}")
+                    return True
+                else:
+                    logger.warning(f"Page mismatch: Expected {target_page}, got {actual_page}")
+                    if retry < max_retries - 1:
+                        continue
+                    return False
                     
-                    # Find and verify Next button
-                    next_button = wait.until(EC.element_to_be_clickable((By.ID, "example_pdf_next")))
-                    
-                    # Check if button is disabled
-                    button_class = next_button.get_attribute("class") or ""
-                    if "disabled" in button_class:
-                        logger.error(f"Cannot navigate further. 'Next' button is disabled after {click_num} clicks.")
-                        logger.error(f"Reached page {actual_current + click_num}, but target was {target_page}")
-                        return False
-                    
-                    # Click the Next button
-                    next_button.click()
-                    
-                    # Wait for page transition
-                    time.sleep(2)
-                    
-                    # Wait for new table data to load
-                    wait.until(EC.presence_of_element_located((By.ID, "report_body")))
-                    
-                    # Add extra wait for table to fully render
-                    time.sleep(1)
-                    
-                    # Log progress every 100 pages
-                    if (click_num + 1) % 100 == 0:
-                        logger.info(f"✓ Navigated through {click_num + 1} pages...")
-                    
-                except Exception as click_error:
-                    logger.error(f"Error clicking Next button at iteration {click_num + 1}: {click_error}")
-                    
-                    # Try to recover and continue
-                    if click_num > 0 and retry < max_retries - 1:
-                        logger.warning(f"Navigation interrupted at page {actual_current + click_num}. Retrying entire navigation...")
-                        time.sleep(5)
-                        break
-                    else:
-                        raise click_error
-            
-            else:
-                # Successfully completed all clicks
-                current_page = target_page
-                logger.info(f"✓ Successfully navigated to page {target_page}")
-                return True
+            except Exception as js_error:
+                logger.error(f"JavaScript navigation failed: {js_error}")
+                if retry < max_retries - 1:
+                    logger.info("Falling back to click-based navigation...")
+                    return navigate_by_clicking(target_page)
+                raise
             
         except Exception as e:
             logger.error(f"Error navigating to page {target_page} (attempt {retry + 1}/{max_retries}): {e}")
@@ -742,6 +744,62 @@ def navigate_to_specific_page(target_page, max_retries=3):
     return False
 
 
+def navigate_by_clicking(target_page, batch_size=50):
+    """Fallback method: Navigate by clicking Next button in optimized batches"""
+    global current_page, driver, wait
+    
+    logger.info(f"Using click-based navigation to page {target_page}")
+    logger.warning("This may take a while for large page numbers...")
+    
+    actual_current = 1  # Starting from page 1
+    clicks_needed = target_page - actual_current
+    
+    # Navigate in batches with periodic page reloads to prevent DOM issues
+    clicks_done = 0
+    
+    while clicks_done < clicks_needed:
+        batch_clicks = min(batch_size, clicks_needed - clicks_done)
+        
+        logger.info(f"Navigation batch: clicks {clicks_done + 1} to {clicks_done + batch_clicks} (Page {actual_current + clicks_done} to {actual_current + clicks_done + batch_clicks})")
+        
+        for i in range(batch_clicks):
+            try:
+                # Find Next button
+                next_button = wait.until(EC.element_to_be_clickable((By.ID, "example_pdf_next")))
+                
+                # Check if button is disabled
+                button_class = next_button.get_attribute("class") or ""
+                if "disabled" in button_class:
+                    logger.error(f"Next button disabled after {clicks_done + i} clicks")
+                    return False
+                
+                # Use JavaScript click for reliability
+                driver.execute_script("arguments[0].click();", next_button)
+                
+                # Short wait for page transition
+                time.sleep(0.5)
+                
+                # Every 10 clicks, wait for table to fully load
+                if (i + 1) % 10 == 0:
+                    wait.until(EC.presence_of_element_located((By.ID, "report_body")))
+                    time.sleep(1)
+                    logger.info(f"Progress: {clicks_done + i + 1}/{clicks_needed} clicks completed")
+                
+            except Exception as click_error:
+                logger.error(f"Click error at iteration {clicks_done + i + 1}: {click_error}")
+                return False
+        
+        clicks_done += batch_clicks
+        
+        # After each batch, ensure table is loaded
+        wait.until(EC.presence_of_element_located((By.ID, "report_body")))
+        time.sleep(2)
+        
+        logger.info(f"Batch complete: {clicks_done}/{clicks_needed} clicks done")
+    
+    current_page = target_page
+    logger.info(f"✓ Successfully navigated to page {target_page} using click method")
+    return True
 def close_any_open_modal():
     """Close any open modal if it exists"""
     try:
