@@ -59,282 +59,282 @@
     },
     {
       "script_number": 11,
-      "enabled": true, 
+      "enabled": false,
       "description": "Script 11 - Pages 25,591 to 28,149"
     },
     {
       "script_number": 12,
-      "enabled": true, 
+      "enabled": false,
       "description": "Script 12 - Pages 28,150 to 30,708"
     },
     {
       "script_number": 13,
-      "enabled": true, 
+      "enabled": false,
       "description": "Script 13 - Pages 30,709 to 33,267"
     },
     {
       "script_number": 14,
-      "enabled": true, 
+      "enabled": false,
       "description": "Script 14 - Pages 33,268 to 35,826"
     },
     {
       "script_number": 15,
-      "enabled": true, 
+      "enabled": false,
       "description": "Script 15 - Pages 35,827 to 38,385"
     },
     {
       "script_number": 16,
-      "enabled": true, 
+      "enabled": false,
       "description": "Script 16 - Pages 38,386 to 40,944"
     },
     {
       "script_number": 17,
-      "enabled": true, 
+      "enabled": false,
       "description": "Script 17 - Pages 40,945 to 43,503"
     },
     {
       "script_number": 18,
-      "enabled": true, 
+      "enabled": false,
       "description": "Script 18 - Pages 43,504 to 46,062"
     },
     {
       "script_number": 19,
-      "enabled": true, 
+      "enabled": false,
       "description": "Script 19 - Pages 46,063 to 48,621"
     },
     {
       "script_number": 20,
-      "enabled": true, 
+      "enabled": false,
       "description": "Script 20 - Pages 48,622 to 51,180"
     },
     {
       "script_number": 21,
-      "enabled": true, 
+      "enabled": false,
       "description": "Script 21 - Pages 51,181 to 53,739"
     },
     {
       "script_number": 22,
-      "enabled": true, 
+      "enabled": false,
       "description": "Script 22 - Pages 53,740 to 56,298"
     },
     {
       "script_number": 23,
-      "enabled": true, 
+      "enabled": false,
       "description": "Script 23 - Pages 56,299 to 58,857"
     },
     {
       "script_number": 24,
-      "enabled": true, 
+      "enabled": false,
       "description": "Script 24 - Pages 58,858 to 61,416"
     },
     {
       "script_number": 25,
-      "enabled": true, 
+      "enabled": false,
       "description": "Script 25 - Pages 61,417 to 63,975"
     },
     {
       "script_number": 26,
-      "enabled": true, 
+      "enabled": false,
       "description": "Script 26 - Pages 63,976 to 66,534"
     },
     {
       "script_number": 27,
-      "enabled": true, 
+      "enabled": false,
       "description": "Script 27 - Pages 66,535 to 69,093"
     },
     {
       "script_number": 28,
-      "enabled": true, 
+      "enabled": false,
       "description": "Script 28 - Pages 69,094 to 71,652"
     },
     {
       "script_number": 29,
-      "enabled": true, 
+      "enabled": false,
       "description": "Script 29 - Pages 71,653 to 74,211"
     },
     {
       "script_number": 30,
-      "enabled": true, 
+      "enabled": false,
       "description": "Script 30 - Pages 74,212 to 76,770"
     },
     {
       "script_number": 31,
-      "enabled": true, 
+      "enabled": false,
       "description": "Script 31 - Pages 76,771 to 79,329"
     },
     {
       "script_number": 32,
-      "enabled": true, 
+      "enabled": false,
       "description": "Script 32 - Pages 79,330 to 81,888"
     },
     {
       "script_number": 33,
-      "enabled": true, 
+      "enabled": false,
       "description": "Script 33 - Pages 81,889 to 84,447"
     },
     {
       "script_number": 34,
-      "enabled": true, 
+      "enabled": false,
       "description": "Script 34 - Pages 84,448 to 87,006"
     },
     {
       "script_number": 35,
-      "enabled": true, 
+      "enabled": false,
       "description": "Script 35 - Pages 87,007 to 89,565"
     },
     {
       "script_number": 36,
-      "enabled": true, 
+      "enabled": false,
       "description": "Script 36 - Pages 89,566 to 92,124"
     },
     {
       "script_number": 37,
-      "enabled": true, 
+      "enabled": false,
       "description": "Script 37 - Pages 92,125 to 94,683"
     },
     {
       "script_number": 38,
-      "enabled": true, 
+      "enabled": false,
       "description": "Script 38 - Pages 94,684 to 97,242"
     },
     {
       "script_number": 39,
-      "enabled": true, 
+      "enabled": false,
       "description": "Script 39 - Pages 97,243 to 99,801"
     },
     {
       "script_number": 40,
-      "enabled": true, 
+      "enabled": false,
       "description": "Script 40 - Pages 99,802 to 102,360"
     },
     {
       "script_number": 41,
-      "enabled": true, 
+      "enabled": false,
       "description": "Script 41 - Pages 102,361 to 104,919"
     },
     {
       "script_number": 42,
-      "enabled": true, 
+      "enabled": false,
       "description": "Script 42 - Pages 104,920 to 107,478"
     },
     {
       "script_number": 43,
-      "enabled": true, 
+      "enabled": false,
       "description": "Script 43 - Pages 107,479 to 110,037"
     },
     {
       "script_number": 44,
-      "enabled": true, 
+      "enabled": false,
       "description": "Script 44 - Pages 110,038 to 112,596"
     },
     {
       "script_number": 45,
-      "enabled": true, 
+      "enabled": false,
       "description": "Script 45 - Pages 112,597 to 115,155"
     },
     {
       "script_number": 46,
-      "enabled": true, 
+      "enabled": false,
       "description": "Script 46 - Pages 115,156 to 117,714"
     },
     {
       "script_number": 47,
-      "enabled": true, 
+      "enabled": false,
       "description": "Script 47 - Pages 117,715 to 120,273"
     },
     {
       "script_number": 48,
-      "enabled": true, 
+      "enabled": false,
       "description": "Script 48 - Pages 120,274 to 122,832"
     },
     {
       "script_number": 49,
-      "enabled": true, 
+      "enabled": false,
       "description": "Script 49 - Pages 122,833 to 125,391"
     },
     {
       "script_number": 50,
-      "enabled": true, 
+      "enabled": false,
       "description": "Script 50 - Pages 125,392 to 127,950"
     },
     {
       "script_number": 51,
-      "enabled": true, 
+      "enabled": false,
       "description": "Script 51 - Pages 127,951 to 130,509"
     },
     {
       "script_number": 52,
-      "enabled": true, 
+      "enabled": false,
       "description": "Script 52 - Pages 130,510 to 133,068"
     },
     {
       "script_number": 53,
-      "enabled": true, 
+      "enabled": false,
       "description": "Script 53 - Pages 133,069 to 135,627"
     },
     {
       "script_number": 54,
-      "enabled": true, 
+      "enabled": false,
       "description": "Script 54 - Pages 135,628 to 138,186"
     },
     {
       "script_number": 55,
-      "enabled": true, 
+      "enabled": false,
       "description": "Script 55 - Pages 138,187 to 140,745"
     },
     {
       "script_number": 56,
-      "enabled": true, 
+      "enabled": false,
       "description": "Script 56 - Pages 140,746 to 143,304"
     },
     {
       "script_number": 57,
-      "enabled": true, 
+      "enabled": false,
       "description": "Script 57 - Pages 143,305 to 145,863"
     },
     {
       "script_number": 58,
-      "enabled": true, 
+      "enabled": false,
       "description": "Script 58 - Pages 145,864 to 148,422"
     },
     {
       "script_number": 59,
-      "enabled": true, 
+      "enabled": false,
       "description": "Script 59 - Pages 148,423 to 150,981"
     },
     {
       "script_number": 60,
-      "enabled": true, 
+      "enabled": false,
       "description": "Script 60 - Pages 150,982 to 153,540"
     },
     {
       "script_number": 61,
-      "enabled": true, 
+      "enabled": false,
       "description": "Script 61 - Pages 153,541 to 156,099"
     },
     {
       "script_number": 62,
-      "enabled": true, 
+      "enabled": false,
       "description": "Script 62 - Pages 156,100 to 158,658"
     },
     {
       "script_number": 63,
-      "enabled": true, 
+      "enabled": false,
       "description": "Script 63 - Pages 158,659 to 161,217"
     },
     {
       "script_number": 64,
-      "enabled": true, 
+      "enabled": false,
       "description": "Script 64 - Pages 161,218 to 163,776"
     },
     {
       "script_number": 65,
-      "enabled": true, 
+      "enabled": false,
       "description": "Script 65 - Pages 163,777 to 166,335"
     },
     {
       "script_number": 66,
-      "enabled": true, 
+      "enabled": false,
       "description": "Script 66 - Pages 166,336 to 168,867"
     }
   ],
