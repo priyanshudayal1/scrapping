@@ -1567,31 +1567,66 @@ def check_if_next_page_available():
 
 
 def navigate_to_next_page():
-    """Navigate to the next page"""
-    global current_page
+    """Navigate to the next page with improved error handling"""
+    global current_page, driver, wait
     
     try:
+        # First verify driver is responsive
+        if driver is None:
+            logger.error("Driver is None, cannot navigate")
+            return False
+        
+        try:
+            driver.current_url
+        except Exception as e:
+            logger.error(f"Driver is not responsive: {e}")
+            return False
+        
         if not check_if_next_page_available():
-            logger.info("No more pages available")
+            logger.info("No more pages available (Next button disabled)")
             return False
         
         logger.info(f"Navigating to page {current_page + 1}...")
         
-        next_button = wait.until(EC.element_to_be_clickable((By.ID, "example_pdf_next")))
-        driver.execute_script("arguments[0].click();", next_button)
+        # Try to find and click next button
+        try:
+            next_button = wait.until(EC.element_to_be_clickable((By.ID, "example_pdf_next")))
+            
+            # Verify button is not disabled
+            button_class = next_button.get_attribute("class") or ""
+            if "disabled" in button_class:
+                logger.info("Next button is disabled - no more pages available")
+                return False
+            
+            # Use JavaScript click for reliability
+            driver.execute_script("arguments[0].click();", next_button)
+            logger.debug("Next button clicked")
+            
+        except Exception as button_error:
+            logger.error(f"Failed to click next button: {button_error}")
+            return False
         
-        # Wait for page to load
+        # Wait for page transition
         time.sleep(3)
         
-        # Wait for table to reload
-        wait.until(EC.presence_of_element_located((By.ID, "report_body")))
+        # Wait for table to reload with timeout
+        try:
+            wait.until(EC.presence_of_element_located((By.ID, "report_body")))
+            logger.debug("Table reloaded after navigation")
+        except Exception as table_error:
+            logger.error(f"Table did not reload after navigation: {table_error}")
+            return False
+        
+        # Additional wait for full rendering
+        time.sleep(2)
         
         current_page += 1
-        logger.info(f"Successfully navigated to page {current_page}")
+        logger.info(f"✓ Successfully navigated to page {current_page}")
         return True
         
     except Exception as e:
-        logger.error(f"Error navigating to next page: {e}")
+        logger.error(f"Unexpected error navigating to next page: {e}")
+        logger.error(traceback.format_exc())
         return False
 
 
@@ -1969,9 +2004,45 @@ def process_all_pages():
                 progress['pages_completed'].append(current_page)
                 save_progress(progress)
             
-            # Try to navigate to next page
-            if not navigate_to_next_page():
-                logger.info("No more pages to process. Download complete!")
+            # Try to navigate to next page with recovery logic
+            navigation_success = False
+            for nav_attempt in range(3):
+                if navigate_to_next_page():
+                    navigation_success = True
+                    break
+                else:
+                    logger.warning(f"Navigation to next page failed (attempt {nav_attempt + 1}/3)")
+                    
+                    # Check if we've reached the end page for this script
+                    if END_PAGE and current_page >= END_PAGE:
+                        logger.info(f"Reached end page {END_PAGE} for this script. Download complete!")
+                        navigation_success = False
+                        break
+                    
+                    # Otherwise, try recovery
+                    if nav_attempt < 2:
+                        logger.info("Attempting to recover browser session before retrying navigation...")
+                        if recover_browser_session():
+                            # Navigate back to current page first
+                            if navigate_to_specific_page(current_page, max_retries=2):
+                                logger.info("Successfully recovered and re-navigated to current page")
+                                time.sleep(5)
+                                continue
+                            else:
+                                logger.error("Failed to navigate back to current page after recovery")
+                        else:
+                            logger.error("Browser recovery failed")
+                        time.sleep(10)
+            
+            if not navigation_success:
+                if END_PAGE and current_page >= END_PAGE:
+                    logger.info(f"Completed assigned page range. Script {SCRIPT_ID} finished successfully!")
+                else:
+                    logger.error("Failed to navigate to next page after multiple recovery attempts")
+                    send_error_notification(
+                        f"Navigation failed at page {current_page}",
+                        f"Could not navigate to next page after 3 attempts with recovery. Current: {current_page}, Target End: {END_PAGE}"
+                    )
                 break
                 
         except Exception as e:
