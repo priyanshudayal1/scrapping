@@ -581,14 +581,14 @@ Automated notification from Judgement Scraping System
 
 
 def load_distributed_config():
-    """Load distributed configuration for this instance"""
+    """Load distributed configuration for this script"""
     global START_PAGE, END_PAGE, TOTAL_RESULTS
     
     try:
-        # Look for config file in the project root (3 levels up from script directory)
+        # Look for scripts_distribution_config.json in parent directory (2 levels up from script directory)
         script_dir = os.path.dirname(os.path.abspath(__file__))
-        project_root = os.path.dirname(os.path.dirname(os.path.dirname(script_dir)))
-        config_file = os.path.join(project_root, "distributed_config.json")
+        parent_dir = os.path.dirname(os.path.dirname(script_dir))
+        config_file = os.path.join(parent_dir, "scripts_distribution_config.json")
         
         if os.path.exists(config_file):
             with open(config_file, 'r', encoding='utf-8') as f:
@@ -596,19 +596,19 @@ def load_distributed_config():
             
             TOTAL_RESULTS = config.get('total_results', 16886658)
             
-            # Find configuration for this instance
-            for instance in config.get('instances', []):
-                if instance['instance_id'] == SCRIPT_ID:
-                    START_PAGE = instance['start_page']
-                    END_PAGE = instance['end_page']
-                    logger.info(f"Script {SCRIPT_ID} configured: Pages {START_PAGE} to {END_PAGE}")
-                    logger.info(f"Description: {instance.get('description', 'N/A')}")
+            # Find configuration for THIS SCRIPT (not instance)
+            for script_config in config.get('scripts', []):
+                if script_config['script_id'] == SCRIPT_ID:
+                    START_PAGE = script_config['start_page']
+                    END_PAGE = script_config['end_page']
+                    logger.info(f"Script {SCRIPT_ID} configured: Pages {START_PAGE:,} to {END_PAGE:,}")
+                    logger.info(f"Total pages to process: {script_config.get('total_pages', 'Unknown'):,}")
                     return True
             
             logger.warning(f"No configuration found for script {SCRIPT_ID}, using defaults")
             return False
         else:
-            logger.warning(f"Distributed config file not found: {config_file}")
+            logger.warning(f"Scripts distribution config file not found: {config_file}")
             return False
             
     except Exception as e:
@@ -1454,7 +1454,7 @@ def download_pdf(judgment_data):
             logger.info(f"Successfully downloaded: {safe_filename}")
             
             # Upload to S3
-            s3_key = f"judgements-test2/{safe_filename}"
+            s3_key = f"judgements-test-final/{safe_filename}"
             upload_success = upload_to_s3(safe_filename, s3_key)
             
             # Delete local file after successful upload

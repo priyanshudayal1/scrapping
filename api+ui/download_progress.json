@@ -6,7 +6,7 @@
     {
       "success": true,
       "filename": "WP_12923_2016_of_M._SEENAPPA,_CHITTOOR_DIST_AND_3_OTHERS_Vs_PRL_SECY,_ANIMAL_HUSBANDRY_DAIRY_DEV._AND_FISHERIES_DEPT.,_HYD_CNR_APHC010460892016.pdf",
-      "s3_key": "judgements-test2/WP_12923_2016_of_M._SEENAPPA,_CHITTOOR_DIST_AND_3_OTHERS_Vs_PRL_SECY,_ANIMAL_HUSBANDRY_DAIRY_DEV._AND_FISHERIES_DEPT.,_HYD_CNR_APHC010460892016.pdf",
+      "s3_key": "judgements-test-final/WP_12923_2016_of_M._SEENAPPA,_CHITTOOR_DIST_AND_3_OTHERS_Vs_PRL_SECY,_ANIMAL_HUSBANDRY_DAIRY_DEV._AND_FISHERIES_DEPT.,_HYD_CNR_APHC010460892016.pdf",
       "uploaded_to_s3": true,
       "cnr": "APHC010460892016",
       "case_title": "WP/12923/2016 of M. SEENAPPA, CHITTOOR DIST AND 3 OTHERS Vs PRL SECY, ANIMAL HUSBANDRY DAIRY DEV. AND FISHERIES DEPT., HYD",
@@ -18,7 +18,7 @@
     {
       "success": true,
       "filename": "WP(C)_1506_2023_of_KEFAYAT_AHMAD_SOFI_Vs_UNION_TERRITORY_OF_J_AND_K_AND_OTHERS._(REVENUE_DEPARTMENT)_CNR_JKHC010028062023.pdf",
-      "s3_key": "judgements-test2/WP(C)_1506_2023_of_KEFAYAT_AHMAD_SOFI_Vs_UNION_TERRITORY_OF_J_AND_K_AND_OTHERS._(REVENUE_DEPARTMENT)_CNR_JKHC010028062023.pdf",
+      "s3_key": "judgements-test-final/WP(C)_1506_2023_of_KEFAYAT_AHMAD_SOFI_Vs_UNION_TERRITORY_OF_J_AND_K_AND_OTHERS._(REVENUE_DEPARTMENT)_CNR_JKHC010028062023.pdf",
       "uploaded_to_s3": true,
       "cnr": "JKHC010028062023",
       "case_title": "WP(C)/1506/2023 of KEFAYAT AHMAD SOFI Vs UNION TERRITORY OF J AND K AND OTHERS. (REVENUE DEPARTMENT)",
@@ -30,7 +30,7 @@
     {
       "success": true,
       "filename": "WP(C)_2394_2023_of_KEFAYAT_AHMAD_SOFI_Vs_UNION_TERRITORY_OF_J_AND_K_AND_ORS._(REVENUE_DEPARTMENT)_CNR_JKHC010046592023.pdf",
-      "s3_key": "judgements-test2/WP(C)_2394_2023_of_KEFAYAT_AHMAD_SOFI_Vs_UNION_TERRITORY_OF_J_AND_K_AND_ORS._(REVENUE_DEPARTMENT)_CNR_JKHC010046592023.pdf",
+      "s3_key": "judgements-test-final/WP(C)_2394_2023_of_KEFAYAT_AHMAD_SOFI_Vs_UNION_TERRITORY_OF_J_AND_K_AND_ORS._(REVENUE_DEPARTMENT)_CNR_JKHC010046592023.pdf",
       "uploaded_to_s3": true,
       "cnr": "JKHC010046592023",
       "case_title": "WP(C)/2394/2023 of KEFAYAT AHMAD SOFI Vs UNION TERRITORY OF J AND K AND ORS. (REVENUE DEPARTMENT)",
@@ -42,7 +42,7 @@
     {
       "success": true,
       "filename": "APPLN_3569_2024_of_TUSHAR_SUDAMRAO_SELUKAR_AND_ANOTHER_Vs_THE_STATE_OF_MAHARASHTRA_AND_ANOTHER_CNR_HCBM030307122024.pdf",
-      "s3_key": "judgements-test2/APPLN_3569_2024_of_TUSHAR_SUDAMRAO_SELUKAR_AND_ANOTHER_Vs_THE_STATE_OF_MAHARASHTRA_AND_ANOTHER_CNR_HCBM030307122024.pdf",
+      "s3_key": "judgements-test-final/APPLN_3569_2024_of_TUSHAR_SUDAMRAO_SELUKAR_AND_ANOTHER_Vs_THE_STATE_OF_MAHARASHTRA_AND_ANOTHER_CNR_HCBM030307122024.pdf",
       "uploaded_to_s3": true,
       "cnr": "HCBM030307122024",
       "case_title": "APPLN/3569/2024 of TUSHAR SUDAMRAO SELUKAR AND ANOTHER Vs THE STATE OF MAHARASHTRA AND ANOTHER",
@@ -54,7 +54,7 @@
     {
       "success": true,
       "filename": "SA_71_2025_of_SANTANA_HAZRA_Vs_SAMARJIT_BOURI_KSHETRAPAL_AND_ORS_CNR_WBCHCA1079262020.pdf",
-      "s3_key": "judgements-test2/SA_71_2025_of_SANTANA_HAZRA_Vs_SAMARJIT_BOURI_KSHETRAPAL_AND_ORS_CNR_WBCHCA1079262020.pdf",
+      "s3_key": "judgements-test-final/SA_71_2025_of_SANTANA_HAZRA_Vs_SAMARJIT_BOURI_KSHETRAPAL_AND_ORS_CNR_WBCHCA1079262020.pdf",
       "uploaded_to_s3": true,
       "cnr": "WBCHCA1079262020",
       "case_title": "SA/71/2025 of SANTANA HAZRA Vs SAMARJIT BOURI KSHETRAPAL AND ORS",
@@ -66,7 +66,7 @@
     {
       "success": true,
       "filename": "CRLP_2640_2021_of_Pathri_Vijayalaxmi_and_another_Vs_The_State_of_Telangana_and_another_CNR_HBHC010128432021.pdf",
-      "s3_key": "judgements-test2/CRLP_2640_2021_of_Pathri_Vijayalaxmi_and_another_Vs_The_State_of_Telangana_and_another_CNR_HBHC010128432021.pdf",
+      "s3_key": "judgements-test-final/CRLP_2640_2021_of_Pathri_Vijayalaxmi_and_another_Vs_The_State_of_Telangana_and_another_CNR_HBHC010128432021.pdf",
       "uploaded_to_s3": true,
       "cnr": "HBHC010128432021",
       "case_title": "CRLP/2640/2021 of Pathri Vijayalaxmi and another Vs The State of Telangana and another",
@@ -78,7 +78,7 @@
     {
       "success": true,
       "filename": "CR._APP_(SJ)_2203_2024_of_RAJESH_KUMAR_SINHA_Vs_THE_STATE_OF_BIHAR_CNR_BRHC010453962024.pdf",
-      "s3_key": "judgements-test2/CR._APP_(SJ)_2203_2024_of_RAJESH_KUMAR_SINHA_Vs_THE_STATE_OF_BIHAR_CNR_BRHC010453962024.pdf",
+      "s3_key": "judgements-test-final/CR._APP_(SJ)_2203_2024_of_RAJESH_KUMAR_SINHA_Vs_THE_STATE_OF_BIHAR_CNR_BRHC010453962024.pdf",
       "uploaded_to_s3": true,
       "cnr": "BRHC010453962024",
       "case_title": "CR. APP (SJ)/2203/2024 of RAJESH KUMAR SINHA Vs THE STATE OF BIHAR",
@@ -90,7 +90,7 @@
     {
       "success": true,
       "filename": "CR._MISC._70605_2025_of_Sarita_Devi_Vs_The_State_of_Bihar_CNR_BRHC011028252025.pdf",
-      "s3_key": "judgements-test2/CR._MISC._70605_2025_of_Sarita_Devi_Vs_The_State_of_Bihar_CNR_BRHC011028252025.pdf",
+      "s3_key": "judgements-test-final/CR._MISC._70605_2025_of_Sarita_Devi_Vs_The_State_of_Bihar_CNR_BRHC011028252025.pdf",
       "uploaded_to_s3": true,
       "cnr": "BRHC011028252025",
       "case_title": "CR. MISC./70605/2025 of Sarita Devi Vs The State of Bihar",
@@ -102,7 +102,7 @@
     {
       "success": true,
       "filename": "CR._MISC._74176_2025_of_Bishnukant_Bharti_@_Bishnu_Kumar_@_Bishnu_Sharan_@_Bharti_Vs_The_State_of_Bihar_CNR_BRHC011048592025.pdf",
-      "s3_key": "judgements-test2/CR._MISC._74176_2025_of_Bishnukant_Bharti_@_Bishnu_Kumar_@_Bishnu_Sharan_@_Bharti_Vs_The_State_of_Bihar_CNR_BRHC011048592025.pdf",
+      "s3_key": "judgements-test-final/CR._MISC._74176_2025_of_Bishnukant_Bharti_@_Bishnu_Kumar_@_Bishnu_Sharan_@_Bharti_Vs_The_State_of_Bihar_CNR_BRHC011048592025.pdf",
       "uploaded_to_s3": true,
       "cnr": "BRHC011048592025",
       "case_title": "CR. MISC./74176/2025 of Bishnukant Bharti @ Bishnu Kumar @ Bishnu Sharan @ Bharti Vs The State of Bihar",
@@ -114,7 +114,7 @@
     {
       "success": true,
       "filename": "CR._MISC._35867_2025_of_Pintu_Kumar_Vs_The_State_of_Bihar_CNR_BRHC010379092025.pdf",
-      "s3_key": "judgements-test2/CR._MISC._35867_2025_of_Pintu_Kumar_Vs_The_State_of_Bihar_CNR_BRHC010379092025.pdf",
+      "s3_key": "judgements-test-final/CR._MISC._35867_2025_of_Pintu_Kumar_Vs_The_State_of_Bihar_CNR_BRHC010379092025.pdf",
       "uploaded_to_s3": true,
       "cnr": "BRHC010379092025",
       "case_title": "CR. MISC./35867/2025 of Pintu Kumar Vs The State of Bihar",
@@ -126,7 +126,7 @@
     {
       "success": true,
       "filename": "CR._MISC._73802_2025_of_Punni_Patel_@_Abhishek_Kumar_Vs_The_State_of_Bihar_CNR_BRHC011056352025.pdf",
-      "s3_key": "judgements-test2/CR._MISC._73802_2025_of_Punni_Patel_@_Abhishek_Kumar_Vs_The_State_of_Bihar_CNR_BRHC011056352025.pdf",
+      "s3_key": "judgements-test-final/CR._MISC._73802_2025_of_Punni_Patel_@_Abhishek_Kumar_Vs_The_State_of_Bihar_CNR_BRHC011056352025.pdf",
       "uploaded_to_s3": true,
       "cnr": "BRHC011056352025",
       "case_title": "CR. MISC./73802/2025 of Punni Patel @ Abhishek Kumar Vs The State of Bihar",
@@ -138,7 +138,7 @@
     {
       "success": true,
       "filename": "CR._MISC._73737_2025_of_Shambhu_kumar_Mukhiya_Vs_The_State_of_Bihar_CNR_BRHC011042312025.pdf",
-      "s3_key": "judgements-test2/CR._MISC._73737_2025_of_Shambhu_kumar_Mukhiya_Vs_The_State_of_Bihar_CNR_BRHC011042312025.pdf",
+      "s3_key": "judgements-test-final/CR._MISC._73737_2025_of_Shambhu_kumar_Mukhiya_Vs_The_State_of_Bihar_CNR_BRHC011042312025.pdf",
       "uploaded_to_s3": true,
       "cnr": "BRHC011042312025",
       "case_title": "CR. MISC./73737/2025 of Shambhu kumar Mukhiya Vs The State of Bihar",
@@ -150,7 +150,7 @@
     {
       "success": true,
       "filename": "CR._MISC._46552_2025_of_Ali_Hassan_Ansari_@_Alihasan_Mansuri_Vs_The_State_of_Bihar_CNR_BRHC010627772025.pdf",
-      "s3_key": "judgements-test2/CR._MISC._46552_2025_of_Ali_Hassan_Ansari_@_Alihasan_Mansuri_Vs_The_State_of_Bihar_CNR_BRHC010627772025.pdf",
+      "s3_key": "judgements-test-final/CR._MISC._46552_2025_of_Ali_Hassan_Ansari_@_Alihasan_Mansuri_Vs_The_State_of_Bihar_CNR_BRHC010627772025.pdf",
       "uploaded_to_s3": true,
       "cnr": "BRHC010627772025",
       "case_title": "CR. MISC./46552/2025 of Ali Hassan Ansari @ Alihasan Mansuri Vs The State of Bihar",
@@ -162,7 +162,7 @@
     {
       "success": true,
       "filename": "CR._MISC._73816_2025_of_Shambu_Bhuiyan_Vs_The_State_of_Bihar_CNR_BRHC011074882025.pdf",
-      "s3_key": "judgements-test2/CR._MISC._73816_2025_of_Shambu_Bhuiyan_Vs_The_State_of_Bihar_CNR_BRHC011074882025.pdf",
+      "s3_key": "judgements-test-final/CR._MISC._73816_2025_of_Shambu_Bhuiyan_Vs_The_State_of_Bihar_CNR_BRHC011074882025.pdf",
       "uploaded_to_s3": true,
       "cnr": "BRHC011074882025",
       "case_title": "CR. MISC./73816/2025 of Shambu Bhuiyan Vs The State of Bihar",
@@ -174,7 +174,7 @@
     {
       "success": true,
       "filename": "PLA_140_2015_of_IN_THE_GOODS_OF___SMT._PRATIMA_BRAMACHARI_(DECEASED)_Vs_CNR_WBCHCO0035792015.pdf",
-      "s3_key": "judgements-test2/PLA_140_2015_of_IN_THE_GOODS_OF___SMT._PRATIMA_BRAMACHARI_(DECEASED)_Vs_CNR_WBCHCO0035792015.pdf",
+      "s3_key": "judgements-test-final/PLA_140_2015_of_IN_THE_GOODS_OF___SMT._PRATIMA_BRAMACHARI_(DECEASED)_Vs_CNR_WBCHCO0035792015.pdf",
       "uploaded_to_s3": true,
       "cnr": "WBCHCO0035792015",
       "case_title": "PLA/140/2015 of IN THE GOODS OF : SMT. PRATIMA BRAMACHARI (DECEASED) Vs",
@@ -186,7 +186,7 @@
     {
       "success": true,
       "filename": "Bail_App_144_2024_of_UNION_TERRITORY_THROUGH_POLICE_STATION_MATTAN_(HOME)_Vs_MUZAFFAR_AHMAD_KHAN_AND_ANR._CNR_JKHC010060692024.pdf",
-      "s3_key": "judgements-test2/Bail_App_144_2024_of_UNION_TERRITORY_THROUGH_POLICE_STATION_MATTAN_(HOME)_Vs_MUZAFFAR_AHMAD_KHAN_AND_ANR._CNR_JKHC010060692024.pdf",
+      "s3_key": "judgements-test-final/Bail_App_144_2024_of_UNION_TERRITORY_THROUGH_POLICE_STATION_MATTAN_(HOME)_Vs_MUZAFFAR_AHMAD_KHAN_AND_ANR._CNR_JKHC010060692024.pdf",
       "uploaded_to_s3": true,
       "cnr": "JKHC010060692024",
       "case_title": "Bail App/144/2024 of UNION TERRITORY THROUGH POLICE STATION MATTAN (HOME) Vs MUZAFFAR AHMAD KHAN AND ANR.",
@@ -198,7 +198,7 @@
     {
       "success": true,
       "filename": "CRM(M)_1965_2025_of_AVISHEK_SONKAR_@_ABHISEKH_SONKAR_AND_ORS._Vs_STATE_OF_WEST_BENGAL_CNR_WBCHCA0486062025.pdf",
-      "s3_key": "judgements-test2/CRM(M)_1965_2025_of_AVISHEK_SONKAR_@_ABHISEKH_SONKAR_AND_ORS._Vs_STATE_OF_WEST_BENGAL_CNR_WBCHCA0486062025.pdf",
+      "s3_key": "judgements-test-final/CRM(M)_1965_2025_of_AVISHEK_SONKAR_@_ABHISEKH_SONKAR_AND_ORS._Vs_STATE_OF_WEST_BENGAL_CNR_WBCHCA0486062025.pdf",
       "uploaded_to_s3": true,
       "cnr": "WBCHCA0486062025",
       "case_title": "CRM(M)/1965/2025 of AVISHEK SONKAR @ ABHISEKH SONKAR AND ORS. Vs STATE OF WEST BENGAL",
@@ -210,7 +210,7 @@
     {
       "success": true,
       "filename": "WPA_2173_2025_of_CHANDRUL_ISLAM_Vs_THE_STATE_OF_WEST_BENGAL_AND_ORS_CNR_WBCHCJ0051912025.pdf",
-      "s3_key": "judgements-test2/WPA_2173_2025_of_CHANDRUL_ISLAM_Vs_THE_STATE_OF_WEST_BENGAL_AND_ORS_CNR_WBCHCJ0051912025.pdf",
+      "s3_key": "judgements-test-final/WPA_2173_2025_of_CHANDRUL_ISLAM_Vs_THE_STATE_OF_WEST_BENGAL_AND_ORS_CNR_WBCHCJ0051912025.pdf",
       "uploaded_to_s3": true,
       "cnr": "WBCHCJ0051912025",
       "case_title": "WPA/2173/2025 of CHANDRUL ISLAM Vs THE STATE OF WEST BENGAL AND ORS",
@@ -222,7 +222,7 @@
     {
       "success": true,
       "filename": "WPA_2175_2025_of_SESHNATH_LALA_Vs_STATE_OF_WEST_BENGAL_AND_ORS._CNR_WBCHCJ0051972025.pdf",
-      "s3_key": "judgements-test2/WPA_2175_2025_of_SESHNATH_LALA_Vs_STATE_OF_WEST_BENGAL_AND_ORS._CNR_WBCHCJ0051972025.pdf",
+      "s3_key": "judgements-test-final/WPA_2175_2025_of_SESHNATH_LALA_Vs_STATE_OF_WEST_BENGAL_AND_ORS._CNR_WBCHCJ0051972025.pdf",
       "uploaded_to_s3": true,
       "cnr": "WBCHCJ0051972025",
       "case_title": "WPA/2175/2025 of SESHNATH LALA Vs STATE OF WEST BENGAL AND ORS.",
@@ -234,7 +234,7 @@
     {
       "success": true,
       "filename": "C.Rev._74_2023_of_UNION_OF_INDIA_THROUGH_SECRETARY_MINISTRY_OF_DEFENCE_Vs_THE_STATE_OF_JHARKHAND_THROUGH_THE_PRINCIPAL_SECRETARY_DEPTT_OF_REVENUE_AND_LAND_REFORMS_CNR_JHHC010334962023.pdf",
-      "s3_key": "judgements-test2/C.Rev._74_2023_of_UNION_OF_INDIA_THROUGH_SECRETARY_MINISTRY_OF_DEFENCE_Vs_THE_STATE_OF_JHARKHAND_THROUGH_THE_PRINCIPAL_SECRETARY_DEPTT_OF_REVENUE_AND_LAND_REFORMS_CNR_JHHC010334962023.pdf",
+      "s3_key": "judgements-test-final/C.Rev._74_2023_of_UNION_OF_INDIA_THROUGH_SECRETARY_MINISTRY_OF_DEFENCE_Vs_THE_STATE_OF_JHARKHAND_THROUGH_THE_PRINCIPAL_SECRETARY_DEPTT_OF_REVENUE_AND_LAND_REFORMS_CNR_JHHC010334962023.pdf",
       "uploaded_to_s3": true,
       "cnr": "JHHC010334962023",
       "case_title": "C.Rev./74/2023 of UNION OF INDIA THROUGH SECRETARY MINISTRY OF DEFENCE Vs THE STATE OF JHARKHAND THROUGH THE PRINCIPAL SECRETARY DEPTT OF REVENUE AND LAND REFORMS",
@@ -246,7 +246,7 @@
     {
       "success": true,
       "filename": "CRLA_689_2024_of_MOHD_NAZIM_Vs_STATE_OF_UTTARAKHAND_CNR_UKHC010179212024.pdf",
-      "s3_key": "judgements-test2/CRLA_689_2024_of_MOHD_NAZIM_Vs_STATE_OF_UTTARAKHAND_CNR_UKHC010179212024.pdf",
+      "s3_key": "judgements-test-final/CRLA_689_2024_of_MOHD_NAZIM_Vs_STATE_OF_UTTARAKHAND_CNR_UKHC010179212024.pdf",
       "uploaded_to_s3": true,
       "cnr": "UKHC010179212024",
       "case_title": "CRLA/689/2024 of MOHD NAZIM Vs STATE OF UTTARAKHAND",
@@ -258,7 +258,7 @@
     {
       "success": true,
       "filename": "ABA_1197_2025_of_VINOD_KUMAR_MAHESHWARI_Vs_STATE_OF_UTTARAKHAND_CNR_UKHC010171582025.pdf",
-      "s3_key": "judgements-test2/ABA_1197_2025_of_VINOD_KUMAR_MAHESHWARI_Vs_STATE_OF_UTTARAKHAND_CNR_UKHC010171582025.pdf",
+      "s3_key": "judgements-test-final/ABA_1197_2025_of_VINOD_KUMAR_MAHESHWARI_Vs_STATE_OF_UTTARAKHAND_CNR_UKHC010171582025.pdf",
       "uploaded_to_s3": true,
       "cnr": "UKHC010171582025",
       "case_title": "ABA/1197/2025 of VINOD KUMAR MAHESHWARI Vs STATE OF UTTARAKHAND",
@@ -270,7 +270,7 @@
     {
       "success": true,
       "filename": "WPMS_3052_2025_of_VIKAS_RAWAT_Vs_PRINCIPAL_COMMISSIONER_OF_INCOME_TAX_CNR_UKHC010171872025.pdf",
-      "s3_key": "judgements-test2/WPMS_3052_2025_of_VIKAS_RAWAT_Vs_PRINCIPAL_COMMISSIONER_OF_INCOME_TAX_CNR_UKHC010171872025.pdf",
+      "s3_key": "judgements-test-final/WPMS_3052_2025_of_VIKAS_RAWAT_Vs_PRINCIPAL_COMMISSIONER_OF_INCOME_TAX_CNR_UKHC010171872025.pdf",
       "uploaded_to_s3": true,
       "cnr": "UKHC010171872025",
       "case_title": "WPMS/3052/2025 of VIKAS RAWAT Vs PRINCIPAL COMMISSIONER OF INCOME TAX",
@@ -282,7 +282,7 @@
     {
       "success": true,
       "filename": "CR.MA_2273_2017_of_ISHAQ_AHMAD_PATEL_(FATHER_IN_KAW)_Vs_STATE_OF_GUJARAT_CNR_GJHC240612932017.pdf",
-      "s3_key": "judgements-test2/CR.MA_2273_2017_of_ISHAQ_AHMAD_PATEL_(FATHER_IN_KAW)_Vs_STATE_OF_GUJARAT_CNR_GJHC240612932017.pdf",
+      "s3_key": "judgements-test-final/CR.MA_2273_2017_of_ISHAQ_AHMAD_PATEL_(FATHER_IN_KAW)_Vs_STATE_OF_GUJARAT_CNR_GJHC240612932017.pdf",
       "uploaded_to_s3": true,
       "cnr": "GJHC240612932017",
       "case_title": "CR.MA/2273/2017 of ISHAQ AHMAD PATEL (FATHER IN KAW) Vs STATE OF GUJARAT",
@@ -294,7 +294,7 @@
     {
       "success": true,
       "filename": "SCR.A_13766_2024_of_HARSHIDABEN_HITESHBHAI_KAPURIYA_Vs_STATE_OF_GUJARAT_CNR_GJHC240691842024.pdf",
-      "s3_key": "judgements-test2/SCR.A_13766_2024_of_HARSHIDABEN_HITESHBHAI_KAPURIYA_Vs_STATE_OF_GUJARAT_CNR_GJHC240691842024.pdf",
+      "s3_key": "judgements-test-final/SCR.A_13766_2024_of_HARSHIDABEN_HITESHBHAI_KAPURIYA_Vs_STATE_OF_GUJARAT_CNR_GJHC240691842024.pdf",
       "uploaded_to_s3": true,
       "cnr": "GJHC240691842024",
       "case_title": "SCR.A/13766/2024 of HARSHIDABEN HITESHBHAI KAPURIYA Vs STATE OF GUJARAT",
@@ -306,7 +306,7 @@
     {
       "success": true,
       "filename": "CWJC_15587_2023_of_Ramanuj_Pandey_Vs_The_State_of_Bihar_CNR_BRHC011012462023.pdf",
-      "s3_key": "judgements-test2/CWJC_15587_2023_of_Ramanuj_Pandey_Vs_The_State_of_Bihar_CNR_BRHC011012462023.pdf",
+      "s3_key": "judgements-test-final/CWJC_15587_2023_of_Ramanuj_Pandey_Vs_The_State_of_Bihar_CNR_BRHC011012462023.pdf",
       "uploaded_to_s3": true,
       "cnr": "BRHC011012462023",
       "case_title": "CWJC/15587/2023 of Ramanuj Pandey Vs The State of Bihar",
@@ -318,7 +318,7 @@
     {
       "success": true,
       "filename": "CR._MISC._69779_2025_of_Vikash_Kumar_@_Vikash_Kumar_Singh_@_Vikas_Kumar_Singh_Vs_The_State_of_Bihar_CNR_BRHC010961582025.pdf",
-      "s3_key": "judgements-test2/CR._MISC._69779_2025_of_Vikash_Kumar_@_Vikash_Kumar_Singh_@_Vikas_Kumar_Singh_Vs_The_State_of_Bihar_CNR_BRHC010961582025.pdf",
+      "s3_key": "judgements-test-final/CR._MISC._69779_2025_of_Vikash_Kumar_@_Vikash_Kumar_Singh_@_Vikas_Kumar_Singh_Vs_The_State_of_Bihar_CNR_BRHC010961582025.pdf",
       "uploaded_to_s3": true,
       "cnr": "BRHC010961582025",
       "case_title": "CR. MISC./69779/2025 of Vikash Kumar @ Vikash Kumar Singh @ Vikas Kumar Singh Vs The State of Bihar",
@@ -330,7 +330,7 @@
     {
       "success": true,
       "filename": "CR._MISC._73883_2025_of_Birendra_Sahani_Vs_The_State_of_Bihar_CNR_BRHC011076052025.pdf",
-      "s3_key": "judgements-test2/CR._MISC._73883_2025_of_Birendra_Sahani_Vs_The_State_of_Bihar_CNR_BRHC011076052025.pdf",
+      "s3_key": "judgements-test-final/CR._MISC._73883_2025_of_Birendra_Sahani_Vs_The_State_of_Bihar_CNR_BRHC011076052025.pdf",
       "uploaded_to_s3": true,
       "cnr": "BRHC011076052025",
       "case_title": "CR. MISC./73883/2025 of Birendra Sahani Vs The State of Bihar",
@@ -342,7 +342,7 @@
     {
       "success": true,
       "filename": "CR._MISC._73852_2025_of_Mukesh_Kumar_Vs_The_State_of_Bihar_CNR_BRHC011045622025.pdf",
-      "s3_key": "judgements-test2/CR._MISC._73852_2025_of_Mukesh_Kumar_Vs_The_State_of_Bihar_CNR_BRHC011045622025.pdf",
+      "s3_key": "judgements-test-final/CR._MISC._73852_2025_of_Mukesh_Kumar_Vs_The_State_of_Bihar_CNR_BRHC011045622025.pdf",
       "uploaded_to_s3": true,
       "cnr": "BRHC011045622025",
       "case_title": "CR. MISC./73852/2025 of Mukesh Kumar Vs The State of Bihar",
@@ -354,7 +354,7 @@
     {
       "success": true,
       "filename": "CR._MISC._73776_2025_of_Bhuneshwar_Pandit_Vs_The_State_of_Bihar_CNR_BRHC011076782025.pdf",
-      "s3_key": "judgements-test2/CR._MISC._73776_2025_of_Bhuneshwar_Pandit_Vs_The_State_of_Bihar_CNR_BRHC011076782025.pdf",
+      "s3_key": "judgements-test-final/CR._MISC._73776_2025_of_Bhuneshwar_Pandit_Vs_The_State_of_Bihar_CNR_BRHC011076782025.pdf",
       "uploaded_to_s3": true,
       "cnr": "BRHC011076782025",
       "case_title": "CR. MISC./73776/2025 of Bhuneshwar Pandit Vs The State of Bihar",
@@ -366,7 +366,7 @@
     {
       "success": true,
       "filename": "WP_14874_2024_of_SANDIP_DHONDIRAM_BIDKAR_Vs_THE_STATE_OF_MAHARASHTRA_THR_THE_SECRETARY_SCHOOL_EDUCATION_AND_SPORTS_DEPARTMENT_AND_ORS_CNR_HCBM070282852024.pdf",
-      "s3_key": "judgements-test2/WP_14874_2024_of_SANDIP_DHONDIRAM_BIDKAR_Vs_THE_STATE_OF_MAHARASHTRA_THR_THE_SECRETARY_SCHOOL_EDUCATION_AND_SPORTS_DEPARTMENT_AND_ORS_CNR_HCBM070282852024.pdf",
+      "s3_key": "judgements-test-final/WP_14874_2024_of_SANDIP_DHONDIRAM_BIDKAR_Vs_THE_STATE_OF_MAHARASHTRA_THR_THE_SECRETARY_SCHOOL_EDUCATION_AND_SPORTS_DEPARTMENT_AND_ORS_CNR_HCBM070282852024.pdf",
       "uploaded_to_s3": true,
       "cnr": "HCBM070282852024",
       "case_title": "WP/14874/2024 of SANDIP DHONDIRAM BIDKAR Vs THE STATE OF MAHARASHTRA THR THE SECRETARY SCHOOL EDUCATION AND SPORTS DEPARTMENT AND ORS",
@@ -378,7 +378,7 @@
     {
       "success": true,
       "filename": "CRLP_13944_2025_of_Pasula_Sambaiah,_Vs_The_State_of_Telangana,_CNR_HBHC010645732025.pdf",
-      "s3_key": "judgements-test2/CRLP_13944_2025_of_Pasula_Sambaiah,_Vs_The_State_of_Telangana,_CNR_HBHC010645732025.pdf",
+      "s3_key": "judgements-test-final/CRLP_13944_2025_of_Pasula_Sambaiah,_Vs_The_State_of_Telangana,_CNR_HBHC010645732025.pdf",
       "uploaded_to_s3": true,
       "cnr": "HBHC010645732025",
       "case_title": "CRLP/13944/2025 of Pasula Sambaiah, Vs The State of Telangana,",
@@ -390,7 +390,7 @@
     {
       "success": true,
       "filename": "WPA_14388_2025_of_UTPAL_TANTI_Vs_STATE_OF_WEST_BENGAL_AND_ORS._CNR_WBCHCA0294272025.pdf",
-      "s3_key": "judgements-test2/WPA_14388_2025_of_UTPAL_TANTI_Vs_STATE_OF_WEST_BENGAL_AND_ORS._CNR_WBCHCA0294272025.pdf",
+      "s3_key": "judgements-test-final/WPA_14388_2025_of_UTPAL_TANTI_Vs_STATE_OF_WEST_BENGAL_AND_ORS._CNR_WBCHCA0294272025.pdf",
       "uploaded_to_s3": true,
       "cnr": "WBCHCA0294272025",
       "case_title": "WPA/14388/2025 of UTPAL TANTI Vs STATE OF WEST BENGAL AND ORS.",
@@ -402,7 +402,7 @@
     {
       "success": true,
       "filename": "WPA_754_2025_of_BISHNU_PRASAD_ADHIKARY_Vs_UNION_OF_INDIA_AND_ORS._CNR_WBCHCA0012112025.pdf",
-      "s3_key": "judgements-test2/WPA_754_2025_of_BISHNU_PRASAD_ADHIKARY_Vs_UNION_OF_INDIA_AND_ORS._CNR_WBCHCA0012112025.pdf",
+      "s3_key": "judgements-test-final/WPA_754_2025_of_BISHNU_PRASAD_ADHIKARY_Vs_UNION_OF_INDIA_AND_ORS._CNR_WBCHCA0012112025.pdf",
       "uploaded_to_s3": true,
       "cnr": "WBCHCA0012112025",
       "case_title": "WPA/754/2025 of BISHNU PRASAD ADHIKARY Vs UNION OF INDIA AND ORS.",
@@ -414,7 +414,7 @@
     {
       "success": true,
       "filename": "WPA_13865_2025_of_SK_SARGAM_Vs_THE_STATE_OF_WEST_BENGAL_AND_ORS_CNR_WBCHCA0282052025.pdf",
-      "s3_key": "judgements-test2/WPA_13865_2025_of_SK_SARGAM_Vs_THE_STATE_OF_WEST_BENGAL_AND_ORS_CNR_WBCHCA0282052025.pdf",
+      "s3_key": "judgements-test-final/WPA_13865_2025_of_SK_SARGAM_Vs_THE_STATE_OF_WEST_BENGAL_AND_ORS_CNR_WBCHCA0282052025.pdf",
       "uploaded_to_s3": true,
       "cnr": "WBCHCA0282052025",
       "case_title": "WPA/13865/2025 of SK SARGAM Vs THE STATE OF WEST BENGAL AND ORS",
@@ -426,7 +426,7 @@
     {
       "success": true,
       "filename": "WP.ST_23_2025_of_NISHA_CHAKRABORTY_Vs_STATE_OF_WEST_BENGAL_AND_ORS._CNR_WBCHCA0063882025.pdf",
-      "s3_key": "judgements-test2/WP.ST_23_2025_of_NISHA_CHAKRABORTY_Vs_STATE_OF_WEST_BENGAL_AND_ORS._CNR_WBCHCA0063882025.pdf",
+      "s3_key": "judgements-test-final/WP.ST_23_2025_of_NISHA_CHAKRABORTY_Vs_STATE_OF_WEST_BENGAL_AND_ORS._CNR_WBCHCA0063882025.pdf",
       "uploaded_to_s3": true,
       "cnr": "WBCHCA0063882025",
       "case_title": "WP.ST/23/2025 of NISHA CHAKRABORTY Vs STATE OF WEST BENGAL AND ORS.",
@@ -438,7 +438,7 @@
     {
       "success": true,
       "filename": "CRM(NDPS)_314_2025_of_TIPU_SULTAN_@_SULTAN_Vs_THE_STATE_OF_WEST_BENGAL_CNR_WBCHCJ0037622025.pdf",
-      "s3_key": "judgements-test2/CRM(NDPS)_314_2025_of_TIPU_SULTAN_@_SULTAN_Vs_THE_STATE_OF_WEST_BENGAL_CNR_WBCHCJ0037622025.pdf",
+      "s3_key": "judgements-test-final/CRM(NDPS)_314_2025_of_TIPU_SULTAN_@_SULTAN_Vs_THE_STATE_OF_WEST_BENGAL_CNR_WBCHCJ0037622025.pdf",
       "uploaded_to_s3": true,
       "cnr": "WBCHCJ0037622025",
       "case_title": "CRM(NDPS)/314/2025 of TIPU SULTAN @ SULTAN Vs THE STATE OF WEST BENGAL",
@@ -450,7 +450,7 @@
     {
       "success": true,
       "filename": "CM(M)_461_2025_of_MST._ZAIBA_AND_ORS._Vs_UNION_OF_INDIA_AND_ORS._(DEFENCE)_CNR_JKHC010055822025.pdf",
-      "s3_key": "judgements-test2/CM(M)_461_2025_of_MST._ZAIBA_AND_ORS._Vs_UNION_OF_INDIA_AND_ORS._(DEFENCE)_CNR_JKHC010055822025.pdf",
+      "s3_key": "judgements-test-final/CM(M)_461_2025_of_MST._ZAIBA_AND_ORS._Vs_UNION_OF_INDIA_AND_ORS._(DEFENCE)_CNR_JKHC010055822025.pdf",
       "uploaded_to_s3": true,
       "cnr": "JKHC010055822025",
       "case_title": "CM(M)/461/2025 of MST. ZAIBA AND ORS. Vs UNION OF INDIA AND ORS. (DEFENCE)",
@@ -462,7 +462,7 @@
     {
       "success": true,
       "filename": "SCR.A_7220_2017_of_GHANSHYAMBHAI_MANEKLAL_THAKKAR_Vs_STATE_OF_GUJARAT_CNR_GJHC240607252017.pdf",
-      "s3_key": "judgements-test2/SCR.A_7220_2017_of_GHANSHYAMBHAI_MANEKLAL_THAKKAR_Vs_STATE_OF_GUJARAT_CNR_GJHC240607252017.pdf",
+      "s3_key": "judgements-test-final/SCR.A_7220_2017_of_GHANSHYAMBHAI_MANEKLAL_THAKKAR_Vs_STATE_OF_GUJARAT_CNR_GJHC240607252017.pdf",
       "uploaded_to_s3": true,
       "cnr": "GJHC240607252017",
       "case_title": "SCR.A/7220/2017 of GHANSHYAMBHAI MANEKLAL THAKKAR Vs STATE OF GUJARAT",
@@ -474,7 +474,7 @@
     {
       "success": true,
       "filename": "CR.MA_22433_2025_of_KISHANBHAI_VIRJIBHAI_AJANI_Vs_STATE_OF_GUJARAT_CNR_GJHC240756072025.pdf",
-      "s3_key": "judgements-test2/CR.MA_22433_2025_of_KISHANBHAI_VIRJIBHAI_AJANI_Vs_STATE_OF_GUJARAT_CNR_GJHC240756072025.pdf",
+      "s3_key": "judgements-test-final/CR.MA_22433_2025_of_KISHANBHAI_VIRJIBHAI_AJANI_Vs_STATE_OF_GUJARAT_CNR_GJHC240756072025.pdf",
       "uploaded_to_s3": true,
       "cnr": "GJHC240756072025",
       "case_title": "CR.MA/22433/2025 of KISHANBHAI VIRJIBHAI AJANI Vs STATE OF GUJARAT",
@@ -486,7 +486,7 @@
     {
       "success": true,
       "filename": "SCR.A_14375_2025_of_DIMPLEBEN_W_O_HITESHBHAI_GIRDHARLAL_RATHOD_THRO_VEER_HITESHBHAI_RATHOD_Vs_STATE_OF_GUJARAT_CNR_GJHC240765262025.pdf",
-      "s3_key": "judgements-test2/SCR.A_14375_2025_of_DIMPLEBEN_W_O_HITESHBHAI_GIRDHARLAL_RATHOD_THRO_VEER_HITESHBHAI_RATHOD_Vs_STATE_OF_GUJARAT_CNR_GJHC240765262025.pdf",
+      "s3_key": "judgements-test-final/SCR.A_14375_2025_of_DIMPLEBEN_W_O_HITESHBHAI_GIRDHARLAL_RATHOD_THRO_VEER_HITESHBHAI_RATHOD_Vs_STATE_OF_GUJARAT_CNR_GJHC240765262025.pdf",
       "uploaded_to_s3": true,
       "cnr": "GJHC240765262025",
       "case_title": "SCR.A/14375/2025 of DIMPLEBEN W/O HITESHBHAI GIRDHARLAL RATHOD THRO VEER HITESHBHAI RATHOD Vs STATE OF GUJARAT",
@@ -498,7 +498,7 @@
     {
       "success": true,
       "filename": "SCR.A_14347_2025_of_FATESINH_CHANDRASINH_CHAUHAN_Vs_STATE_OF_GUJARAT_CNR_GJHC240765532025.pdf",
-      "s3_key": "judgements-test2/SCR.A_14347_2025_of_FATESINH_CHANDRASINH_CHAUHAN_Vs_STATE_OF_GUJARAT_CNR_GJHC240765532025.pdf",
+      "s3_key": "judgements-test-final/SCR.A_14347_2025_of_FATESINH_CHANDRASINH_CHAUHAN_Vs_STATE_OF_GUJARAT_CNR_GJHC240765532025.pdf",
       "uploaded_to_s3": true,
       "cnr": "GJHC240765532025",
       "case_title": "SCR.A/14347/2025 of FATESINH CHANDRASINH CHAUHAN Vs STATE OF GUJARAT",
@@ -510,7 +510,7 @@
     {
       "success": true,
       "filename": "CR_1176_2019_of_DARSHAN_SINGH_Vs_GUNWANT_KAUR_AND_ORS_CNR_PHHC010113722019.pdf",
-      "s3_key": "judgements-test2/CR_1176_2019_of_DARSHAN_SINGH_Vs_GUNWANT_KAUR_AND_ORS_CNR_PHHC010113722019.pdf",
+      "s3_key": "judgements-test-final/CR_1176_2019_of_DARSHAN_SINGH_Vs_GUNWANT_KAUR_AND_ORS_CNR_PHHC010113722019.pdf",
       "uploaded_to_s3": true,
       "cnr": "PHHC010113722019",
       "case_title": "CR/1176/2019 of DARSHAN SINGH Vs GUNWANT KAUR AND ORS",
@@ -522,7 +522,7 @@
     {
       "success": true,
       "filename": "CWJC_17843_2024_of_Dinesh_Kumar_Vs_The_State_of_Bihar_CNR_BRHC011078822024.pdf",
-      "s3_key": "judgements-test2/CWJC_17843_2024_of_Dinesh_Kumar_Vs_The_State_of_Bihar_CNR_BRHC011078822024.pdf",
+      "s3_key": "judgements-test-final/CWJC_17843_2024_of_Dinesh_Kumar_Vs_The_State_of_Bihar_CNR_BRHC011078822024.pdf",
       "uploaded_to_s3": true,
       "cnr": "BRHC011078822024",
       "case_title": "CWJC/17843/2024 of Dinesh Kumar Vs The State of Bihar",
@@ -534,7 +534,7 @@
     {
       "success": true,
       "filename": "CR._MISC._74930_2025_of_Santu_Kumar_Niyogi_@_Santu_Niyogi_Vs_The_State_of_Bihar_CNR_BRHC011073452025.pdf",
-      "s3_key": "judgements-test2/CR._MISC._74930_2025_of_Santu_Kumar_Niyogi_@_Santu_Niyogi_Vs_The_State_of_Bihar_CNR_BRHC011073452025.pdf",
+      "s3_key": "judgements-test-final/CR._MISC._74930_2025_of_Santu_Kumar_Niyogi_@_Santu_Niyogi_Vs_The_State_of_Bihar_CNR_BRHC011073452025.pdf",
       "uploaded_to_s3": true,
       "cnr": "BRHC011073452025",
       "case_title": "CR. MISC./74930/2025 of Santu Kumar Niyogi @ Santu Niyogi Vs The State of Bihar",
@@ -546,7 +546,7 @@
     {
       "success": true,
       "filename": "CR._MISC._25127_2025_of_Anil_Kumar_Sah_@_Anil_Sah_Vs_The_State_of_Bihar_CNR_BRHC010290562025.pdf",
-      "s3_key": "judgements-test2/CR._MISC._25127_2025_of_Anil_Kumar_Sah_@_Anil_Sah_Vs_The_State_of_Bihar_CNR_BRHC010290562025.pdf",
+      "s3_key": "judgements-test-final/CR._MISC._25127_2025_of_Anil_Kumar_Sah_@_Anil_Sah_Vs_The_State_of_Bihar_CNR_BRHC010290562025.pdf",
       "uploaded_to_s3": true,
       "cnr": "BRHC010290562025",
       "case_title": "CR. MISC./25127/2025 of Anil Kumar Sah @ Anil Sah Vs The State of Bihar",
@@ -558,7 +558,7 @@
     {
       "success": true,
       "filename": "CR._MISC._73818_2025_of_Pintu_Choudhary_@_Nand_Kishor_Jayaswal_Vs_The_State_of_Bihar_CNR_BRHC011052632025.pdf",
-      "s3_key": "judgements-test2/CR._MISC._73818_2025_of_Pintu_Choudhary_@_Nand_Kishor_Jayaswal_Vs_The_State_of_Bihar_CNR_BRHC011052632025.pdf",
+      "s3_key": "judgements-test-final/CR._MISC._73818_2025_of_Pintu_Choudhary_@_Nand_Kishor_Jayaswal_Vs_The_State_of_Bihar_CNR_BRHC011052632025.pdf",
       "uploaded_to_s3": true,
       "cnr": "BRHC011052632025",
       "case_title": "CR. MISC./73818/2025 of Pintu Choudhary @ Nand Kishor Jayaswal Vs The State of Bihar",
@@ -570,7 +570,7 @@
     {
       "success": true,
       "filename": "CR._MISC._73659_2025_of_Sushila_Devi_Vs_The_State_of_Bihar_CNR_BRHC011062742025.pdf",
-      "s3_key": "judgements-test2/CR._MISC._73659_2025_of_Sushila_Devi_Vs_The_State_of_Bihar_CNR_BRHC011062742025.pdf",
+      "s3_key": "judgements-test-final/CR._MISC._73659_2025_of_Sushila_Devi_Vs_The_State_of_Bihar_CNR_BRHC011062742025.pdf",
       "uploaded_to_s3": true,
       "cnr": "BRHC011062742025",
       "case_title": "CR. MISC./73659/2025 of Sushila Devi Vs The State of Bihar",
@@ -582,7 +582,7 @@
     {
       "success": true,
       "filename": "CWJC_7057_2025_of_Bihar_Adiwasi_Adhikar_Forum_Vs_The_State_of_Bihar_CNR_BRHC010288482025.pdf",
-      "s3_key": "judgements-test2/CWJC_7057_2025_of_Bihar_Adiwasi_Adhikar_Forum_Vs_The_State_of_Bihar_CNR_BRHC010288482025.pdf",
+      "s3_key": "judgements-test-final/CWJC_7057_2025_of_Bihar_Adiwasi_Adhikar_Forum_Vs_The_State_of_Bihar_CNR_BRHC010288482025.pdf",
       "uploaded_to_s3": true,
       "cnr": "BRHC010288482025",
       "case_title": "CWJC/7057/2025 of Bihar Adiwasi Adhikar Forum Vs The State of Bihar",
@@ -594,7 +594,7 @@
     {
       "success": true,
       "filename": "CR._MISC._73666_2025_of_Rohan_Raj_Bhagat_@_Raushan_Raj_Bhagat_Vs_The_State_of_Bihar_CNR_BRHC011068372025.pdf",
-      "s3_key": "judgements-test2/CR._MISC._73666_2025_of_Rohan_Raj_Bhagat_@_Raushan_Raj_Bhagat_Vs_The_State_of_Bihar_CNR_BRHC011068372025.pdf",
+      "s3_key": "judgements-test-final/CR._MISC._73666_2025_of_Rohan_Raj_Bhagat_@_Raushan_Raj_Bhagat_Vs_The_State_of_Bihar_CNR_BRHC011068372025.pdf",
       "uploaded_to_s3": true,
       "cnr": "BRHC011068372025",
       "case_title": "CR. MISC./73666/2025 of Rohan Raj Bhagat @ Raushan Raj Bhagat Vs The State of Bihar",
@@ -606,7 +606,7 @@
     {
       "success": true,
       "filename": "CR._MISC._73768_2025_of_Santosh_Kumar_Singh_Vs_The_State_of_Bihar_CNR_BRHC011008572025.pdf",
-      "s3_key": "judgements-test2/CR._MISC._73768_2025_of_Santosh_Kumar_Singh_Vs_The_State_of_Bihar_CNR_BRHC011008572025.pdf",
+      "s3_key": "judgements-test-final/CR._MISC._73768_2025_of_Santosh_Kumar_Singh_Vs_The_State_of_Bihar_CNR_BRHC011008572025.pdf",
       "uploaded_to_s3": true,
       "cnr": "BRHC011008572025",
       "case_title": "CR. MISC./73768/2025 of Santosh Kumar Singh Vs The State of Bihar",
@@ -618,7 +618,7 @@
     {
       "success": true,
       "filename": "CR._MISC._70591_2025_of_Nirmal_Yadav_@_Nirmal_Kumar_Vs_The_State_of_Bihar_CNR_BRHC011011162025.pdf",
-      "s3_key": "judgements-test2/CR._MISC._70591_2025_of_Nirmal_Yadav_@_Nirmal_Kumar_Vs_The_State_of_Bihar_CNR_BRHC011011162025.pdf",
+      "s3_key": "judgements-test-final/CR._MISC._70591_2025_of_Nirmal_Yadav_@_Nirmal_Kumar_Vs_The_State_of_Bihar_CNR_BRHC011011162025.pdf",
       "uploaded_to_s3": true,
       "cnr": "BRHC011011162025",
       "case_title": "CR. MISC./70591/2025 of Nirmal Yadav @ Nirmal Kumar Vs The State of Bihar",
@@ -630,7 +630,7 @@
     {
       "success": true,
       "filename": "CR._MISC._73877_2025_of_Satrudhan_Chaudhary_Vs_The_State_Of_Bihar_CNR_BRHC011078932025.pdf",
-      "s3_key": "judgements-test2/CR._MISC._73877_2025_of_Satrudhan_Chaudhary_Vs_The_State_Of_Bihar_CNR_BRHC011078932025.pdf",
+      "s3_key": "judgements-test-final/CR._MISC._73877_2025_of_Satrudhan_Chaudhary_Vs_The_State_Of_Bihar_CNR_BRHC011078932025.pdf",
       "uploaded_to_s3": true,
       "cnr": "BRHC011078932025",
       "case_title": "CR. MISC./73877/2025 of Satrudhan Chaudhary Vs The State Of Bihar",
@@ -642,7 +642,7 @@
     {
       "success": true,
       "filename": "CR._MISC._34226_2025_of_Abhishek_Prajapati_@_Chhotu_@_Abhioshek_Kumar@_Abhishek_Kumar_Vs_The_State_of_Bihar_CNR_BRHC010451612025.pdf",
-      "s3_key": "judgements-test2/CR._MISC._34226_2025_of_Abhishek_Prajapati_@_Chhotu_@_Abhioshek_Kumar@_Abhishek_Kumar_Vs_The_State_of_Bihar_CNR_BRHC010451612025.pdf",
+      "s3_key": "judgements-test-final/CR._MISC._34226_2025_of_Abhishek_Prajapati_@_Chhotu_@_Abhioshek_Kumar@_Abhishek_Kumar_Vs_The_State_of_Bihar_CNR_BRHC010451612025.pdf",
       "uploaded_to_s3": true,
       "cnr": "BRHC010451612025",
       "case_title": "CR. MISC./34226/2025 of Abhishek Prajapati @ Chhotu @ Abhioshek Kumar@ Abhishek Kumar Vs The State of Bihar",
@@ -654,7 +654,7 @@
     {
       "success": true,
       "filename": "CRM(M)_1801_2025_of_MAYA_MANDAL_Vs_STATE_OF_WEST_BENGAL_CNR_WBCHCA0470432025.pdf",
-      "s3_key": "judgements-test2/CRM(M)_1801_2025_of_MAYA_MANDAL_Vs_STATE_OF_WEST_BENGAL_CNR_WBCHCA0470432025.pdf",
+      "s3_key": "judgements-test-final/CRM(M)_1801_2025_of_MAYA_MANDAL_Vs_STATE_OF_WEST_BENGAL_CNR_WBCHCA0470432025.pdf",
       "uploaded_to_s3": true,
       "cnr": "WBCHCA0470432025",
       "case_title": "CRM(M)/1801/2025 of MAYA MANDAL Vs STATE OF WEST BENGAL",
@@ -666,7 +666,7 @@
     {
       "success": true,
       "filename": "WPA_11925_2025_of_TAJMAL_HAQUE_Vs_THE_STATE_OF_WEST_BENGAL_AND_ORS._CNR_WBCHCA0238092025.pdf",
-      "s3_key": "judgements-test2/WPA_11925_2025_of_TAJMAL_HAQUE_Vs_THE_STATE_OF_WEST_BENGAL_AND_ORS._CNR_WBCHCA0238092025.pdf",
+      "s3_key": "judgements-test-final/WPA_11925_2025_of_TAJMAL_HAQUE_Vs_THE_STATE_OF_WEST_BENGAL_AND_ORS._CNR_WBCHCA0238092025.pdf",
       "uploaded_to_s3": true,
       "cnr": "WBCHCA0238092025",
       "case_title": "WPA/11925/2025 of TAJMAL HAQUE Vs THE STATE OF WEST BENGAL AND ORS.",
@@ -678,7 +678,7 @@
     {
       "success": true,
       "filename": "CRM(NDPS)_383_2025_of_GAIJAMGAM_GONMEI_Vs_THE_STATE_OF_WEST_BENGAL_CNR_WBCHCJ0045732025.pdf",
-      "s3_key": "judgements-test2/CRM(NDPS)_383_2025_of_GAIJAMGAM_GONMEI_Vs_THE_STATE_OF_WEST_BENGAL_CNR_WBCHCJ0045732025.pdf",
+      "s3_key": "judgements-test-final/CRM(NDPS)_383_2025_of_GAIJAMGAM_GONMEI_Vs_THE_STATE_OF_WEST_BENGAL_CNR_WBCHCJ0045732025.pdf",
       "uploaded_to_s3": true,
       "cnr": "WBCHCJ0045732025",
       "case_title": "CRM(NDPS)/383/2025 of GAIJAMGAM GONMEI Vs THE STATE OF WEST BENGAL",
@@ -690,7 +690,7 @@
     {
       "success": true,
       "filename": "MAT_64_2025_of_M_S._KUSUM_UDYOG_LIMITED_AND_ANR_Vs_THE_REGIONAL_PROVIDENT_FUND_COMMISSIONER-I,_EPFO_AND_ORS_CNR_WBCHCJ0037962025.pdf",
-      "s3_key": "judgements-test2/MAT_64_2025_of_M_S._KUSUM_UDYOG_LIMITED_AND_ANR_Vs_THE_REGIONAL_PROVIDENT_FUND_COMMISSIONER-I,_EPFO_AND_ORS_CNR_WBCHCJ0037962025.pdf",
+      "s3_key": "judgements-test-final/MAT_64_2025_of_M_S._KUSUM_UDYOG_LIMITED_AND_ANR_Vs_THE_REGIONAL_PROVIDENT_FUND_COMMISSIONER-I,_EPFO_AND_ORS_CNR_WBCHCJ0037962025.pdf",
       "uploaded_to_s3": true,
       "cnr": "WBCHCJ0037962025",
       "case_title": "MAT/64/2025 of M/S. KUSUM UDYOG LIMITED AND ANR Vs THE REGIONAL PROVIDENT FUND COMMISSIONER-I, EPFO AND ORS",
@@ -702,7 +702,7 @@
     {
       "success": true,
       "filename": "CM(M)_215_2025_of_RIZWAN_YOUSUF_QAZI_Vs_SHAZIYA_CNR_JKHC010026992025.pdf",
-      "s3_key": "judgements-test2/CM(M)_215_2025_of_RIZWAN_YOUSUF_QAZI_Vs_SHAZIYA_CNR_JKHC010026992025.pdf",
+      "s3_key": "judgements-test-final/CM(M)_215_2025_of_RIZWAN_YOUSUF_QAZI_Vs_SHAZIYA_CNR_JKHC010026992025.pdf",
       "uploaded_to_s3": true,
       "cnr": "JKHC010026992025",
       "case_title": "CM(M)/215/2025 of RIZWAN YOUSUF QAZI Vs SHAZIYA",
@@ -714,7 +714,7 @@
     {
       "success": true,
       "filename": "SCR.A_14362_2025_of_THAKOR_PRAVINJI_LILAJI_Vs_STATE_OF_GUJARAT_CNR_GJHC240759612025.pdf",
-      "s3_key": "judgements-test2/SCR.A_14362_2025_of_THAKOR_PRAVINJI_LILAJI_Vs_STATE_OF_GUJARAT_CNR_GJHC240759612025.pdf",
+      "s3_key": "judgements-test-final/SCR.A_14362_2025_of_THAKOR_PRAVINJI_LILAJI_Vs_STATE_OF_GUJARAT_CNR_GJHC240759612025.pdf",
       "uploaded_to_s3": true,
       "cnr": "GJHC240759612025",
       "case_title": "SCR.A/14362/2025 of THAKOR PRAVINJI LILAJI Vs STATE OF GUJARAT",
@@ -726,7 +726,7 @@
     {
       "success": true,
       "filename": "SCR.A_14279_2025_of_VISHAL_NATHUBHAI_DAMOR_Vs_STATE_OF_GUJARAT_CNR_GJHC240744422025.pdf",
-      "s3_key": "judgements-test2/SCR.A_14279_2025_of_VISHAL_NATHUBHAI_DAMOR_Vs_STATE_OF_GUJARAT_CNR_GJHC240744422025.pdf",
+      "s3_key": "judgements-test-final/SCR.A_14279_2025_of_VISHAL_NATHUBHAI_DAMOR_Vs_STATE_OF_GUJARAT_CNR_GJHC240744422025.pdf",
       "uploaded_to_s3": true,
       "cnr": "GJHC240744422025",
       "case_title": "SCR.A/14279/2025 of VISHAL NATHUBHAI DAMOR Vs STATE OF GUJARAT",
@@ -738,7 +738,7 @@
     {
       "success": true,
       "filename": "SCR.A_14329_2025_of_SANDIPBHAI_HARSHADBHAI_SHAH_Vs_STATE_OF_GUJARAT_CNR_GJHC240760552025.pdf",
-      "s3_key": "judgements-test2/SCR.A_14329_2025_of_SANDIPBHAI_HARSHADBHAI_SHAH_Vs_STATE_OF_GUJARAT_CNR_GJHC240760552025.pdf",
+      "s3_key": "judgements-test-final/SCR.A_14329_2025_of_SANDIPBHAI_HARSHADBHAI_SHAH_Vs_STATE_OF_GUJARAT_CNR_GJHC240760552025.pdf",
       "uploaded_to_s3": true,
       "cnr": "GJHC240760552025",
       "case_title": "SCR.A/14329/2025 of SANDIPBHAI HARSHADBHAI SHAH Vs STATE OF GUJARAT",
@@ -750,7 +750,7 @@
     {
       "success": true,
       "filename": "SCR.A_14289_2025_of_RAKESHBHAI_MANSUKHBHAI_KEVADIYA_Vs_STATE_OF_GUJARAT_CNR_GJHC240755842025.pdf",
-      "s3_key": "judgements-test2/SCR.A_14289_2025_of_RAKESHBHAI_MANSUKHBHAI_KEVADIYA_Vs_STATE_OF_GUJARAT_CNR_GJHC240755842025.pdf",
+      "s3_key": "judgements-test-final/SCR.A_14289_2025_of_RAKESHBHAI_MANSUKHBHAI_KEVADIYA_Vs_STATE_OF_GUJARAT_CNR_GJHC240755842025.pdf",
       "uploaded_to_s3": true,
       "cnr": "GJHC240755842025",
       "case_title": "SCR.A/14289/2025 of RAKESHBHAI MANSUKHBHAI KEVADIYA Vs STATE OF GUJARAT",
@@ -762,7 +762,7 @@
     {
       "success": true,
       "filename": "CRLP_13544_2025_of_Smt._Chitikireddi_Kalyani_Atchayyamma_@_Kalyani_@_Kalpana,_Vs_State_of_Telangana_CNR_HBHC010627562025.pdf",
-      "s3_key": "judgements-test2/CRLP_13544_2025_of_Smt._Chitikireddi_Kalyani_Atchayyamma_@_Kalyani_@_Kalpana,_Vs_State_of_Telangana_CNR_HBHC010627562025.pdf",
+      "s3_key": "judgements-test-final/CRLP_13544_2025_of_Smt._Chitikireddi_Kalyani_Atchayyamma_@_Kalyani_@_Kalpana,_Vs_State_of_Telangana_CNR_HBHC010627562025.pdf",
       "uploaded_to_s3": true,
       "cnr": "HBHC010627562025",
       "case_title": "CRLP/13544/2025 of Smt. Chitikireddi Kalyani Atchayyamma @ Kalyani @ Kalpana, Vs State of Telangana",
@@ -774,7 +774,7 @@
     {
       "success": true,
       "filename": "B.A._9555_2025_of_JIT_KUMAR_DEY_ALIAS_DEEP_KUMAR_DEY_Vs_STATE_OF_JHARKHAND_CNR_JHHC010234802025.pdf",
-      "s3_key": "judgements-test2/B.A._9555_2025_of_JIT_KUMAR_DEY_ALIAS_DEEP_KUMAR_DEY_Vs_STATE_OF_JHARKHAND_CNR_JHHC010234802025.pdf",
+      "s3_key": "judgements-test-final/B.A._9555_2025_of_JIT_KUMAR_DEY_ALIAS_DEEP_KUMAR_DEY_Vs_STATE_OF_JHARKHAND_CNR_JHHC010234802025.pdf",
       "uploaded_to_s3": true,
       "cnr": "JHHC010234802025",
       "case_title": "B.A./9555/2025 of JIT KUMAR DEY ALIAS DEEP KUMAR DEY Vs STATE OF JHARKHAND",
@@ -786,7 +786,7 @@
     {
       "success": true,
       "filename": "CRLP_13457_2025_of_Smt._A._Tamilvani_Vs_The_State_of_Telangana_CNR_HBHC010620222025.pdf",
-      "s3_key": "judgements-test2/CRLP_13457_2025_of_Smt._A._Tamilvani_Vs_The_State_of_Telangana_CNR_HBHC010620222025.pdf",
+      "s3_key": "judgements-test-final/CRLP_13457_2025_of_Smt._A._Tamilvani_Vs_The_State_of_Telangana_CNR_HBHC010620222025.pdf",
       "uploaded_to_s3": true,
       "cnr": "HBHC010620222025",
       "case_title": "CRLP/13457/2025 of Smt. A. Tamilvani Vs The State of Telangana",
@@ -798,7 +798,7 @@
     {
       "success": true,
       "filename": "CRLP_13666_2025_of_Sri_P._Subba_Raju,_Vs_The_State_of_Telangana_CNR_HBHC010632092025.pdf",
-      "s3_key": "judgements-test2/CRLP_13666_2025_of_Sri_P._Subba_Raju,_Vs_The_State_of_Telangana_CNR_HBHC010632092025.pdf",
+      "s3_key": "judgements-test-final/CRLP_13666_2025_of_Sri_P._Subba_Raju,_Vs_The_State_of_Telangana_CNR_HBHC010632092025.pdf",
       "uploaded_to_s3": true,
       "cnr": "HBHC010632092025",
       "case_title": "CRLP/13666/2025 of Sri P. Subba Raju, Vs The State of Telangana",
@@ -810,7 +810,7 @@
     {
       "success": true,
       "filename": "WPSS_1657_2025_of_ANU_RANI_Vs_STATE_OF_UTTARAKHAND_CNR_UKHC010159172025.pdf",
-      "s3_key": "judgements-test2/WPSS_1657_2025_of_ANU_RANI_Vs_STATE_OF_UTTARAKHAND_CNR_UKHC010159172025.pdf",
+      "s3_key": "judgements-test-final/WPSS_1657_2025_of_ANU_RANI_Vs_STATE_OF_UTTARAKHAND_CNR_UKHC010159172025.pdf",
       "uploaded_to_s3": true,
       "cnr": "UKHC010159172025",
       "case_title": "WPSS/1657/2025 of ANU RANI Vs STATE OF UTTARAKHAND",
@@ -822,7 +822,7 @@
     {
       "success": true,
       "filename": "CRLA_360_2022_of_KRISHNA_ALIAS_BASU_Vs_STATE_OF_UTTARAKHAND_CNR_UKHC010133332022.pdf",
-      "s3_key": "judgements-test2/CRLA_360_2022_of_KRISHNA_ALIAS_BASU_Vs_STATE_OF_UTTARAKHAND_CNR_UKHC010133332022.pdf",
+      "s3_key": "judgements-test-final/CRLA_360_2022_of_KRISHNA_ALIAS_BASU_Vs_STATE_OF_UTTARAKHAND_CNR_UKHC010133332022.pdf",
       "uploaded_to_s3": true,
       "cnr": "UKHC010133332022",
       "case_title": "CRLA/360/2022 of KRISHNA ALIAS BASU Vs STATE OF UTTARAKHAND",
@@ -834,7 +834,7 @@
     {
       "success": true,
       "filename": "WPSS_1772_2025_of_SUNIL_KUMAR_SAXENA_Vs_UTTARAKHAND_TRANSPORT_CORPORATION_CNR_UKHC010169552025.pdf",
-      "s3_key": "judgements-test2/WPSS_1772_2025_of_SUNIL_KUMAR_SAXENA_Vs_UTTARAKHAND_TRANSPORT_CORPORATION_CNR_UKHC010169552025.pdf",
+      "s3_key": "judgements-test-final/WPSS_1772_2025_of_SUNIL_KUMAR_SAXENA_Vs_UTTARAKHAND_TRANSPORT_CORPORATION_CNR_UKHC010169552025.pdf",
       "uploaded_to_s3": true,
       "cnr": "UKHC010169552025",
       "case_title": "WPSS/1772/2025 of SUNIL KUMAR SAXENA Vs UTTARAKHAND TRANSPORT CORPORATION",
@@ -846,7 +846,7 @@
     {
       "success": true,
       "filename": "CLR_118_2025_of_KUMARI_SHARISH_ALI_Vs_ZEENAT_ZAHAN_CNR_UKHC010171532025.pdf",
-      "s3_key": "judgements-test2/CLR_118_2025_of_KUMARI_SHARISH_ALI_Vs_ZEENAT_ZAHAN_CNR_UKHC010171532025.pdf",
+      "s3_key": "judgements-test-final/CLR_118_2025_of_KUMARI_SHARISH_ALI_Vs_ZEENAT_ZAHAN_CNR_UKHC010171532025.pdf",
       "uploaded_to_s3": true,
       "cnr": "UKHC010171532025",
       "case_title": "CLR/118/2025 of KUMARI SHARISH ALI Vs ZEENAT ZAHAN",
@@ -858,7 +858,7 @@
     {
       "success": true,
       "filename": "WP(MD)_3736_2018_of_A.RAJESWARI,_Vs_THE_TOWN_SUB_INSPECTOR_CNR_HCMD010817912018.pdf",
-      "s3_key": "judgements-test2/WP(MD)_3736_2018_of_A.RAJESWARI,_Vs_THE_TOWN_SUB_INSPECTOR_CNR_HCMD010817912018.pdf",
+      "s3_key": "judgements-test-final/WP(MD)_3736_2018_of_A.RAJESWARI,_Vs_THE_TOWN_SUB_INSPECTOR_CNR_HCMD010817912018.pdf",
       "uploaded_to_s3": true,
       "cnr": "HCMD010817912018",
       "case_title": "WP(MD)/3736/2018 of A.RAJESWARI, Vs THE TOWN SUB INSPECTOR",
@@ -870,7 +870,7 @@
     {
       "success": true,
       "filename": "CRL_OP(MD)_15446_2025_of_P.Satheesh_Vs_The_State_of_Tamil_Nadu_CNR_HCMD011260182025.pdf",
-      "s3_key": "judgements-test2/CRL_OP(MD)_15446_2025_of_P.Satheesh_Vs_The_State_of_Tamil_Nadu_CNR_HCMD011260182025.pdf",
+      "s3_key": "judgements-test-final/CRL_OP(MD)_15446_2025_of_P.Satheesh_Vs_The_State_of_Tamil_Nadu_CNR_HCMD011260182025.pdf",
       "uploaded_to_s3": true,
       "cnr": "HCMD011260182025",
       "case_title": "CRL OP(MD)/15446/2025 of P.Satheesh Vs The State of Tamil Nadu",
@@ -882,7 +882,7 @@
     {
       "success": true,
       "filename": "CR._MISC._70606_2025_of_Ramanand_Sharma_@_Ramanand_Shrma_Vs_The_State_of_Bihar_CNR_BRHC011021162025.pdf",
-      "s3_key": "judgements-test2/CR._MISC._70606_2025_of_Ramanand_Sharma_@_Ramanand_Shrma_Vs_The_State_of_Bihar_CNR_BRHC011021162025.pdf",
+      "s3_key": "judgements-test-final/CR._MISC._70606_2025_of_Ramanand_Sharma_@_Ramanand_Shrma_Vs_The_State_of_Bihar_CNR_BRHC011021162025.pdf",
       "uploaded_to_s3": true,
       "cnr": "BRHC011021162025",
       "case_title": "CR. MISC./70606/2025 of Ramanand Sharma @ Ramanand Shrma Vs The State of Bihar",
@@ -894,7 +894,7 @@
     {
       "success": true,
       "filename": "CR._MISC._16069_2025_of_Himanshu_Kumar_Verma_Vs_The_State_Of_Bihar_CNR_BRHC010165052025.pdf",
-      "s3_key": "judgements-test2/CR._MISC._16069_2025_of_Himanshu_Kumar_Verma_Vs_The_State_Of_Bihar_CNR_BRHC010165052025.pdf",
+      "s3_key": "judgements-test-final/CR._MISC._16069_2025_of_Himanshu_Kumar_Verma_Vs_The_State_Of_Bihar_CNR_BRHC010165052025.pdf",
       "uploaded_to_s3": true,
       "cnr": "BRHC010165052025",
       "case_title": "CR. MISC./16069/2025 of Himanshu Kumar Verma Vs The State Of Bihar",
@@ -906,7 +906,7 @@
     {
       "success": true,
       "filename": "CR._MISC._70592_2025_of_Md._Akil_Ahmad_Vs_The_State_of_Bihar_CNR_BRHC011006902025.pdf",
-      "s3_key": "judgements-test2/CR._MISC._70592_2025_of_Md._Akil_Ahmad_Vs_The_State_of_Bihar_CNR_BRHC011006902025.pdf",
+      "s3_key": "judgements-test-final/CR._MISC._70592_2025_of_Md._Akil_Ahmad_Vs_The_State_of_Bihar_CNR_BRHC011006902025.pdf",
       "uploaded_to_s3": true,
       "cnr": "BRHC011006902025",
       "case_title": "CR. MISC./70592/2025 of Md. Akil Ahmad Vs The State of Bihar",
@@ -918,7 +918,7 @@
     {
       "success": true,
       "filename": "CR._MISC._73614_2025_of_Sarita_Devi_Vs_The_State_of_Bihar_CNR_BRHC011027322025.pdf",
-      "s3_key": "judgements-test2/CR._MISC._73614_2025_of_Sarita_Devi_Vs_The_State_of_Bihar_CNR_BRHC011027322025.pdf",
+      "s3_key": "judgements-test-final/CR._MISC._73614_2025_of_Sarita_Devi_Vs_The_State_of_Bihar_CNR_BRHC011027322025.pdf",
       "uploaded_to_s3": true,
       "cnr": "BRHC011027322025",
       "case_title": "CR. MISC./73614/2025 of Sarita Devi Vs The State of Bihar",
@@ -930,7 +930,7 @@
     {
       "success": true,
       "filename": "WP_15695_2024_of_SACHIDANAND_DILIPRAO_CHAUGULE_AND_ORS_Vs_THE_EDUCATION_OFFICER_(SECONDARY)_ZILLA_PARISHAD,_SOLAPUR_AND_ORS_CNR_HCBM070447972024.pdf",
-      "s3_key": "judgements-test2/WP_15695_2024_of_SACHIDANAND_DILIPRAO_CHAUGULE_AND_ORS_Vs_THE_EDUCATION_OFFICER_(SECONDARY)_ZILLA_PARISHAD,_SOLAPUR_AND_ORS_CNR_HCBM070447972024.pdf",
+      "s3_key": "judgements-test-final/WP_15695_2024_of_SACHIDANAND_DILIPRAO_CHAUGULE_AND_ORS_Vs_THE_EDUCATION_OFFICER_(SECONDARY)_ZILLA_PARISHAD,_SOLAPUR_AND_ORS_CNR_HCBM070447972024.pdf",
       "uploaded_to_s3": true,
       "cnr": "HCBM070447972024",
       "case_title": "WP/15695/2024 of SACHIDANAND DILIPRAO CHAUGULE AND ORS Vs THE EDUCATION OFFICER (SECONDARY) ZILLA PARISHAD, SOLAPUR AND ORS",
@@ -942,7 +942,7 @@
     {
       "success": true,
       "filename": "WP_8188_2025_of_SHRI._BHAIRAVNATH_CHARITABLE_TRUST_Vs_THE_STATE_OF_MAHARASHTRA_THR_RANGE_FOREST_OFFICER,_(WILDLIFE)_KOLHAPUR_CNR_HCBM070288852025.pdf",
-      "s3_key": "judgements-test2/WP_8188_2025_of_SHRI._BHAIRAVNATH_CHARITABLE_TRUST_Vs_THE_STATE_OF_MAHARASHTRA_THR_RANGE_FOREST_OFFICER,_(WILDLIFE)_KOLHAPUR_CNR_HCBM070288852025.pdf",
+      "s3_key": "judgements-test-final/WP_8188_2025_of_SHRI._BHAIRAVNATH_CHARITABLE_TRUST_Vs_THE_STATE_OF_MAHARASHTRA_THR_RANGE_FOREST_OFFICER,_(WILDLIFE)_KOLHAPUR_CNR_HCBM070288852025.pdf",
       "uploaded_to_s3": true,
       "cnr": "HCBM070288852025",
       "case_title": "WP/8188/2025 of SHRI. BHAIRAVNATH CHARITABLE TRUST Vs THE STATE OF MAHARASHTRA THR RANGE FOREST OFFICER, (WILDLIFE) KOLHAPUR",
@@ -954,7 +954,7 @@
     {
       "success": true,
       "filename": "CRLP_13907_2025_of_A1)._Rathod_Ranjith,_Vs_The_State_of_Telangana,_CNR_HBHC010643772025.pdf",
-      "s3_key": "judgements-test2/CRLP_13907_2025_of_A1)._Rathod_Ranjith,_Vs_The_State_of_Telangana,_CNR_HBHC010643772025.pdf",
+      "s3_key": "judgements-test-final/CRLP_13907_2025_of_A1)._Rathod_Ranjith,_Vs_The_State_of_Telangana,_CNR_HBHC010643772025.pdf",
       "uploaded_to_s3": true,
       "cnr": "HBHC010643772025",
       "case_title": "CRLP/13907/2025 of A1). Rathod Ranjith, Vs The State of Telangana,",
@@ -966,7 +966,7 @@
     {
       "success": true,
       "filename": "WPA_1358_2025_of_SOUMEN_HALDER_Vs_STATE_OF_WEST_BENGAL_AND_ORS._CNR_WBCHCA0023052025.pdf",
-      "s3_key": "judgements-test2/WPA_1358_2025_of_SOUMEN_HALDER_Vs_STATE_OF_WEST_BENGAL_AND_ORS._CNR_WBCHCA0023052025.pdf",
+      "s3_key": "judgements-test-final/WPA_1358_2025_of_SOUMEN_HALDER_Vs_STATE_OF_WEST_BENGAL_AND_ORS._CNR_WBCHCA0023052025.pdf",
       "uploaded_to_s3": true,
       "cnr": "WBCHCA0023052025",
       "case_title": "WPA/1358/2025 of SOUMEN HALDER Vs STATE OF WEST BENGAL AND ORS.",
@@ -978,7 +978,7 @@
     {
       "success": true,
       "filename": "CRM(M)_1802_2025_of_KASIM_CHOWDHURY_@_KASHIM_CHOWDHURI_@_MD_KASIM_Vs_STATE_OF_WEST_BENGAL_CNR_WBCHCA0470982025.pdf",
-      "s3_key": "judgements-test2/CRM(M)_1802_2025_of_KASIM_CHOWDHURY_@_KASHIM_CHOWDHURI_@_MD_KASIM_Vs_STATE_OF_WEST_BENGAL_CNR_WBCHCA0470982025.pdf",
+      "s3_key": "judgements-test-final/CRM(M)_1802_2025_of_KASIM_CHOWDHURY_@_KASHIM_CHOWDHURI_@_MD_KASIM_Vs_STATE_OF_WEST_BENGAL_CNR_WBCHCA0470982025.pdf",
       "uploaded_to_s3": true,
       "cnr": "WBCHCA0470982025",
       "case_title": "CRM(M)/1802/2025 of KASIM CHOWDHURY @ KASHIM CHOWDHURI @ MD KASIM Vs STATE OF WEST BENGAL",
@@ -990,7 +990,7 @@
     {
       "success": true,
       "filename": "CRA_(DB)_305_2025_of_NAJIMUL_ALIAS_NAJMUL_HAQUE_AND_ANOTHER_Vs_STATE_OF_WEST_BENGAL_AND_ANR_CNR_WBCHCA0370722025.pdf",
-      "s3_key": "judgements-test2/CRA_(DB)_305_2025_of_NAJIMUL_ALIAS_NAJMUL_HAQUE_AND_ANOTHER_Vs_STATE_OF_WEST_BENGAL_AND_ANR_CNR_WBCHCA0370722025.pdf",
+      "s3_key": "judgements-test-final/CRA_(DB)_305_2025_of_NAJIMUL_ALIAS_NAJMUL_HAQUE_AND_ANOTHER_Vs_STATE_OF_WEST_BENGAL_AND_ANR_CNR_WBCHCA0370722025.pdf",
       "uploaded_to_s3": true,
       "cnr": "WBCHCA0370722025",
       "case_title": "CRA (DB)/305/2025 of NAJIMUL ALIAS NAJMUL HAQUE AND ANOTHER Vs STATE OF WEST BENGAL AND ANR",
@@ -1002,7 +1002,7 @@
     {
       "success": true,
       "filename": "CRM(NDPS)_448_2025_of_KAMAL_SINGH_CHOUHAN_Vs_THE_STATE_OF_WEST_BENGAL_CNR_WBCHCJ0051962025.pdf",
-      "s3_key": "judgements-test2/CRM(NDPS)_448_2025_of_KAMAL_SINGH_CHOUHAN_Vs_THE_STATE_OF_WEST_BENGAL_CNR_WBCHCJ0051962025.pdf",
+      "s3_key": "judgements-test-final/CRM(NDPS)_448_2025_of_KAMAL_SINGH_CHOUHAN_Vs_THE_STATE_OF_WEST_BENGAL_CNR_WBCHCJ0051962025.pdf",
       "uploaded_to_s3": true,
       "cnr": "WBCHCJ0051962025",
       "case_title": "CRM(NDPS)/448/2025 of KAMAL SINGH CHOUHAN Vs THE STATE OF WEST BENGAL",
@@ -1014,7 +1014,7 @@
     {
       "success": true,
       "filename": "CRM(NDPS)_386_2025_of_SARIFUL_ALAM_Vs_THE_STATE_OF_WEST_BENGAL_CNR_WBCHCJ0045772025.pdf",
-      "s3_key": "judgements-test2/CRM(NDPS)_386_2025_of_SARIFUL_ALAM_Vs_THE_STATE_OF_WEST_BENGAL_CNR_WBCHCJ0045772025.pdf",
+      "s3_key": "judgements-test-final/CRM(NDPS)_386_2025_of_SARIFUL_ALAM_Vs_THE_STATE_OF_WEST_BENGAL_CNR_WBCHCJ0045772025.pdf",
       "uploaded_to_s3": true,
       "cnr": "WBCHCJ0045772025",
       "case_title": "CRM(NDPS)/386/2025 of SARIFUL ALAM Vs THE STATE OF WEST BENGAL",
@@ -1026,7 +1026,7 @@
     {
       "success": true,
       "filename": "CR.MA_18233_2015_of_HITESH_VALLABHDAS_VIRADIYA_Vs_STATE_OF_GUJARAT_CNR_GJHC240507172015.pdf",
-      "s3_key": "judgements-test2/CR.MA_18233_2015_of_HITESH_VALLABHDAS_VIRADIYA_Vs_STATE_OF_GUJARAT_CNR_GJHC240507172015.pdf",
+      "s3_key": "judgements-test-final/CR.MA_18233_2015_of_HITESH_VALLABHDAS_VIRADIYA_Vs_STATE_OF_GUJARAT_CNR_GJHC240507172015.pdf",
       "uploaded_to_s3": true,
       "cnr": "GJHC240507172015",
       "case_title": "CR.MA/18233/2015 of HITESH VALLABHDAS VIRADIYA Vs STATE OF GUJARAT",
@@ -1038,7 +1038,7 @@
     {
       "success": true,
       "filename": "CR.MA_22254_2025_of_YASHIKA_W_O_VASH_DESAI_AND_D_O_MAHENDRA_JAMNADAS_MODI_Vs_STATE_OF_GUJARAT_CNR_GJHC240698202025.pdf",
-      "s3_key": "judgements-test2/CR.MA_22254_2025_of_YASHIKA_W_O_VASH_DESAI_AND_D_O_MAHENDRA_JAMNADAS_MODI_Vs_STATE_OF_GUJARAT_CNR_GJHC240698202025.pdf",
+      "s3_key": "judgements-test-final/CR.MA_22254_2025_of_YASHIKA_W_O_VASH_DESAI_AND_D_O_MAHENDRA_JAMNADAS_MODI_Vs_STATE_OF_GUJARAT_CNR_GJHC240698202025.pdf",
       "uploaded_to_s3": true,
       "cnr": "GJHC240698202025",
       "case_title": "CR.MA/22254/2025 of YASHIKA W/O VASH DESAI AND D/O MAHENDRA JAMNADAS MODI Vs STATE OF GUJARAT",
@@ -1050,7 +1050,7 @@
     {
       "success": true,
       "filename": "C528_1752_2025_of_UNION_OF_INDIA_Vs_STATE_OF_UTTARAKHAND_CNR_UKHC010154982025.pdf",
-      "s3_key": "judgements-test2/C528_1752_2025_of_UNION_OF_INDIA_Vs_STATE_OF_UTTARAKHAND_CNR_UKHC010154982025.pdf",
+      "s3_key": "judgements-test-final/C528_1752_2025_of_UNION_OF_INDIA_Vs_STATE_OF_UTTARAKHAND_CNR_UKHC010154982025.pdf",
       "uploaded_to_s3": true,
       "cnr": "UKHC010154982025",
       "case_title": "C528/1752/2025 of UNION OF INDIA Vs STATE OF UTTARAKHAND",
@@ -1062,7 +1062,7 @@
     {
       "success": true,
       "filename": "WPMS_2375_2025_of_ALI_SHER_Vs_PRESCRIBED_AUTHORITY_NATIONAL_HIGHWAY_AUTHORITY_OF_INDIA_CNR_UKHC010123492025.pdf",
-      "s3_key": "judgements-test2/WPMS_2375_2025_of_ALI_SHER_Vs_PRESCRIBED_AUTHORITY_NATIONAL_HIGHWAY_AUTHORITY_OF_INDIA_CNR_UKHC010123492025.pdf",
+      "s3_key": "judgements-test-final/WPMS_2375_2025_of_ALI_SHER_Vs_PRESCRIBED_AUTHORITY_NATIONAL_HIGHWAY_AUTHORITY_OF_INDIA_CNR_UKHC010123492025.pdf",
       "uploaded_to_s3": true,
       "cnr": "UKHC010123492025",
       "case_title": "WPMS/2375/2025 of ALI SHER Vs PRESCRIBED AUTHORITY NATIONAL HIGHWAY AUTHORITY OF INDIA",
@@ -1074,7 +1074,7 @@
     {
       "success": true,
       "filename": "CRMP_1454_2024_of_RANGILA_RAM_Vs_STATE_OF_HP_CNR_HPHC010130212024.pdf",
-      "s3_key": "judgements-test2/CRMP_1454_2024_of_RANGILA_RAM_Vs_STATE_OF_HP_CNR_HPHC010130212024.pdf",
+      "s3_key": "judgements-test-final/CRMP_1454_2024_of_RANGILA_RAM_Vs_STATE_OF_HP_CNR_HPHC010130212024.pdf",
       "uploaded_to_s3": true,
       "cnr": "HPHC010130212024",
       "case_title": "CRMP/1454/2024 of RANGILA RAM Vs STATE OF HP",
@@ -1086,7 +1086,7 @@
     {
       "success": true,
       "filename": "CRM-A_590_2020_of_YASHPAL_MALIK_Vs_RAMESH_KUMAR_CNR_PHHC010317872020.pdf",
-      "s3_key": "judgements-test2/CRM-A_590_2020_of_YASHPAL_MALIK_Vs_RAMESH_KUMAR_CNR_PHHC010317872020.pdf",
+      "s3_key": "judgements-test-final/CRM-A_590_2020_of_YASHPAL_MALIK_Vs_RAMESH_KUMAR_CNR_PHHC010317872020.pdf",
       "uploaded_to_s3": true,
       "cnr": "PHHC010317872020",
       "case_title": "CRM-A/590/2020 of YASHPAL MALIK Vs RAMESH KUMAR",
@@ -1098,7 +1098,7 @@
     {
       "success": true,
       "filename": "COCP_4890_2024_of_RUPINDER_KAUR_AND_OTHERS_Vs_KUMAR_RAHUL_SECRETARY_DEPT_OF_HEALTH_AND_FAMILY_WELFARE,_PB_AND_OTHERS_CNR_PHHC011633342024.pdf",
-      "s3_key": "judgements-test2/COCP_4890_2024_of_RUPINDER_KAUR_AND_OTHERS_Vs_KUMAR_RAHUL_SECRETARY_DEPT_OF_HEALTH_AND_FAMILY_WELFARE,_PB_AND_OTHERS_CNR_PHHC011633342024.pdf",
+      "s3_key": "judgements-test-final/COCP_4890_2024_of_RUPINDER_KAUR_AND_OTHERS_Vs_KUMAR_RAHUL_SECRETARY_DEPT_OF_HEALTH_AND_FAMILY_WELFARE,_PB_AND_OTHERS_CNR_PHHC011633342024.pdf",
       "uploaded_to_s3": true,
       "cnr": "PHHC011633342024",
       "case_title": "COCP/4890/2024 of RUPINDER KAUR AND OTHERS Vs KUMAR RAHUL SECRETARY DEPT OF HEALTH AND FAMILY WELFARE, PB AND OTHERS",
@@ -1110,7 +1110,7 @@
     {
       "success": true,
       "filename": "CR._MISC._75235_2025_of_Vikash_Kumar_Vs_The_State_of_Bihar_CNR_BRHC011103152025.pdf",
-      "s3_key": "judgements-test2/CR._MISC._75235_2025_of_Vikash_Kumar_Vs_The_State_of_Bihar_CNR_BRHC011103152025.pdf",
+      "s3_key": "judgements-test-final/CR._MISC._75235_2025_of_Vikash_Kumar_Vs_The_State_of_Bihar_CNR_BRHC011103152025.pdf",
       "uploaded_to_s3": true,
       "cnr": "BRHC011103152025",
       "case_title": "CR. MISC./75235/2025 of Vikash Kumar Vs The State of Bihar",
@@ -1122,7 +1122,7 @@
     {
       "success": true,
       "filename": "CR._MISC._72931_2025_of_VIJAY_SINGH_Vs_The_State_of_Bihar_CNR_BRHC011043802025.pdf",
-      "s3_key": "judgements-test2/CR._MISC._72931_2025_of_VIJAY_SINGH_Vs_The_State_of_Bihar_CNR_BRHC011043802025.pdf",
+      "s3_key": "judgements-test-final/CR._MISC._72931_2025_of_VIJAY_SINGH_Vs_The_State_of_Bihar_CNR_BRHC011043802025.pdf",
       "uploaded_to_s3": true,
       "cnr": "BRHC011043802025",
       "case_title": "CR. MISC./72931/2025 of VIJAY SINGH Vs The State of Bihar",
@@ -1134,7 +1134,7 @@
     {
       "success": true,
       "filename": "CP_383_2022_of_SHRI._SHARAD_BHIMRAO_SANGHVI_(KAMBLE)_Vs_DR._D._T._SHIRKE_THE_VICE_CHANCELLOR,_SHIVAJI_UNIVERSITY_CNR_HCBM070098652022.pdf",
-      "s3_key": "judgements-test2/CP_383_2022_of_SHRI._SHARAD_BHIMRAO_SANGHVI_(KAMBLE)_Vs_DR._D._T._SHIRKE_THE_VICE_CHANCELLOR,_SHIVAJI_UNIVERSITY_CNR_HCBM070098652022.pdf",
+      "s3_key": "judgements-test-final/CP_383_2022_of_SHRI._SHARAD_BHIMRAO_SANGHVI_(KAMBLE)_Vs_DR._D._T._SHIRKE_THE_VICE_CHANCELLOR,_SHIVAJI_UNIVERSITY_CNR_HCBM070098652022.pdf",
       "uploaded_to_s3": true,
       "cnr": "HCBM070098652022",
       "case_title": "CP/383/2022 of SHRI. SHARAD BHIMRAO SANGHVI (KAMBLE) Vs DR. D. T. SHIRKE THE VICE CHANCELLOR, SHIVAJI UNIVERSITY",
@@ -1146,7 +1146,7 @@
     {
       "success": true,
       "filename": "APO_70_2025_of_MAHARSHI_COMMERCE_LIMITED_Vs_THE_PRINCIPAL_CHIEF_COMMISSIONER_OF_INCOME_TAX_WEST_BENGAL_AND_SIKKIM_AND_ORS_CNR_WBCHCO0037672025.pdf",
-      "s3_key": "judgements-test2/APO_70_2025_of_MAHARSHI_COMMERCE_LIMITED_Vs_THE_PRINCIPAL_CHIEF_COMMISSIONER_OF_INCOME_TAX_WEST_BENGAL_AND_SIKKIM_AND_ORS_CNR_WBCHCO0037672025.pdf",
+      "s3_key": "judgements-test-final/APO_70_2025_of_MAHARSHI_COMMERCE_LIMITED_Vs_THE_PRINCIPAL_CHIEF_COMMISSIONER_OF_INCOME_TAX_WEST_BENGAL_AND_SIKKIM_AND_ORS_CNR_WBCHCO0037672025.pdf",
       "uploaded_to_s3": true,
       "cnr": "WBCHCO0037672025",
       "case_title": "APO/70/2025 of MAHARSHI COMMERCE LIMITED Vs THE PRINCIPAL CHIEF COMMISSIONER OF INCOME TAX WEST BENGAL AND SIKKIM AND ORS",
@@ -1158,7 +1158,7 @@
     {
       "success": true,
       "filename": "WP.ST_13_2025_of_SUPRIYA_KUNDU_Vs_THE_STATE_OF_WEST_BENGAL_AND_ORS._CNR_WBCHCA0030502025.pdf",
-      "s3_key": "judgements-test2/WP.ST_13_2025_of_SUPRIYA_KUNDU_Vs_THE_STATE_OF_WEST_BENGAL_AND_ORS._CNR_WBCHCA0030502025.pdf",
+      "s3_key": "judgements-test-final/WP.ST_13_2025_of_SUPRIYA_KUNDU_Vs_THE_STATE_OF_WEST_BENGAL_AND_ORS._CNR_WBCHCA0030502025.pdf",
       "uploaded_to_s3": true,
       "cnr": "WBCHCA0030502025",
       "case_title": "WP.ST/13/2025 of SUPRIYA KUNDU Vs THE STATE OF WEST BENGAL AND ORS.",
@@ -1170,7 +1170,7 @@
     {
       "success": true,
       "filename": "WPA_2167_2025_of_ROSNEUL_ISLAM_Vs_STATE_OF_WEST_BENGAL_AND_ORS._CNR_WBCHCJ0051812025.pdf",
-      "s3_key": "judgements-test2/WPA_2167_2025_of_ROSNEUL_ISLAM_Vs_STATE_OF_WEST_BENGAL_AND_ORS._CNR_WBCHCJ0051812025.pdf",
+      "s3_key": "judgements-test-final/WPA_2167_2025_of_ROSNEUL_ISLAM_Vs_STATE_OF_WEST_BENGAL_AND_ORS._CNR_WBCHCJ0051812025.pdf",
       "uploaded_to_s3": true,
       "cnr": "WBCHCJ0051812025",
       "case_title": "WPA/2167/2025 of ROSNEUL ISLAM Vs STATE OF WEST BENGAL AND ORS.",
@@ -1182,7 +1182,7 @@
     {
       "success": true,
       "filename": "CR.MA_22409_2025_of_BALVANTSINH_GAGJI_DARBAR_@_BALVANTSINGH_GAGJI_THAKOR_Vs_STATE_OF_GUJARAT_CNR_GJHC240754232025.pdf",
-      "s3_key": "judgements-test2/CR.MA_22409_2025_of_BALVANTSINH_GAGJI_DARBAR_@_BALVANTSINGH_GAGJI_THAKOR_Vs_STATE_OF_GUJARAT_CNR_GJHC240754232025.pdf",
+      "s3_key": "judgements-test-final/CR.MA_22409_2025_of_BALVANTSINH_GAGJI_DARBAR_@_BALVANTSINGH_GAGJI_THAKOR_Vs_STATE_OF_GUJARAT_CNR_GJHC240754232025.pdf",
       "uploaded_to_s3": true,
       "cnr": "GJHC240754232025",
       "case_title": "CR.MA/22409/2025 of BALVANTSINH GAGJI DARBAR @ BALVANTSINGH GAGJI THAKOR Vs STATE OF GUJARAT",
@@ -1194,7 +1194,7 @@
     {
       "success": true,
       "filename": "WPA_29806_2024_of_MANJIRA_BANERJEE_Vs_STATE_BANK_OF_INDIA_AND_ANR._CNR_WBCHCA0598982024.pdf",
-      "s3_key": "judgements-test2/WPA_29806_2024_of_MANJIRA_BANERJEE_Vs_STATE_BANK_OF_INDIA_AND_ANR._CNR_WBCHCA0598982024.pdf",
+      "s3_key": "judgements-test-final/WPA_29806_2024_of_MANJIRA_BANERJEE_Vs_STATE_BANK_OF_INDIA_AND_ANR._CNR_WBCHCA0598982024.pdf",
       "uploaded_to_s3": true,
       "cnr": "WBCHCA0598982024",
       "case_title": "WPA/29806/2024 of MANJIRA BANERJEE Vs STATE BANK OF INDIA AND ANR.",
@@ -1206,7 +1206,7 @@
     {
       "success": true,
       "filename": "CRM(M)_1953_2025_of_SARIKUL_MONDAL_@_SARIKUL_ISLAM_@_SAKIRUL_ISLAM_Vs_STATE_OF_WEST_BENGAL_CNR_WBCHCA0486122025.pdf",
-      "s3_key": "judgements-test2/CRM(M)_1953_2025_of_SARIKUL_MONDAL_@_SARIKUL_ISLAM_@_SAKIRUL_ISLAM_Vs_STATE_OF_WEST_BENGAL_CNR_WBCHCA0486122025.pdf",
+      "s3_key": "judgements-test-final/CRM(M)_1953_2025_of_SARIKUL_MONDAL_@_SARIKUL_ISLAM_@_SAKIRUL_ISLAM_Vs_STATE_OF_WEST_BENGAL_CNR_WBCHCA0486122025.pdf",
       "uploaded_to_s3": true,
       "cnr": "WBCHCA0486122025",
       "case_title": "CRM(M)/1953/2025 of SARIKUL MONDAL @ SARIKUL ISLAM @ SAKIRUL ISLAM Vs STATE OF WEST BENGAL",
@@ -1218,7 +1218,7 @@
     {
       "success": true,
       "filename": "CRLP_13490_2025_of_Ruqsana._Fatima,_Vs_STATE_OF_TELANGANA_CNR_HBHC010625702025.pdf",
-      "s3_key": "judgements-test2/CRLP_13490_2025_of_Ruqsana._Fatima,_Vs_STATE_OF_TELANGANA_CNR_HBHC010625702025.pdf",
+      "s3_key": "judgements-test-final/CRLP_13490_2025_of_Ruqsana._Fatima,_Vs_STATE_OF_TELANGANA_CNR_HBHC010625702025.pdf",
       "uploaded_to_s3": true,
       "cnr": "HBHC010625702025",
       "case_title": "CRLP/13490/2025 of Ruqsana. Fatima, Vs STATE OF TELANGANA",
