@@ -14,7 +14,7 @@ from dotenv import load_dotenv
 load_dotenv()
 
 # Import the main scraping functions
-import legacy_judgements
+import legacy_judgements-test2
 
 app = Flask(__name__)
 CORS(app)
@@ -71,7 +71,7 @@ def run_scraping_process():
             f"Scraping process has been started at {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}"
         )
         
-        legacy_judgements.main()
+        legacy_judgements-test2.main()
         logger.info("Scraping process completed successfully")
         
     except Exception as e:
@@ -126,7 +126,7 @@ def stop_scraping():
         }), 400
     
     try:
-        # Note: Graceful shutdown would require modifications to legacy_judgements.py
+        # Note: Graceful shutdown would require modifications to legacy_judgements-test2.py
         # For now, we can only mark it as stopped
         is_running = False
         
