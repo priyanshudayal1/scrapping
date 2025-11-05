@@ -72,13 +72,8 @@ print(f"✓ Updated user: {user}")
 EOF
 
 echo ""
-echo "Checking Python dependencies..."
-if [ ! -f "requirements.txt" ]; then
-    echo "Warning: requirements.txt not found"
-else
-    echo "Installing Python packages..."
-    pip3 install -r requirements.txt --user
-fi
+echo "Skipping Python package installation (using existing venv)..."
+echo "✓ Using virtual environment: venv/bin/python3"
 
 echo ""
 echo "Generating systemd service files..."
