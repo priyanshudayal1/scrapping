@@ -27,6 +27,8 @@ import json
 import time
 import requests
 import re
+import random
+import tempfile
 from datetime import datetime
 import smtplib
 from email.mime.text import MIMEText
@@ -135,21 +137,24 @@ def cleanup_resources():
                 except Exception as proc_error:
                     logger.warning(f"Error during process cleanup: {proc_error}")
                 
-            # Clean up only THIS script's profile directory
+            # Clean up only THIS script's profile and cache directories
             if SHUTIL_AVAILABLE:
                 try:
-                    temp_dir = 'C:/temp'
+                    import tempfile
+                    temp_dir = tempfile.gettempdir()  # Cross-platform temp directory
                     if os.path.exists(temp_dir):
                         for item in os.listdir(temp_dir):
-                            # Only delete profiles that start with our script ID and have timestamp
-                            if item.startswith(f'chrome_profile_script_{SCRIPT_ID}_'):
-                                profile_path = os.path.join(temp_dir, item)
-                                if os.path.isdir(profile_path):
+                            # Only delete profiles/caches that start with our script ID
+                            if (item.startswith(f'chrome_profile_script_{SCRIPT_ID}_') or 
+                                item.startswith(f'chrome_cache_script_{SCRIPT_ID}_') or
+                                item.startswith(f'chrome_crashes_script_{SCRIPT_ID}_')):
+                                dir_path = os.path.join(temp_dir, item)
+                                if os.path.isdir(dir_path):
                                     try:
-                                        shutil.rmtree(profile_path, ignore_errors=True)
-                                        logger.debug(f"Cleaned up profile directory: {profile_path}")
+                                        shutil.rmtree(dir_path, ignore_errors=True)
+                                        logger.debug(f"Cleaned up directory: {dir_path}")
                                     except Exception as cleanup_error:
-                                        logger.debug(f"Could not clean up {profile_path}: {cleanup_error}")
+                                        logger.debug(f"Could not clean up {dir_path}: {cleanup_error}")
                 except Exception as dir_cleanup_error:
                     logger.debug(f"Error during directory cleanup: {dir_cleanup_error}")
                 
@@ -245,20 +250,24 @@ def pre_launch_cleanup():
         if not check_port_availability():
             logger.warning(f"Port {9222 + SCRIPT_ID} still in use, but proceeding anyway")
     
-    # Cleanup any existing profile directories
+    # Cleanup any existing profile, cache, and crash directories
     try:
-        temp_dir = 'C:/temp'
+        import tempfile
+        temp_dir = tempfile.gettempdir()  # Cross-platform temp directory
         if os.path.exists(temp_dir):
             for item in os.listdir(temp_dir):
-                if item.startswith(f'chrome_profile_script_{SCRIPT_ID}_'):
-                    profile_path = os.path.join(temp_dir, item)
-                    if os.path.isdir(profile_path):
+                # Clean up all Chrome-related directories for this script
+                if (item.startswith(f'chrome_profile_script_{SCRIPT_ID}_') or 
+                    item.startswith(f'chrome_cache_script_{SCRIPT_ID}_') or
+                    item.startswith(f'chrome_crashes_script_{SCRIPT_ID}_')):
+                    dir_path = os.path.join(temp_dir, item)
+                    if os.path.isdir(dir_path):
                         try:
                             if SHUTIL_AVAILABLE:
-                                shutil.rmtree(profile_path, ignore_errors=True)
-                                logger.debug(f"Cleaned up existing profile: {profile_path}")
+                                shutil.rmtree(dir_path, ignore_errors=True)
+                                logger.debug(f"Cleaned up existing directory: {dir_path}")
                         except Exception as cleanup_error:
-                            logger.debug(f"Could not clean up {profile_path}: {cleanup_error}")
+                            logger.debug(f"Could not clean up {dir_path}: {cleanup_error}")
     except Exception as e:
         logger.debug(f"Error during pre-launch directory cleanup: {e}")
     
@@ -737,6 +746,10 @@ def initialize_browser():
     chrome_options.add_argument('--disable-dev-shm-usage')
     chrome_options.add_argument('--window-size=1920,1080')
     
+    # CRITICAL: Multi-instance isolation - each script gets unique resources
+    import random
+    instance_random = random.randint(1000, 9999)
+    
     # Multi-instance isolation options
     chrome_options.add_argument('--no-first-run')
     chrome_options.add_argument('--no-default-browser-check')
@@ -745,49 +758,93 @@ def initialize_browser():
     chrome_options.add_argument('--disable-backgrounding-occluded-windows')
     chrome_options.add_argument('--disable-renderer-backgrounding')
     chrome_options.add_argument('--disable-background-networking')
+    chrome_options.add_argument('--disable-sync')
+    chrome_options.add_argument('--disable-translate')
     
-    # Process isolation and stability
+    # Process isolation and stability - CRITICAL for concurrent execution
     chrome_options.add_argument('--disable-blink-features=AutomationControlled')
     chrome_options.add_argument('--disable-extensions')
     chrome_options.add_argument('--disable-web-security')
-    chrome_options.add_argument('--disable-features=VizDisplayCompositor,TranslateUI')
+    chrome_options.add_argument('--disable-features=VizDisplayCompositor,TranslateUI,BlinkGenPropertyTrees')
     chrome_options.add_argument('--disable-ipc-flooding-protection')
     chrome_options.add_argument('--disable-component-extensions-with-background-pages')
+    chrome_options.add_argument('--disable-hang-monitor')
+    chrome_options.add_argument('--disable-prompt-on-repost')
+    chrome_options.add_argument('--disable-domain-reliability')
+    chrome_options.add_argument('--disable-client-side-phishing-detection')
+    
+    # Shared memory isolation - prevents scripts from interfering with each other
+    chrome_options.add_argument('--disable-dev-shm-usage')
+    chrome_options.add_argument('--force-device-scale-factor=1')
     
     # Memory and performance optimization
     chrome_options.add_argument('--max_old_space_size=4096')
     chrome_options.add_argument('--memory-pressure-off')
     chrome_options.add_argument('--max-unused-resource-memory-usage-percentage=5')
     chrome_options.add_argument('--aggressive-cache-discard')
+    chrome_options.add_argument('--disable-background-timer-throttling')
     
     # Unique profile and debugging port for each script instance
-    profile_dir = f'C:/temp/chrome_profile_script_{SCRIPT_ID}_{int(time.time())}'
+    # CRITICAL: timestamp + random ensures no collision even if scripts start simultaneously
+    import tempfile
+    profile_timestamp = int(time.time() * 1000)  # milliseconds for higher precision
+    temp_base = tempfile.gettempdir()  # Cross-platform temp directory
+    profile_dir = os.path.join(temp_base, f'chrome_profile_script_{SCRIPT_ID}_{profile_timestamp}_{instance_random}')
     chrome_options.add_argument(f'--user-data-dir={profile_dir}')
     chrome_options.add_argument(f'--remote-debugging-port={9222 + SCRIPT_ID}')
     
+    # Disk cache isolation - each script gets its own cache
+    disk_cache_dir = os.path.join(temp_base, f'chrome_cache_script_{SCRIPT_ID}_{profile_timestamp}')
+    chrome_options.add_argument(f'--disk-cache-dir={disk_cache_dir}')
+    chrome_options.add_argument('--disk-cache-size=104857600')  # 100MB
+    
     # Additional isolation options
-    chrome_options.add_argument(f'--crash-dumps-dir=C:/temp/chrome_crashes_script_{SCRIPT_ID}')
+    chrome_options.add_argument(f'--crash-dumps-dir={os.path.join(temp_base, f"chrome_crashes_script_{SCRIPT_ID}_{profile_timestamp}")}')
     chrome_options.add_argument('--enable-crash-reporter=false')
     chrome_options.add_argument('--disable-crash-reporter')
     
+    # Process per site to prevent tab/window sharing
+    chrome_options.add_argument('--process-per-site')
+    chrome_options.add_argument('--disable-site-isolation-trials')
+    
     # Automation detection prevention
     chrome_options.add_experimental_option('useAutomationExtension', False)
-    chrome_options.add_experimental_option("excludeSwitches", ["enable-automation"])
-    # Note: detach option removed to ensure proper cleanup and avoid interference with other instances
+    chrome_options.add_experimental_option("excludeSwitches", ["enable-automation", "enable-logging"])
+    chrome_options.add_experimental_option('prefs', {
+        'profile.default_content_setting_values.notifications': 2,
+        'profile.default_content_settings.popups': 0,
+        'download.prompt_for_download': False,
+        'download.directory_upgrade': True,
+        'safebrowsing.enabled': False,
+        'profile.managed_default_content_settings.images': 1
+    })
     
     # Set custom user agent to avoid detection
     chrome_options.add_argument('--user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36')
     
     # Create new Chrome instance with enhanced isolation and retry logic
-    max_init_attempts = 3
+    max_init_attempts = 5
     
     for attempt in range(max_init_attempts):
         try:
             logger.info(f"Attempting to create Chrome instance (attempt {attempt + 1}/{max_init_attempts}) for Script {SCRIPT_ID}")
+            logger.info(f"Profile directory: {profile_dir}")
+            logger.info(f"Debugging port: {9222 + SCRIPT_ID}")
+            
+            # Add random delay to prevent simultaneous starts
+            if attempt == 0:
+                startup_delay = random.uniform(0.5, 3.0) * SCRIPT_ID * 0.1
+                logger.info(f"Adding startup delay: {startup_delay:.2f} seconds")
+                time.sleep(startup_delay)
+            
             driver = webdriver.Chrome(options=chrome_options)
             
             # Verify driver is working
-            driver.get("data:text/html,<html><body><h1>Browser Initialized</h1></body></html>")
+            driver.get("data:text/html,<html><body><h1>Browser Initialized - Script {SCRIPT_ID}</h1></body></html>")
+            
+            # Set timeouts
+            driver.set_page_load_timeout(60)
+            driver.set_script_timeout(60)
             
             # Additional post-initialization isolation
             try:
@@ -795,6 +852,8 @@ def initialize_browser():
                     "userAgent": 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36'
                 })
                 driver.execute_script("Object.defineProperty(navigator, 'webdriver', {get: () => undefined})")
+                driver.execute_script("Object.defineProperty(navigator, 'plugins', {get: () => [1, 2, 3, 4, 5]})")
+                driver.execute_script("Object.defineProperty(navigator, 'languages', {get: () => ['en-US', 'en']})")
                 logger.debug(f"Applied stealth settings for Script {SCRIPT_ID}")
             except Exception as stealth_error:
                 logger.warning(f"Could not apply stealth settings: {stealth_error}")
@@ -813,8 +872,9 @@ def initialize_browser():
                 pass
                 
             if attempt < max_init_attempts - 1:
-                logger.info("Waiting before retry...")
-                time.sleep(5 + attempt * 2)  # Increasing delay
+                retry_delay = 5 + (attempt * 3) + random.uniform(0, 2)
+                logger.info(f"Waiting {retry_delay:.2f} seconds before retry...")
+                time.sleep(retry_delay)
                 
                 # Try cleanup before retry
                 force_cleanup_chrome_processes()
@@ -834,10 +894,10 @@ def initialize_browser():
         
         # Capture screenshot of the captcha
         captcha_img = wait.until(EC.presence_of_element_located((By.ID, "captcha_image")))
-        captcha_img.screenshot("captcha.png")
+        captcha_img.screenshot(f"captcha_script_{SCRIPT_ID}.png")
         # save this image in the same directory as the script
-        logger.info("Captcha image saved as captcha.png")
-        # driver.save_screenshot("initial_page.png")
+        logger.info(f"Captcha image saved as captcha_script_{SCRIPT_ID}.png")
+        # driver.save_screenshot(f"initial_page_script_{SCRIPT_ID}.png")
     
     except Exception as e:
         logger.error(f"An error occurred: {e}")
@@ -898,7 +958,7 @@ def fill_captcha():
             # Ensure we have a fresh captcha image
             try:
                 captcha_img = wait.until(EC.presence_of_element_located((By.ID, "captcha_image")))
-                captcha_img.screenshot("captcha.png")
+                captcha_img.screenshot(f"captcha_script_{SCRIPT_ID}.png")
                 logger.info("Captcha image captured")
             except Exception as img_error:
                 logger.error(f"Failed to capture captcha image: {img_error}")
@@ -907,7 +967,7 @@ def fill_captcha():
                 continue
             
             # calling bedrock to solve captcha
-            with open("captcha.png", "rb") as image_file:
+            with open(f"captcha_script_{SCRIPT_ID}.png", "rb") as image_file:
                 captcha_base64 = base64.b64encode(image_file.read()).decode('utf-8')
 
             body = {
@@ -1013,7 +1073,7 @@ def wait_for_loading_component():
     except Exception as e:
         logger.error(f"Error waiting for loading component: {e}")
     
-    driver.save_screenshot("after_loading.png")
+    driver.save_screenshot(f"after_loading_script_{SCRIPT_ID}.png")
 
 
 def set_table_display_count():
@@ -1999,7 +2059,8 @@ if __name__ == "__main__":
         logger.info(f"Starting Script 13")
         logger.info(f"Page Range: 30,709 to 33,267")
         logger.info(f"Debugging Port: {9222 + SCRIPT_ID}")
-        logger.info(f"Profile Directory: C:/temp/chrome_profile_script_{SCRIPT_ID}_*")
+        import tempfile
+        logger.info(f"Profile Directory: {os.path.join(tempfile.gettempdir(), 'chrome_profile_script_' + str(SCRIPT_ID) + '_*')}")
         logger.info("=" * 80)
         
         # Step 0: Pre-launch cleanup and preparation
