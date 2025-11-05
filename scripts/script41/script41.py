@@ -276,7 +276,7 @@ def pre_launch_cleanup():
     
     logger.info(f"Pre-launch cleanup completed for Script {SCRIPT_ID}")
 
-# All scraping functions from legacy_judgements-test2.py
+# All scraping functions from legacy_judgements.py
 def load_progress():
     """Load progress from JSON file"""
     try:

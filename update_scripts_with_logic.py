@@ -1,5 +1,5 @@
 """
-Update all 66 scripts with the full scraping logic from legacy_judgements-test2.py
+Update all 66 scripts with the full scraping logic from legacy_judgements.py
 """
 import os
 import json
@@ -8,7 +8,7 @@ def create_full_script(script_id, start_page, end_page):
     """Generate a complete script with all scraping logic"""
     
     # Read the legacy script
-    legacy_file = os.path.join(os.path.dirname(os.path.dirname(__file__)), "legacy_judgements-test2.py")
+    legacy_file = os.path.join(os.path.dirname(os.path.dirname(__file__)), "legacy_judgements.py")
     
     with open(legacy_file, 'r', encoding='utf-8') as f:
         legacy_content = f.read()
@@ -1576,7 +1576,7 @@ def pre_launch_cleanup():
     
     logger.info(f"Pre-launch cleanup completed for Script {{SCRIPT_ID}}")
 
-# All scraping functions from legacy_judgements-test2.py
+# All scraping functions from legacy_judgements.py
 {functions_code}
 '''
     
@@ -1696,7 +1696,7 @@ def update_all_scripts():
     else:
         print("\n✅ All scripts updated successfully!")
         print("\nScripts now include:")
-        print("  • Full scraping logic from legacy_judgements-test2.py")
+        print("  • Full scraping logic from legacy_judgements.py")
         print("  • AWS S3 upload functionality")
         print("  • Progress tracking")
         print("  • Error handling and recovery")
