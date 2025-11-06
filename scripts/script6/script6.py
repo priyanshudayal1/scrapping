@@ -602,14 +602,14 @@ Automated notification from Judgement Scraping System
 
 
 def load_distributed_config():
-    """Load distributed configuration for this instance"""
+    """Load distributed configuration for this script"""
     global START_PAGE, END_PAGE, TOTAL_RESULTS
     
     try:
-        # Look for config file in the project root (3 levels up from script directory)
+        # Look for scripts_distribution_config.json in parent directory (2 levels up from script directory)
         script_dir = os.path.dirname(os.path.abspath(__file__))
-        project_root = os.path.dirname(os.path.dirname(os.path.dirname(script_dir)))
-        config_file = os.path.join(project_root, "distributed_config.json")
+        parent_dir = os.path.dirname(os.path.dirname(script_dir))
+        config_file = os.path.join(parent_dir, "scripts_distribution_config.json")
         
         if os.path.exists(config_file):
             with open(config_file, 'r', encoding='utf-8') as f:
@@ -617,19 +617,19 @@ def load_distributed_config():
             
             TOTAL_RESULTS = config.get('total_results', 16886658)
             
-            # Find configuration for this instance
-            for instance in config.get('instances', []):
-                if instance['instance_id'] == SCRIPT_ID:
-                    START_PAGE = instance['start_page']
-                    END_PAGE = instance['end_page']
-                    logger.info(f"Script {SCRIPT_ID} configured: Pages {START_PAGE} to {END_PAGE}")
-                    logger.info(f"Description: {instance.get('description', 'N/A')}")
+            # Find configuration for THIS SCRIPT (not instance)
+            for script_config in config.get('scripts', []):
+                if script_config['script_id'] == SCRIPT_ID:
+                    START_PAGE = script_config['start_page']
+                    END_PAGE = script_config['end_page']
+                    logger.info(f"Script {SCRIPT_ID} configured: Pages {START_PAGE:,} to {END_PAGE:,}")
+                    logger.info(f"Total pages to process: {script_config.get('total_pages', 'Unknown'):,}")
                     return True
             
             logger.warning(f"No configuration found for script {SCRIPT_ID}, using defaults")
             return False
         else:
-            logger.warning(f"Distributed config file not found: {config_file}")
+            logger.warning(f"Scripts distribution config file not found: {config_file}")
             return False
             
     except Exception as e:
@@ -661,7 +661,7 @@ def extract_total_results():
 
 
 def navigate_to_specific_page(target_page, max_retries=3):
-    """Navigate to a specific page number by clicking 'Next' button repeatedly"""
+    """Navigate to a specific page number using JavaScript pagination control"""
     global current_page, driver, wait
     
     for retry in range(max_retries):
@@ -680,67 +680,69 @@ def navigate_to_specific_page(target_page, max_retries=3):
                         continue
                 return False
             
-            # CRITICAL FIX: Always start from page 1 when we need to navigate
-            # The website pagination works by clicking Next from page 1
-            actual_current = 1  # We always assume we're starting from page 1 after captcha
-            
-            logger.info(f"Navigating from page {actual_current} to page {target_page}...")
-            logger.info(f"This will require clicking 'Next' {target_page - actual_current} times")
+            logger.info(f"Navigating to page {target_page} using DataTables API...")
             
             if target_page == 1:
                 logger.info("Already on page 1, no navigation needed")
                 current_page = 1
                 return True
             
-            # Click Next button (target_page - 1) times to reach the target page
-            clicks_needed = target_page - actual_current
-            
-            for click_num in range(clicks_needed):
-                try:
-                    logger.info(f"Navigation progress: {click_num + 1}/{clicks_needed} (Current page: {actual_current + click_num}, Target: {target_page})")
+            # Use DataTables API to directly jump to the target page
+            # DataTables page() function uses 0-based indexing, so subtract 1
+            try:
+                # First check if DataTables is initialized
+                is_initialized = driver.execute_script("""
+                    return typeof $.fn.dataTable !== 'undefined' && 
+                           $('#example_pdf').length > 0 && 
+                           $.fn.dataTable.isDataTable('#example_pdf');
+                """)
+                
+                if not is_initialized:
+                    logger.error("DataTables is not initialized on the page")
+                    # Fallback to clicking navigation if DataTables not available
+                    return navigate_by_clicking(target_page)
+                
+                # Navigate to the target page using DataTables API
+                logger.info(f"Using DataTables API to jump directly to page {target_page}")
+                
+                # Execute the page navigation
+                script = f"""
+                    var table = $('#example_pdf').DataTable();
+                    table.page({target_page - 1}).draw('page');
+                    return table.page.info().page + 1;
+                """
+                
+                resulting_page = driver.execute_script(script)
+                
+                # Wait for the table to redraw
+                time.sleep(3)
+                
+                # Verify the navigation was successful
+                wait.until(EC.presence_of_element_located((By.ID, "report_body")))
+                time.sleep(1)
+                
+                # Verify current page number
+                actual_page = driver.execute_script("""
+                    var table = $('#example_pdf').DataTable();
+                    return table.page.info().page + 1;
+                """)
+                
+                if actual_page == target_page:
+                    current_page = target_page
+                    logger.info(f"✓ Successfully navigated to page {target_page}")
+                    return True
+                else:
+                    logger.warning(f"Page mismatch: Expected {target_page}, got {actual_page}")
+                    if retry < max_retries - 1:
+                        continue
+                    return False
                     
-                    # Find and verify Next button
-                    next_button = wait.until(EC.element_to_be_clickable((By.ID, "example_pdf_next")))
-                    
-                    # Check if button is disabled
-                    button_class = next_button.get_attribute("class") or ""
-                    if "disabled" in button_class:
-                        logger.error(f"Cannot navigate further. 'Next' button is disabled after {click_num} clicks.")
-                        logger.error(f"Reached page {actual_current + click_num}, but target was {target_page}")
-                        return False
-                    
-                    # Click the Next button
-                    next_button.click()
-                    
-                    # Wait for page transition
-                    time.sleep(2)
-                    
-                    # Wait for new table data to load
-                    wait.until(EC.presence_of_element_located((By.ID, "report_body")))
-                    
-                    # Add extra wait for table to fully render
-                    time.sleep(1)
-                    
-                    # Log progress every 100 pages
-                    if (click_num + 1) % 100 == 0:
-                        logger.info(f"✓ Navigated through {click_num + 1} pages...")
-                    
-                except Exception as click_error:
-                    logger.error(f"Error clicking Next button at iteration {click_num + 1}: {click_error}")
-                    
-                    # Try to recover and continue
-                    if click_num > 0 and retry < max_retries - 1:
-                        logger.warning(f"Navigation interrupted at page {actual_current + click_num}. Retrying entire navigation...")
-                        time.sleep(5)
-                        break
-                    else:
-                        raise click_error
-            
-            else:
-                # Successfully completed all clicks
-                current_page = target_page
-                logger.info(f"✓ Successfully navigated to page {target_page}")
-                return True
+            except Exception as js_error:
+                logger.error(f"JavaScript navigation failed: {js_error}")
+                if retry < max_retries - 1:
+                    logger.info("Falling back to click-based navigation...")
+                    return navigate_by_clicking(target_page)
+                raise
             
         except Exception as e:
             logger.error(f"Error navigating to page {target_page} (attempt {retry + 1}/{max_retries}): {e}")
@@ -763,6 +765,62 @@ def navigate_to_specific_page(target_page, max_retries=3):
     return False
 
 
+def navigate_by_clicking(target_page, batch_size=50):
+    """Fallback method: Navigate by clicking Next button in optimized batches"""
+    global current_page, driver, wait
+    
+    logger.info(f"Using click-based navigation to page {target_page}")
+    logger.warning("This may take a while for large page numbers...")
+    
+    actual_current = 1  # Starting from page 1
+    clicks_needed = target_page - actual_current
+    
+    # Navigate in batches with periodic page reloads to prevent DOM issues
+    clicks_done = 0
+    
+    while clicks_done < clicks_needed:
+        batch_clicks = min(batch_size, clicks_needed - clicks_done)
+        
+        logger.info(f"Navigation batch: clicks {clicks_done + 1} to {clicks_done + batch_clicks} (Page {actual_current + clicks_done} to {actual_current + clicks_done + batch_clicks})")
+        
+        for i in range(batch_clicks):
+            try:
+                # Find Next button
+                next_button = wait.until(EC.element_to_be_clickable((By.ID, "example_pdf_next")))
+                
+                # Check if button is disabled
+                button_class = next_button.get_attribute("class") or ""
+                if "disabled" in button_class:
+                    logger.error(f"Next button disabled after {clicks_done + i} clicks")
+                    return False
+                
+                # Use JavaScript click for reliability
+                driver.execute_script("arguments[0].click();", next_button)
+                
+                # Short wait for page transition
+                time.sleep(0.5)
+                
+                # Every 10 clicks, wait for table to fully load
+                if (i + 1) % 10 == 0:
+                    wait.until(EC.presence_of_element_located((By.ID, "report_body")))
+                    time.sleep(1)
+                    logger.info(f"Progress: {clicks_done + i + 1}/{clicks_needed} clicks completed")
+                
+            except Exception as click_error:
+                logger.error(f"Click error at iteration {clicks_done + i + 1}: {click_error}")
+                return False
+        
+        clicks_done += batch_clicks
+        
+        # After each batch, ensure table is loaded
+        wait.until(EC.presence_of_element_located((By.ID, "report_body")))
+        time.sleep(2)
+        
+        logger.info(f"Batch complete: {clicks_done}/{clicks_needed} clicks done")
+    
+    current_page = target_page
+    logger.info(f"✓ Successfully navigated to page {target_page} using click method")
+    return True
 def close_any_open_modal():
     """Close any open modal if it exists"""
     try:
@@ -1527,31 +1585,66 @@ def check_if_next_page_available():
 
 
 def navigate_to_next_page():
-    """Navigate to the next page"""
-    global current_page
+    """Navigate to the next page with improved error handling"""
+    global current_page, driver, wait
     
     try:
+        # First verify driver is responsive
+        if driver is None:
+            logger.error("Driver is None, cannot navigate")
+            return False
+        
+        try:
+            driver.current_url
+        except Exception as e:
+            logger.error(f"Driver is not responsive: {e}")
+            return False
+        
         if not check_if_next_page_available():
-            logger.info("No more pages available")
+            logger.info("No more pages available (Next button disabled)")
             return False
         
         logger.info(f"Navigating to page {current_page + 1}...")
         
-        next_button = wait.until(EC.element_to_be_clickable((By.ID, "example_pdf_next")))
-        driver.execute_script("arguments[0].click();", next_button)
+        # Try to find and click next button
+        try:
+            next_button = wait.until(EC.element_to_be_clickable((By.ID, "example_pdf_next")))
+            
+            # Verify button is not disabled
+            button_class = next_button.get_attribute("class") or ""
+            if "disabled" in button_class:
+                logger.info("Next button is disabled - no more pages available")
+                return False
+            
+            # Use JavaScript click for reliability
+            driver.execute_script("arguments[0].click();", next_button)
+            logger.debug("Next button clicked")
+            
+        except Exception as button_error:
+            logger.error(f"Failed to click next button: {button_error}")
+            return False
         
-        # Wait for page to load
+        # Wait for page transition
         time.sleep(3)
         
-        # Wait for table to reload
-        wait.until(EC.presence_of_element_located((By.ID, "report_body")))
+        # Wait for table to reload with timeout
+        try:
+            wait.until(EC.presence_of_element_located((By.ID, "report_body")))
+            logger.debug("Table reloaded after navigation")
+        except Exception as table_error:
+            logger.error(f"Table did not reload after navigation: {table_error}")
+            return False
+        
+        # Additional wait for full rendering
+        time.sleep(2)
         
         current_page += 1
-        logger.info(f"Successfully navigated to page {current_page}")
+        logger.info(f"✓ Successfully navigated to page {current_page}")
         return True
         
     except Exception as e:
-        logger.error(f"Error navigating to next page: {e}")
+        logger.error(f"Unexpected error navigating to next page: {e}")
+        logger.error(traceback.format_exc())
         return False
 
 
@@ -1929,9 +2022,45 @@ def process_all_pages():
                 progress['pages_completed'].append(current_page)
                 save_progress(progress)
             
-            # Try to navigate to next page
-            if not navigate_to_next_page():
-                logger.info("No more pages to process. Download complete!")
+            # Try to navigate to next page with recovery logic
+            navigation_success = False
+            for nav_attempt in range(3):
+                if navigate_to_next_page():
+                    navigation_success = True
+                    break
+                else:
+                    logger.warning(f"Navigation to next page failed (attempt {nav_attempt + 1}/3)")
+                    
+                    # Check if we've reached the end page for this script
+                    if END_PAGE and current_page >= END_PAGE:
+                        logger.info(f"Reached end page {END_PAGE} for this script. Download complete!")
+                        navigation_success = False
+                        break
+                    
+                    # Otherwise, try recovery
+                    if nav_attempt < 2:
+                        logger.info("Attempting to recover browser session before retrying navigation...")
+                        if recover_browser_session():
+                            # Navigate back to current page first
+                            if navigate_to_specific_page(current_page, max_retries=2):
+                                logger.info("Successfully recovered and re-navigated to current page")
+                                time.sleep(5)
+                                continue
+                            else:
+                                logger.error("Failed to navigate back to current page after recovery")
+                        else:
+                            logger.error("Browser recovery failed")
+                        time.sleep(10)
+            
+            if not navigation_success:
+                if END_PAGE and current_page >= END_PAGE:
+                    logger.info(f"Completed assigned page range. Script {SCRIPT_ID} finished successfully!")
+                else:
+                    logger.error("Failed to navigate to next page after multiple recovery attempts")
+                    send_error_notification(
+                        f"Navigation failed at page {current_page}",
+                        f"Could not navigate to next page after 3 attempts with recovery. Current: {current_page}, Target End: {END_PAGE}"
+                    )
                 break
                 
         except Exception as e:
