@@ -1371,20 +1371,41 @@ logging.basicConfig(
 )
 
 
-# Initialize AWS clients
+# Initialize Google Cloud Vision API credentials
+try:
+    from google.cloud import vision_v1
+    from google.oauth2 import service_account
+    
+    credentials = service_account.Credentials.from_service_account_info({{
+        "type": "service_account",
+        "project_id": os.getenv('GCP_PROJECT_ID'),
+        "private_key_id": os.getenv('GCP_PRIVATE_KEY_ID'),
+        "private_key": os.getenv('GCP_PRIVATE_KEY', '').replace('\\\\\\\\n', '\\\\n'),
+        "client_email": os.getenv('GCP_CLIENT_EMAIL'),
+        "client_id": os.getenv('GCP_CLIENT_ID'),
+        "auth_uri": os.getenv('GCP_AUTH_URI', 'https://accounts.google.com/o/oauth2/auth'),
+        "token_uri": os.getenv('GCP_TOKEN_URI', 'https://oauth2.googleapis.com/token'),
+        "auth_provider_x509_cert_url": os.getenv('GCP_AUTH_PROVIDER_CERT_URL', 'https://www.googleapis.com/oauth2/v1/certs'),
+        "client_x509_cert_url": os.getenv('GCP_CLIENT_CERT_URL'),
+    }})
+    vision_client = vision_v1.ImageAnnotatorClient(credentials=credentials)
+    logger.info("Google Cloud Vision API initialized successfully")
+except Exception as e:
+    logger.error(f"Failed to initialize Google Cloud Vision API: {{str(e)}}")
+    vision_client = None
+
+# Initialize AWS S3 client for file uploads
 try:
     session = boto3.Session(
         aws_access_key_id=os.getenv('AWS_ACCESS_KEY_ID'),
         aws_secret_access_key=os.getenv('AWS_SECRET_ACCESS_KEY'),
         region_name=os.getenv('AWS_REGION', 'ap-south-1')
     )
-    bedrock_runtime = session.client("bedrock-runtime")
     s3_client = session.client("s3")
     S3_BUCKET_NAME = "s3-vector-storage"
-    logger.info("AWS clients initialized successfully")
+    logger.info("AWS S3 client initialized successfully")
 except Exception as e:
-    logger.error(f"Failed to initialize AWS clients: {{str(e)}}")
-    bedrock_runtime = None
+    logger.error(f"Failed to initialize AWS S3 client: {{str(e)}}")
     s3_client = None
     S3_BUCKET_NAME = None
 
