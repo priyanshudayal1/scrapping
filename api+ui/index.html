@@ -78,36 +78,30 @@
   </head>
   <body class="min-h-screen bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50">
     <div class="container mx-auto px-4 py-8">
-      <div class="max-w-6xl mx-auto">
-        <!-- Control Panel -->
-        <div class="glass-effect rounded-2xl shadow-xl p-6 mb-8 slide-in">
-          <h2 class="text-2xl font-bold text-gray-800 mb-6 flex items-center">
-            <span class="bg-indigo-100 text-indigo-600 p-2 rounded-lg mr-3">🎮</span>
-            Control Panel
-          </h2>
-          <div class="flex flex-wrap gap-4">
-            <button
-              id="startBtn"
-              onclick="startScraping()"
-              class="bg-gradient-to-r from-green-500 to-emerald-600 hover:from-green-600 hover:to-emerald-700 text-white font-bold py-3 px-8 rounded-xl shadow-lg transition-all duration-300 transform hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100 flex items-center"
-            >
-              <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z"></path>
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-              </svg>
-              Start Scraping
-            </button>
-            <button
-              id="stopBtn"
-              onclick="stopScraping()"
-              class="bg-gradient-to-r from-red-500 to-pink-600 hover:from-red-600 hover:to-pink-700 text-white font-bold py-3 px-8 rounded-xl shadow-lg transition-all duration-300 transform hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100 flex items-center"
-            >
-              <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 10a1 1 0 011-1h4a1 1 0 011 1v4a1 1 0 01-1 1h-4a1 1 0 01-1-1v-4z"></path>
-              </svg>
-              Stop Scraping
-            </button>
+      <div class="max-w-7xl mx-auto">
+        <!-- Header -->
+        <div class="glass-effect rounded-2xl shadow-2xl p-8 mb-8 slide-in border-t-4 border-indigo-500">
+          <div class="flex items-center justify-between">
+            <div>
+              <h1 class="text-5xl font-extrabold gradient-text mb-3">
+                ⚖️ judgements-test-final Scraping Monitor
+              </h1>
+              <p class="text-gray-600 text-lg font-medium">
+                Real-time monitoring of PDF download progress across distributed instances
+              </p>
+              <p class="text-gray-500 text-sm mt-2">
+                22 scripts per instance | 3 total instances | 66 total scripts
+              </p>
+            </div>
+            <div class="hidden md:block">
+              <div class="bg-gradient-to-r from-indigo-500 to-purple-600 text-white px-6 py-3 rounded-xl shadow-lg">
+                <p class="text-sm font-semibold">Total Target</p>
+                <p class="text-3xl font-bold">16.8M PDFs</p>
+              </div>
+            </div>
+          </div>
+        </div>
+        
         <!-- Status Indicator -->
         <div class="glass-effect rounded-2xl shadow-xl p-6 mb-8 slide-in">
           <div class="flex items-center justify-between flex-wrap gap-4">
@@ -443,11 +437,14 @@
 
         if (isRunning) {
           statusIndicator.className =
-            "w-4 h-4 rounded-full bg-green-500 animate-pulse";
-          statusText.textContent = "Running";
+            "w-6 h-6 rounded-full bg-gradient-to-r from-green-400 to-emerald-500 shadow-lg pulse-glow";
+          document.getElementById('statusRing').className = 
+            "absolute inset-0 rounded-full border-4 border-green-400 opacity-75 animate-ping";
+          statusText.innerHTML = '<span class="text-green-600 font-bold">🟢 Running</span>';
         } else {
-          statusIndicator.className = "w-4 h-4 rounded-full bg-gray-400";
-          statusText.textContent = "Not Running";
+          statusIndicator.className = "w-6 h-6 rounded-full bg-gray-400 shadow-lg";
+          document.getElementById('statusRing').className = "absolute inset-0 rounded-full opacity-0";
+          statusText.innerHTML = '<span class="text-gray-600 font-bold">⚫ Not Running</span>';
         }
 
         // Update error alert
@@ -494,59 +491,7 @@
         }
         
         // Update footer time
-        document.getElementById('footerTime').textContent = new Date().toLocaleString();          progress.pages_completed || 0;
-        document.getElementById("failedDownloads").textContent =
-          progress.failed_downloads || 0;
-
-        // Update session information
-        document.getElementById("startTime").textContent = progress.start_time
-          ? new Date(progress.start_time).toLocaleString()
-          : "-";
-        document.getElementById("lastUpdate").textContent =
-          progress.last_updated
-            ? new Date(progress.last_updated).toLocaleString()
-            : "-";
-        document.getElementById("totalProcessed").textContent =
-          timing.total_files_processed || 0;
-        document.getElementById("totalSuccessful").textContent =
-          timing.total_successful_downloads || 0;
-
-        // Update progress bar
-        const progressPercent =
-          timing.total_files_processed > 0
-            ? (progress.total_files_downloaded / timing.total_files_processed) *
-              100
-            : 0;
-        document.getElementById("progressBar").style.width =
-          progressPercent + "%";
-
-        // Update yearly distribution
-        const yearlyDiv = document.getElementById("yearlyDistribution");
-        if (
-          progress.yearly_counts &&
-          Object.keys(progress.yearly_counts).length > 0
-        ) {
-          yearlyDiv.innerHTML = "";
-          const sortedYears = Object.keys(progress.yearly_counts).sort(
-            (a, b) => b - a
-          );
-          sortedYears.forEach((year) => {
-            const count = progress.yearly_counts[year];
-            yearlyDiv.innerHTML += `
-                        <div class="bg-gray-50 rounded-lg p-3 text-center">
-                            <p class="text-lg font-bold text-gray-800">${year}</p>
-                            <p class="text-sm text-gray-600">${count} files</p>
-                        </div>
-                    `;
-          });
-        } else {
-          yearlyDiv.innerHTML =
-            '<p class="text-gray-500 col-span-full text-center">No data available</p>';
-        }
-
-        // Update button states
-        document.getElementById("startBtn").disabled = isRunning;
-        document.getElementById("stopBtn").disabled = !isRunning;
+        document.getElementById('footerTime').textContent = new Date().toLocaleString();
       }
 
       function startAutoRefresh() {

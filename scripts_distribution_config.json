@@ -3,7 +3,7 @@
   "results_per_page": 100,
   "total_pages": 168867,
   "total_scripts": 66,
-  "scripts_per_instance": 17,
+  "scripts_per_instance": 22,
   "scripts": [
     {
       "script_id": 1,
@@ -472,109 +472,39 @@
     {
       "instance_id": 1,
       "scripts": [
-        1,
-        2,
-        3,
-        4,
-        5,
-        6,
-        7,
-        8,
-        9,
-        10,
-        11,
-        12,
-        13,
-        14,
-        15,
-        16,
-        17
+        1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20,
+        21, 22
       ],
-      "script_count": 17,
-      "total_pages": 43503,
-      "estimated_results": 4350300,
+      "script_count": 22,
+      "total_pages": 56298,
+      "estimated_results": 5629800,
       "start_page": 1,
-      "end_page": 43503
+      "end_page": 56298
     },
     {
       "instance_id": 2,
       "scripts": [
-        18,
-        19,
-        20,
-        21,
-        22,
-        23,
-        24,
-        25,
-        26,
-        27,
-        28,
-        29,
-        30,
-        31,
-        32,
-        33,
-        34
+        23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40,
+        41, 42, 43, 44
       ],
-      "script_count": 17,
-      "total_pages": 43503,
-      "estimated_results": 4350300,
-      "start_page": 43504,
-      "end_page": 87006
+      "script_count": 22,
+      "total_pages": 56298,
+      "estimated_results": 5629800,
+      "start_page": 56299,
+      "end_page": 112596
     },
     {
       "instance_id": 3,
       "scripts": [
-        35,
-        36,
-        37,
-        38,
-        39,
-        40,
-        41,
-        42,
-        43,
-        44,
-        45,
-        46,
-        47,
-        48,
-        49,
-        50,
-        51
+        45, 46, 47, 48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59, 60, 61, 62,
+        63, 64, 65, 66
       ],
-      "script_count": 17,
-      "total_pages": 43503,
-      "estimated_results": 4350300,
-      "start_page": 87007,
-      "end_page": 130509
-    },
-    {
-      "instance_id": 4,
-      "scripts": [
-        52,
-        53,
-        54,
-        55,
-        56,
-        57,
-        58,
-        59,
-        60,
-        61,
-        62,
-        63,
-        64,
-        65,
-        66
-      ],
-      "script_count": 15,
-      "total_pages": 38358,
-      "estimated_results": 3835800,
-      "start_page": 130510,
+      "script_count": 22,
+      "total_pages": 56271,
+      "estimated_results": 5627100,
+      "start_page": 112597,
       "end_page": 168867
     }
   ],
-  "note": "66 scripts divided into 4 instances. Each script handles ~2,559 pages."
+  "note": "66 scripts divided into 3 instances with 22 scripts each. Each script handles ~2,559 pages."
 }
