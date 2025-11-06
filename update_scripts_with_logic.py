@@ -1380,7 +1380,7 @@ try:
         "type": "service_account",
         "project_id": os.getenv('GCP_PROJECT_ID'),
         "private_key_id": os.getenv('GCP_PRIVATE_KEY_ID'),
-        "private_key": os.getenv('GCP_PRIVATE_KEY', '').replace('\\\\\\\\n', '\\\\n'),
+        "private_key": os.getenv('GCP_PRIVATE_KEY', '').replace('\\\\n', '\\n'),
         "client_email": os.getenv('GCP_CLIENT_EMAIL'),
         "client_id": os.getenv('GCP_CLIENT_ID'),
         "auth_uri": os.getenv('GCP_AUTH_URI', 'https://accounts.google.com/o/oauth2/auth'),
