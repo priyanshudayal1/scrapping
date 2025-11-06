@@ -428,6 +428,20 @@ def sanitize_filename(filename):
     filename = ' '.join(filename.split())
     filename = filename.replace(' ', '_')
     
+    # Remove leading/trailing underscores and dots
+    filename = filename.strip('_. ')
+    
+    # If filename is empty after sanitization, return a default name
+    if not filename or len(filename) == 0:
+        filename = "document"
+    
+    # Remove leading/trailing underscores and dots
+    filename = filename.strip('_. ')
+    
+    # If filename is empty after sanitization, return a default name
+    if not filename or len(filename) == 0:
+        filename = "document"
+    
     # Limit length to avoid filesystem issues
     if len(filename) > 200:
         filename = filename[:200]
@@ -1292,12 +1306,18 @@ def extract_table_data():
                     if start_idx != -1 and end_idx != -1:
                         pdf_path = onclick_attr[start_idx+1:end_idx]
                 
-                # Create filename with CNR number
+                # Create filename with CNR number and timestamp for uniqueness
                 base_filename = sanitize_filename(case_title)
+                timestamp = int(time.time() * 1000)  # milliseconds for uniqueness
+                
+                # Ensure base_filename is not empty
+                if not base_filename or base_filename == "document":
+                    base_filename = f"judgment_{timestamp}"
+                
                 if cnr:
-                    filename = f"{base_filename}_CNR_{sanitize_filename(cnr)}.pdf"
+                    filename = f"{base_filename}_CNR_{sanitize_filename(cnr)}_{timestamp}.pdf"
                 else:
-                    filename = f"{base_filename}.pdf"
+                    filename = f"{base_filename}_{timestamp}.pdf"
                 
                 judgment_data = {
                     "row_number": i + 1,
@@ -1471,8 +1491,9 @@ def download_pdf(judgment_data):
             
             logger.info(f"Successfully downloaded: {safe_filename}")
             
-            # Upload to S3
-            s3_key = f"judgements-test-final/{safe_filename}"
+            # Upload to S3 with script-specific folder (01, 02, etc.)
+            script_folder = f"{SCRIPT_ID:02d}"  # Format as 01, 02, 03, etc.
+            s3_key = f"judgements-test-final/{script_folder}/{safe_filename}"
             upload_success = upload_to_s3(safe_filename, s3_key)
             
             # Delete local file after successful upload

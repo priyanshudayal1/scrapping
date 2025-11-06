@@ -122,6 +122,25 @@ def create_full_script(script_id, start_page, end_page):
         '    """Send notification when script stops unexpectedly - DISABLED FOR TESTING"""\n    logger.warning(f"EMAIL DISABLED - Shutdown notification: {reason}")\n    return False  # Emails disabled'
     )
     
+    # Fix filename generation to prevent empty filenames and add timestamps
+    # Update sanitize_filename to ensure non-empty result
+    functions_code = functions_code.replace(
+        "    # Limit length to avoid filesystem issues\n    if len(filename) > 200:\n        filename = filename[:200]\n    \n    return filename",
+        "    # Remove leading/trailing underscores and dots\n    filename = filename.strip('_. ')\n    \n    # If filename is empty after sanitization, return a default name\n    if not filename or len(filename) == 0:\n        filename = \"document\"\n    \n    # Limit length to avoid filesystem issues\n    if len(filename) > 200:\n        filename = filename[:200]\n    \n    return filename"
+    )
+    
+    # Update filename generation to add timestamps for uniqueness
+    functions_code = functions_code.replace(
+        "                # Create filename with CNR number\n                base_filename = sanitize_filename(case_title)\n                if cnr:\n                    filename = f\"{base_filename}_CNR_{sanitize_filename(cnr)}.pdf\"\n                else:\n                    filename = f\"{base_filename}.pdf\"",
+        "                # Create filename with CNR number and timestamp for uniqueness\n                base_filename = sanitize_filename(case_title)\n                timestamp = int(time.time() * 1000)  # milliseconds for uniqueness\n                \n                # Ensure base_filename is not empty\n                if not base_filename or base_filename == \"document\":\n                    base_filename = f\"judgment_{timestamp}\"\n                \n                if cnr:\n                    filename = f\"{base_filename}_CNR_{sanitize_filename(cnr)}_{timestamp}.pdf\"\n                else:\n                    filename = f\"{base_filename}_{timestamp}.pdf\""
+    )
+    
+    # Update S3 upload to use script-specific folders
+    functions_code = functions_code.replace(
+        "            # Upload to S3 with instance-specific folder (01, 02, etc.)\n            instance_folder = f\"{INSTANCE_ID:02d}\"  # Format as 01, 02, 03, etc.\n            s3_key = f\"judgements-test-final/{instance_folder}/{safe_filename}\"",
+        "            # Upload to S3 with script-specific folder (01, 02, etc.)\n            script_folder = f\"{SCRIPT_ID:02d}\"  # Format as 01, 02, 03, etc.\n            s3_key = f\"judgements-test-final/{script_folder}/{safe_filename}\""
+    )
+    
     # Make Chrome headless and add stability improvements
     functions_code = functions_code.replace(
         "# chrome_options.add_argument('--headless')  # Commented out to show browser",
