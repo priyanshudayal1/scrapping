@@ -99,20 +99,20 @@ try:
     session = boto3.Session(
         aws_access_key_id=os.getenv('AWS_ACCESS_KEY_ID'),
         aws_secret_access_key=os.getenv('AWS_SECRET_ACCESS_KEY'),
-        region_name=os.getenv('AWS_REGION', 'ap-south-1')
+        region_name=os.getenv('AWS_REGION', 'us-east-1')
     )
     s3_client = session.client("s3")
-    S3_BUCKET_NAME = "s3-vector-storage"
+    S3_BUCKET_NAME = "judgements-vectors-pdf"
     logger.info("AWS S3 client initialized successfully")
 except Exception as e:
     logger.error(f"Failed to initialize AWS S3 client: {str(e)}")
     s3_client = None
     S3_BUCKET_NAME = None
 
-# Email configuration - DISABLED FOR TESTING
+# Email configuration
 EMAIL_HOST_USER = os.getenv('EMAIL_HOST_USER')
 EMAIL_HOST_PASSWORD = os.getenv('EMAIL_HOST_PASSWORD')
-EMAIL_ENABLED = False  # Disabled to prevent email spam during testing
+EMAIL_ENABLED = bool(EMAIL_HOST_USER and EMAIL_HOST_PASSWORD)  # Enabled
 
 # Global variables
 driver = None
@@ -584,7 +584,7 @@ Pages Completed: {stats.get('pages_completed', 0)}
 YEARLY DISTRIBUTION:
 {stats.get('yearly_summary', 'N/A')}
 
-All PDFs have been uploaded to S3 bucket: s3-vector-storage
+All PDFs have been uploaded to S3 bucket: new-bucket
 
 ---
 Automated notification from Judgement Scraping System
@@ -1491,9 +1491,12 @@ def download_pdf(judgment_data):
             
             logger.info(f"Successfully downloaded: {safe_filename}")
             
-            # Upload to S3 with script-specific folder (01, 02, etc.)
-            script_folder = f"{SCRIPT_ID:02d}"  # Format as 01, 02, 03, etc.
-            s3_key = f"judgements-test-final/{script_folder}/{safe_filename}"
+            # Upload to S3 with new path structure: /judgments/(filename_scriptno)
+            # Extract base filename without extension and add script ID
+            base_name = os.path.splitext(safe_filename)[0]
+            file_extension = os.path.splitext(safe_filename)[1]
+            s3_filename = f"{base_name}_{SCRIPT_ID:02d}{file_extension}"
+            s3_key = f"judgments/{s3_filename}"
             upload_success = upload_to_s3(safe_filename, s3_key)
             
             # Delete local file after successful upload

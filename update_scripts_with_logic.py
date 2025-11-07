@@ -135,10 +135,10 @@ def create_full_script(script_id, start_page, end_page):
         "                # Create filename with CNR number and timestamp for uniqueness\n                base_filename = sanitize_filename(case_title)\n                timestamp = int(time.time() * 1000)  # milliseconds for uniqueness\n                \n                # Ensure base_filename is not empty\n                if not base_filename or base_filename == \"document\":\n                    base_filename = f\"judgment_{timestamp}\"\n                \n                if cnr:\n                    filename = f\"{base_filename}_CNR_{sanitize_filename(cnr)}_{timestamp}.pdf\"\n                else:\n                    filename = f\"{base_filename}_{timestamp}.pdf\""
     )
     
-    # Update S3 upload to use script-specific folders
+    # Update S3 upload to use new path structure
     functions_code = functions_code.replace(
         "            # Upload to S3 with instance-specific folder (01, 02, etc.)\n            instance_folder = f\"{INSTANCE_ID:02d}\"  # Format as 01, 02, 03, etc.\n            s3_key = f\"judgements-test-final/{instance_folder}/{safe_filename}\"",
-        "            # Upload to S3 with script-specific folder (01, 02, etc.)\n            script_folder = f\"{SCRIPT_ID:02d}\"  # Format as 01, 02, 03, etc.\n            s3_key = f\"judgements-test-final/{script_folder}/{safe_filename}\""
+        "            # Upload to S3 with new path structure: /judgments/(filename_scriptno)\n            # Extract base filename without extension and add script ID\n            base_name = os.path.splitext(safe_filename)[0]\n            file_extension = os.path.splitext(safe_filename)[1]\n            s3_filename = f\"{base_name}_{SCRIPT_ID:02d}{file_extension}\"\n            s3_key = f\"judgments/{s3_filename}\""
     )
     
     # Make Chrome headless and add stability improvements
@@ -1418,20 +1418,20 @@ try:
     session = boto3.Session(
         aws_access_key_id=os.getenv('AWS_ACCESS_KEY_ID'),
         aws_secret_access_key=os.getenv('AWS_SECRET_ACCESS_KEY'),
-        region_name=os.getenv('AWS_REGION', 'ap-south-1')
+        region_name=os.getenv('AWS_REGION', 'us-east-1')
     )
     s3_client = session.client("s3")
-    S3_BUCKET_NAME = "s3-vector-storage"
+    S3_BUCKET_NAME = "judgements-vectors-pdf"
     logger.info("AWS S3 client initialized successfully")
 except Exception as e:
     logger.error(f"Failed to initialize AWS S3 client: {{str(e)}}")
     s3_client = None
     S3_BUCKET_NAME = None
 
-# Email configuration - DISABLED FOR TESTING
+# Email configuration
 EMAIL_HOST_USER = os.getenv('EMAIL_HOST_USER')
 EMAIL_HOST_PASSWORD = os.getenv('EMAIL_HOST_PASSWORD')
-EMAIL_ENABLED = False  # Disabled to prevent email spam during testing
+EMAIL_ENABLED = bool(EMAIL_HOST_USER and EMAIL_HOST_PASSWORD)  # Enabled
 
 # Global variables
 driver = None
