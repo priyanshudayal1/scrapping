@@ -334,56 +334,37 @@ def verify_credentials():
 
 def main():
     """Main execution function"""
-    print("\n" + "=" * 80)
-    print("S3 BUCKET MIGRATION TOOL")
-    print("=" * 80)
-    print(f"Source: s3://{SOURCE_BUCKET}/{SOURCE_PREFIX} (ap-south-1)")
-    print(f"Destination: s3://{DESTINATION_BUCKET}/{DESTINATION_PREFIX} (us-east-1)")
-    print("=" * 80)
+    logger.info("\n" + "=" * 80)
+    logger.info("S3 BUCKET MIGRATION TOOL")
+    logger.info("=" * 80)
+    logger.info(f"Source: s3://{SOURCE_BUCKET}/{SOURCE_PREFIX} (ap-south-1)")
+    logger.info(f"Destination: s3://{DESTINATION_BUCKET}/{DESTINATION_PREFIX} (us-east-1)")
+    logger.info("=" * 80)
     
     # Verify credentials
     if not verify_credentials():
         return
     
-    # Ask user for confirmation
-    print("\nOptions:")
-    print("1. Copy files (keep source files)")
-    print("2. Move files (delete source after copy)")
-    print("3. Exit")
+    # Default to copy mode (keep source files)
+    delete_source = False
     
-    choice = input("\nEnter your choice (1-3): ").strip()
-    
-    if choice == '3':
-        print("Exiting...")
-        return
-    
-    delete_source = (choice == '2')
-    
-    # Confirm action
-    action = "MOVE" if delete_source else "COPY"
-    print(f"\nYou are about to {action} PDF files from:")
-    print(f"  Source: s3://{SOURCE_BUCKET}/{SOURCE_PREFIX}")
-    print(f"  Destination: s3://{DESTINATION_BUCKET}/{DESTINATION_PREFIX}")
-    
-    confirm = input(f"\nAre you sure you want to proceed? (yes/no): ").strip().lower()
-    
-    if confirm != 'yes':
-        print("Operation cancelled.")
-        return
+    logger.info(f"\nStarting migration in COPY mode (source files will be kept)")
+    logger.info(f"  Source: s3://{SOURCE_BUCKET}/{SOURCE_PREFIX}")
+    logger.info(f"  Destination: s3://{DESTINATION_BUCKET}/{DESTINATION_PREFIX}")
     
     try:
         # Create migrator and start migration
         migrator = S3Migrator()
         migrator.migrate_files(delete_source=delete_source, skip_existing=True)
         
-        print("\n✓ Migration completed successfully!")
-        print(f"Check '{PROGRESS_FILE}' for details")
-        print(f"Check 'bucket_migration.log' for full logs")
+        logger.info("\n✓ Migration completed successfully!")
+        logger.info(f"Check '{PROGRESS_FILE}' for details")
+        logger.info(f"Check 'bucket_migration.log' for full logs")
         
     except Exception as e:
         logger.error(f"Migration failed with error: {e}", exc_info=True)
-        print(f"\n✗ Migration failed: {e}")
-        print("Check 'bucket_migration.log' for details")
+        logger.error(f"\n✗ Migration failed: {e}")
+        logger.error("Check 'bucket_migration.log' for details")
 
 
 if __name__ == "__main__":
