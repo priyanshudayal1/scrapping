@@ -1,0 +1,456 @@
+{
+  "session_start": "2025-11-11T07:23:01.672475",
+  "session_end": null,
+  "total_files_processed": 48,
+  "total_successful_downloads": 48,
+  "total_failed_downloads": 0,
+  "total_time_seconds": 0,
+  "average_time_per_file": 7.9,
+  "individual_file_times": [
+    {
+      "filename": "CRM(M)_1737_2025_of_PRAMATHA_DAS_AND_ANR._Vs_STATE_OF_WEST_BENGAL_CNR_WBCHCA0450182025_1762845785804.pdf",
+      "case_title": "CRM(M)/1737/2025 of PRAMATHA DAS AND ANR. Vs STATE",
+      "download_time_seconds": 7.45,
+      "success": true,
+      "timestamp": "2025-11-11T07:23:23.292536",
+      "cnr": "WBCHCA0450182025",
+      "decision_year": 2025
+    },
+    {
+      "filename": "CR._APP_(SJ)_2324_2024_of_Jivit_Paswan_Vs_The_State_of_Bihar_CNR_BRHC010476522024_1762845785871.pdf",
+      "case_title": "CR. APP (SJ)/2324/2024 of Jivit Paswan Vs The Stat",
+      "download_time_seconds": 12.12,
+      "success": true,
+      "timestamp": "2025-11-11T07:23:38.006332",
+      "cnr": "BRHC010476522024",
+      "decision_year": 2025
+    },
+    {
+      "filename": "CR._MISC._45204_2025_of_Yash_Kumar_Gupta_Vs_The_State_of_Bihar_CNR_BRHC010639342025_1762845785931.pdf",
+      "case_title": "CR. MISC./45204/2025 of Yash Kumar Gupta Vs The St",
+      "download_time_seconds": 7.28,
+      "success": true,
+      "timestamp": "2025-11-11T07:23:47.866234",
+      "cnr": "BRHC010639342025",
+      "decision_year": 2025
+    },
+    {
+      "filename": "CR._MISC._74430_2025_of_Raushan_Raj_@_Raushan_Jaiswal_Vs_The_State_of_Bihar_CNR_BRHC011079252025_1762845785999.pdf",
+      "case_title": "CR. MISC./74430/2025 of Raushan Raj @ Raushan Jais",
+      "download_time_seconds": 7.71,
+      "success": true,
+      "timestamp": "2025-11-11T07:23:58.174792",
+      "cnr": "BRHC011079252025",
+      "decision_year": 2025
+    },
+    {
+      "filename": "CR.RA_926_2023_of_HEMENDRABHAI_MAHASUKHLAL_SHAH_Vs_STATE_OF_GUJARAT_CNR_GJHC240447252023_1762845786080.pdf",
+      "case_title": "CR.RA/926/2023 of HEMENDRABHAI MAHASUKHLAL SHAH Vs",
+      "download_time_seconds": 7.8,
+      "success": true,
+      "timestamp": "2025-11-11T07:24:08.669328",
+      "cnr": "GJHC240447252023",
+      "decision_year": 2025
+    },
+    {
+      "filename": "CMP_1572_2025_of_PUNYAPRAVA_DAS_Vs_MITALI_DAS_@_MOHANTY_CNR_ODHC010674702025_1762845786133.pdf",
+      "case_title": "CMP/1572/2025 of PUNYAPRAVA DAS Vs MITALI DAS @ MO",
+      "download_time_seconds": 7.42,
+      "success": true,
+      "timestamp": "2025-11-11T07:24:18.809725",
+      "cnr": "ODHC010674702025",
+      "decision_year": 2025
+    },
+    {
+      "filename": "WP(C)_30750_2025_of_DEEPAK_KUMAR_OJHA_Vs_STATE_OF_ODISHA_CNR_ODHC010772592025_1762845786196.pdf",
+      "case_title": "WP(C)/30750/2025 of DEEPAK KUMAR OJHA Vs STATE OF ",
+      "download_time_seconds": 7.76,
+      "success": true,
+      "timestamp": "2025-11-11T07:24:29.163019",
+      "cnr": "ODHC010772592025",
+      "decision_year": 2025
+    },
+    {
+      "filename": "ABLAPL_10532_2025_of_SNIGDHA_DAS_Vs_STATE_OF_ODISHA_CNR_ODHC010620992025_1762845786251.pdf",
+      "case_title": "ABLAPL/10532/2025 of SNIGDHA DAS Vs STATE OF ODISH",
+      "download_time_seconds": 7.78,
+      "success": true,
+      "timestamp": "2025-11-11T07:24:39.530740",
+      "cnr": "ODHC010620992025",
+      "decision_year": 2025
+    },
+    {
+      "filename": "CCP_633_2023_of_SMT._PRAMILA_MONGIA_W_O_SHRI_BHUVANESH_KUMAR_MONGIA,_Vs_SHRI_NAVEEN_JAIN_(I.A.S.)_SECRETARY_TO_THE_GOVERNMENT_OF_RAJASTHAN_CNR_RJHC020446872023_1762845786314.pdf",
+      "case_title": "CCP/633/2023 of SMT. PRAMILA MONGIA W/O SHRI BHUVA",
+      "download_time_seconds": 7.2,
+      "success": true,
+      "timestamp": "2025-11-11T07:24:49.318165",
+      "cnr": "RJHC020446872023",
+      "decision_year": 2025
+    },
+    {
+      "filename": "WPA_722_2024_of_SANJIT_CHAKRABORTY_AND_ANR_Vs_PANIHATI_MUNICIPALITY_AND_ORS_CNR_WBCHCA0014312024_1762845786368.pdf",
+      "case_title": "WPA/722/2024 of SANJIT CHAKRABORTY AND ANR Vs PANI",
+      "download_time_seconds": 7.01,
+      "success": true,
+      "timestamp": "2025-11-11T07:24:58.928785",
+      "cnr": "WBCHCA0014312024",
+      "decision_year": 2025
+    },
+    {
+      "filename": "WPA_1636_2025_of_R.B._CONSTRUCTION_REPRESENTED_BY_ITS_PROPRIETOR_RANENDU_BISWAS_Vs_STATE_OF_WEST_BENGAL_AND_ORS_CNR_WBCHCA0030562025_1762845786443.pdf",
+      "case_title": "WPA/1636/2025 of R.B. CONSTRUCTION REPRESENTED BY ",
+      "download_time_seconds": 7.25,
+      "success": true,
+      "timestamp": "2025-11-11T07:25:08.776324",
+      "cnr": "WBCHCA0030562025",
+      "decision_year": 2025
+    },
+    {
+      "filename": "WPA_18785_2025_of_INFAUL_KARIM_Vs_STATE_OF_WEST_BENGAL_AND_ORS_CNR_WBCHCA0382622025_1762845786508.pdf",
+      "case_title": "WPA/18785/2025 of INFAUL KARIM Vs STATE OF WEST BE",
+      "download_time_seconds": 7.28,
+      "success": true,
+      "timestamp": "2025-11-11T07:25:18.645271",
+      "cnr": "WBCHCA0382622025",
+      "decision_year": 2025
+    },
+    {
+      "filename": "CRM(M)_1585_2025_of_BADAL_DAS_Vs_STATE_OF_WEST_BENGAL_CNR_WBCHCA0421602025_1762845786599.pdf",
+      "case_title": "CRM(M)/1585/2025 of BADAL DAS Vs STATE OF WEST BEN",
+      "download_time_seconds": 8.91,
+      "success": true,
+      "timestamp": "2025-11-11T07:25:30.165786",
+      "cnr": "WBCHCA0421602025",
+      "decision_year": 2025
+    },
+    {
+      "filename": "CR._MISC._74535_2025_of_Pritam_Kumar_@_Sonu_Vs_The_State_of_Bihar_CNR_BRHC011082372025_1762845786710.pdf",
+      "case_title": "CR. MISC./74535/2025 of Pritam Kumar @ Sonu Vs The",
+      "download_time_seconds": 7.14,
+      "success": true,
+      "timestamp": "2025-11-11T07:25:39.902484",
+      "cnr": "BRHC011082372025",
+      "decision_year": 2025
+    },
+    {
+      "filename": "CR._MISC._74545_2025_of_Anil_Kumar_Vs_The_State_of_Bihar_CNR_BRHC011061412025_1762845786775.pdf",
+      "case_title": "CR. MISC./74545/2025 of Anil Kumar Vs The State of",
+      "download_time_seconds": 7.12,
+      "success": true,
+      "timestamp": "2025-11-11T07:25:49.639878",
+      "cnr": "BRHC011061412025",
+      "decision_year": 2025
+    },
+    {
+      "filename": "CR._MISC._62442_2025_of_Chutoon_Bhagat_@_Chutoon_Kumar_Vs_The_State_of_Bihar_CNR_BRHC010865522025_1762845786856.pdf",
+      "case_title": "CR. MISC./62442/2025 of Chutoon Bhagat @ Chutoon K",
+      "download_time_seconds": 7.07,
+      "success": true,
+      "timestamp": "2025-11-11T07:25:59.334254",
+      "cnr": "BRHC010865522025",
+      "decision_year": 2025
+    },
+    {
+      "filename": "CR._MISC._74509_2025_of_Vinod_Paswan_Vs_The_State_of_Bihar_CNR_BRHC010990602025_1762845786908.pdf",
+      "case_title": "CR. MISC./74509/2025 of Vinod Paswan Vs The State ",
+      "download_time_seconds": 7.12,
+      "success": true,
+      "timestamp": "2025-11-11T07:26:09.038258",
+      "cnr": "BRHC010990602025",
+      "decision_year": 2025
+    },
+    {
+      "filename": "CR._MISC._71264_2025_of_BHAWANI_SAH_@_SANTOSH_SAH_@_BHAWANI_NANDAN_SAH_Vs_The_State_of_Bihar_CNR_BRHC010834292025_1762845786956.pdf",
+      "case_title": "CR. MISC./71264/2025 of BHAWANI SAH @ SANTOSH SAH ",
+      "download_time_seconds": 7.15,
+      "success": true,
+      "timestamp": "2025-11-11T07:26:18.773841",
+      "cnr": "BRHC010834292025",
+      "decision_year": 2025
+    },
+    {
+      "filename": "CR._MISC._74534_2025_of_Ravindra_Singh_@_Ravindra_Kumar_Singh_Vs_The_State_of_Bihar_CNR_BRHC011058582025_1762845787008.pdf",
+      "case_title": "CR. MISC./74534/2025 of Ravindra Singh @ Ravindra ",
+      "download_time_seconds": 7.14,
+      "success": true,
+      "timestamp": "2025-11-11T07:26:28.495963",
+      "cnr": "BRHC011058582025",
+      "decision_year": 2025
+    },
+    {
+      "filename": "CR._MISC._74268_2025_of_Niranjan_Kumar_Vs_The_State_of_Bihar_CNR_BRHC011065622025_1762845787057.pdf",
+      "case_title": "CR. MISC./74268/2025 of Niranjan Kumar Vs The Stat",
+      "download_time_seconds": 7.2,
+      "success": true,
+      "timestamp": "2025-11-11T07:26:38.291704",
+      "cnr": "BRHC011065622025",
+      "decision_year": 2025
+    },
+    {
+      "filename": "CR._MISC._71637_2025_of_Nitish_Bind_Vs_The_State_of_Bihar_CNR_BRHC011043122025_1762845787117.pdf",
+      "case_title": "CR. MISC./71637/2025 of Nitish Bind Vs The State o",
+      "download_time_seconds": 7.1,
+      "success": true,
+      "timestamp": "2025-11-11T07:26:47.991988",
+      "cnr": "BRHC011043122025",
+      "decision_year": 2025
+    },
+    {
+      "filename": "CR._MISC._44606_2025_of_Sandeep_Kumar_Vs_The_State_of_Bihar_CNR_BRHC010619802025_1762845787166.pdf",
+      "case_title": "CR. MISC./44606/2025 of Sandeep Kumar Vs The State",
+      "download_time_seconds": 7.05,
+      "success": true,
+      "timestamp": "2025-11-11T07:26:57.634660",
+      "cnr": "BRHC010619802025",
+      "decision_year": 2025
+    },
+    {
+      "filename": "CR._MISC._75420_2025_of_Ritesh_Kumar_@_Ritesh_Singh_Vs_The_State_of_Bihar_CNR_BRHC011086372025_1762845787236.pdf",
+      "case_title": "CR. MISC./75420/2025 of Ritesh Kumar @ Ritesh Sing",
+      "download_time_seconds": 7.41,
+      "success": true,
+      "timestamp": "2025-11-11T07:27:07.646612",
+      "cnr": "BRHC011086372025",
+      "decision_year": 2025
+    },
+    {
+      "filename": "SCA_9032_2025_of_JHA_PREMSHEEL_NANDKISHOR_Vs_MANAGING_TRUSTEE,_BABA_RAGHUNATHDASJI_EDUCATION_TRUST_CNR_GJHC240469322025_1762845787282.pdf",
+      "case_title": "SCA/9032/2025 of JHA PREMSHEEL NANDKISHOR Vs MANAG",
+      "download_time_seconds": 7.21,
+      "success": true,
+      "timestamp": "2025-11-11T07:27:17.457761",
+      "cnr": "GJHC240469322025",
+      "decision_year": 2025
+    },
+    {
+      "filename": "SCR.A_14556_2025_of_AKIL_@_GABHARU_SALIMBHAI_@_HANIFBHAI_SUMRA_Vs_STATE_OF_GUJARAT_CNR_GJHC240776712025_1762845787332.pdf",
+      "case_title": "SCR.A/14556/2025 of AKIL @ GABHARU SALIMBHAI @ HAN",
+      "download_time_seconds": 7.37,
+      "success": true,
+      "timestamp": "2025-11-11T07:27:27.416152",
+      "cnr": "GJHC240776712025",
+      "decision_year": 2025
+    },
+    {
+      "filename": "judgment_1762846081742_1762846081742.pdf",
+      "case_title": "",
+      "download_time_seconds": 8.64,
+      "success": true,
+      "timestamp": "2025-11-11T07:28:15.881318",
+      "cnr": "",
+      "decision_year": null
+    },
+    {
+      "filename": "judgment_1762846081777_1762846081777.pdf",
+      "case_title": "",
+      "download_time_seconds": 8.07,
+      "success": true,
+      "timestamp": "2025-11-11T07:28:26.588137",
+      "cnr": "",
+      "decision_year": null
+    },
+    {
+      "filename": "judgment_1762846081814_1762846081814.pdf",
+      "case_title": "",
+      "download_time_seconds": 8.18,
+      "success": true,
+      "timestamp": "2025-11-11T07:28:37.359646",
+      "cnr": "",
+      "decision_year": null
+    },
+    {
+      "filename": "judgment_1762846081854_1762846081854.pdf",
+      "case_title": "",
+      "download_time_seconds": 8.47,
+      "success": true,
+      "timestamp": "2025-11-11T07:28:48.411900",
+      "cnr": "",
+      "decision_year": null
+    },
+    {
+      "filename": "judgment_1762846081889_1762846081889.pdf",
+      "case_title": "",
+      "download_time_seconds": 8.31,
+      "success": true,
+      "timestamp": "2025-11-11T07:28:59.331616",
+      "cnr": "",
+      "decision_year": null
+    },
+    {
+      "filename": "judgment_1762846081923_1762846081923.pdf",
+      "case_title": "",
+      "download_time_seconds": 7.78,
+      "success": true,
+      "timestamp": "2025-11-11T07:29:09.730481",
+      "cnr": "",
+      "decision_year": null
+    },
+    {
+      "filename": "judgment_1762846081960_1762846081960.pdf",
+      "case_title": "",
+      "download_time_seconds": 8.51,
+      "success": true,
+      "timestamp": "2025-11-11T07:29:20.835728",
+      "cnr": "",
+      "decision_year": null
+    },
+    {
+      "filename": "judgment_1762846082004_1762846082004.pdf",
+      "case_title": "",
+      "download_time_seconds": 9.05,
+      "success": true,
+      "timestamp": "2025-11-11T07:29:32.465177",
+      "cnr": "",
+      "decision_year": null
+    },
+    {
+      "filename": "judgment_1762846082039_1762846082039.pdf",
+      "case_title": "",
+      "download_time_seconds": 8.12,
+      "success": true,
+      "timestamp": "2025-11-11T07:29:43.163062",
+      "cnr": "",
+      "decision_year": null
+    },
+    {
+      "filename": "judgment_1762846082077_1762846082077.pdf",
+      "case_title": "",
+      "download_time_seconds": 8.12,
+      "success": true,
+      "timestamp": "2025-11-11T07:29:53.915393",
+      "cnr": "",
+      "decision_year": null
+    },
+    {
+      "filename": "judgment_1762846082111_1762846082111.pdf",
+      "case_title": "",
+      "download_time_seconds": 8.2,
+      "success": true,
+      "timestamp": "2025-11-11T07:30:16.976292",
+      "cnr": "",
+      "decision_year": null
+    },
+    {
+      "filename": "judgment_1762846082148_1762846082148.pdf",
+      "case_title": "",
+      "download_time_seconds": 8.25,
+      "success": true,
+      "timestamp": "2025-11-11T07:30:27.890742",
+      "cnr": "",
+      "decision_year": null
+    },
+    {
+      "filename": "judgment_1762846082192_1762846082192.pdf",
+      "case_title": "",
+      "download_time_seconds": 8.21,
+      "success": true,
+      "timestamp": "2025-11-11T07:30:38.716933",
+      "cnr": "",
+      "decision_year": null
+    },
+    {
+      "filename": "judgment_1762846082228_1762846082228.pdf",
+      "case_title": "",
+      "download_time_seconds": 8.2,
+      "success": true,
+      "timestamp": "2025-11-11T07:30:49.508887",
+      "cnr": "",
+      "decision_year": null
+    },
+    {
+      "filename": "judgment_1762846082268_1762846082268.pdf",
+      "case_title": "",
+      "download_time_seconds": 8.23,
+      "success": true,
+      "timestamp": "2025-11-11T07:31:00.350327",
+      "cnr": "",
+      "decision_year": null
+    },
+    {
+      "filename": "judgment_1762846082324_1762846082324.pdf",
+      "case_title": "",
+      "download_time_seconds": 8.22,
+      "success": true,
+      "timestamp": "2025-11-11T07:31:11.154995",
+      "cnr": "",
+      "decision_year": null
+    },
+    {
+      "filename": "judgment_1762846082364_1762846082364.pdf",
+      "case_title": "",
+      "download_time_seconds": 8.23,
+      "success": true,
+      "timestamp": "2025-11-11T07:31:22.021738",
+      "cnr": "",
+      "decision_year": null
+    },
+    {
+      "filename": "judgment_1762846082414_1762846082414.pdf",
+      "case_title": "",
+      "download_time_seconds": 8.18,
+      "success": true,
+      "timestamp": "2025-11-11T07:31:32.812523",
+      "cnr": "",
+      "decision_year": null
+    },
+    {
+      "filename": "judgment_1762846082459_1762846082459.pdf",
+      "case_title": "",
+      "download_time_seconds": 8.04,
+      "success": true,
+      "timestamp": "2025-11-11T07:31:43.462259",
+      "cnr": "",
+      "decision_year": null
+    },
+    {
+      "filename": "judgment_1762846082503_1762846082503.pdf",
+      "case_title": "",
+      "download_time_seconds": 8.04,
+      "success": true,
+      "timestamp": "2025-11-11T07:31:54.149999",
+      "cnr": "",
+      "decision_year": null
+    },
+    {
+      "filename": "judgment_1762846082548_1762846082548.pdf",
+      "case_title": "",
+      "download_time_seconds": 8.17,
+      "success": true,
+      "timestamp": "2025-11-11T07:32:04.981917",
+      "cnr": "",
+      "decision_year": null
+    },
+    {
+      "filename": "judgment_1762846082592_1762846082592.pdf",
+      "case_title": "",
+      "download_time_seconds": 8.28,
+      "success": true,
+      "timestamp": "2025-11-11T07:32:15.945075",
+      "cnr": "",
+      "decision_year": null
+    },
+    {
+      "filename": "judgment_1762846082640_1762846082640.pdf",
+      "case_title": "",
+      "download_time_seconds": 8.76,
+      "success": true,
+      "timestamp": "2025-11-11T07:32:27.382598",
+      "cnr": "",
+      "decision_year": null
+    }
+  ],
+  "session_statistics": [],
+  "fastest_download": {
+    "filename": "WPA_722_2024_of_SANJIT_CHAKRABORTY_AND_ANR_Vs_PANIHATI_MUNICIPALITY_AND_ORS_CNR_WBCHCA0014312024_1762845786368.pdf",
+    "time": 7.01,
+    "case_title": "WPA/722/2024 of SANJIT CHAKRABORTY AND ANR Vs PANI"
+  },
+  "slowest_download": {
+    "filename": "CR._APP_(SJ)_2324_2024_of_Jivit_Paswan_Vs_The_State_of_Bihar_CNR_BRHC010476522024_1762845785871.pdf",
+    "time": 12.12,
+    "case_title": "CR. APP (SJ)/2324/2024 of Jivit Paswan Vs The Stat"
+  },
+  "last_updated": "2025-11-11T07:32:27.383612",
+  "script_id": 37
+}

@@ -1,0 +1,22 @@
+[Unit]
+Description=Scraping Script 30 Service
+After=network.target
+StartLimitIntervalSec=0
+
+[Service]
+Type=simple
+User=sahusujal_dev2004
+WorkingDirectory=/home/sahusujal_dev2004/scrapping
+Environment="PYTHONUNBUFFERED=1"
+ExecStart=/usr/bin/python3 /home/sahusujal_dev2004/scrapping/scripts/script30/script30.py
+Restart=always
+RestartSec=10
+StandardOutput=append:/var/log/scraping/script30.log
+StandardError=append:/var/log/scraping/script30.error.log
+
+# Resource limits (optional - uncomment and adjust as needed)
+# MemoryLimit=2G
+# CPUQuota=50%
+
+[Install]
+WantedBy=multi-user.target

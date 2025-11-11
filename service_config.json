@@ -1,6 +1,6 @@
 {
   "description": "Configuration file for systemd services - Edit this to control which scripts to run",
-  "python_path": "/home/sahusujal_dev2004/scrapping/venv/bin/python3",
+  "python_path": "/usr/bin/python3",
   "working_directory": "/home/sahusujal_dev2004/scrapping",
   "user": "sahusujal_dev2004",
   "restart_on_failure": true,
