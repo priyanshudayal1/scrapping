@@ -1,0 +1,429 @@
+{
+  "session_start": "2025-11-11T07:23:17.548769",
+  "session_end": null,
+  "total_files_processed": 45,
+  "total_successful_downloads": 45,
+  "total_failed_downloads": 0,
+  "total_time_seconds": 0,
+  "average_time_per_file": 8.37,
+  "individual_file_times": [
+    {
+      "filename": "CR._MISC._45204_2025_of_Yash_Kumar_Gupta_Vs_The_State_of_Bihar_CNR_BRHC010639342025_1762845803962.pdf",
+      "case_title": "CR. MISC./45204/2025 of Yash Kumar Gupta Vs The St",
+      "download_time_seconds": 8.97,
+      "success": true,
+      "timestamp": "2025-11-11T07:23:40.056036",
+      "cnr": "BRHC010639342025",
+      "decision_year": 2025
+    },
+    {
+      "filename": "CR._MISC._74430_2025_of_Raushan_Raj_@_Raushan_Jaiswal_Vs_The_State_of_Bihar_CNR_BRHC011079252025_1762845803998.pdf",
+      "case_title": "CR. MISC./74430/2025 of Raushan Raj @ Raushan Jais",
+      "download_time_seconds": 8.78,
+      "success": true,
+      "timestamp": "2025-11-11T07:23:51.434324",
+      "cnr": "BRHC011079252025",
+      "decision_year": 2025
+    },
+    {
+      "filename": "CR.RA_926_2023_of_HEMENDRABHAI_MAHASUKHLAL_SHAH_Vs_STATE_OF_GUJARAT_CNR_GJHC240447252023_1762845804035.pdf",
+      "case_title": "CR.RA/926/2023 of HEMENDRABHAI MAHASUKHLAL SHAH Vs",
+      "download_time_seconds": 8.18,
+      "success": true,
+      "timestamp": "2025-11-11T07:24:02.274376",
+      "cnr": "GJHC240447252023",
+      "decision_year": 2025
+    },
+    {
+      "filename": "CMP_1572_2025_of_PUNYAPRAVA_DAS_Vs_MITALI_DAS_@_MOHANTY_CNR_ODHC010674702025_1762845804080.pdf",
+      "case_title": "CMP/1572/2025 of PUNYAPRAVA DAS Vs MITALI DAS @ MO",
+      "download_time_seconds": 9.51,
+      "success": true,
+      "timestamp": "2025-11-11T07:24:14.380187",
+      "cnr": "ODHC010674702025",
+      "decision_year": 2025
+    },
+    {
+      "filename": "WP(C)_30750_2025_of_DEEPAK_KUMAR_OJHA_Vs_STATE_OF_ODISHA_CNR_ODHC010772592025_1762845804139.pdf",
+      "case_title": "WP(C)/30750/2025 of DEEPAK KUMAR OJHA Vs STATE OF ",
+      "download_time_seconds": 8.6,
+      "success": true,
+      "timestamp": "2025-11-11T07:24:25.856222",
+      "cnr": "ODHC010772592025",
+      "decision_year": 2025
+    },
+    {
+      "filename": "judgment_1762845804189_1762845804189.pdf",
+      "case_title": "",
+      "download_time_seconds": 8.49,
+      "success": true,
+      "timestamp": "2025-11-11T07:24:36.915553",
+      "cnr": "",
+      "decision_year": null
+    },
+    {
+      "filename": "judgment_1762845804230_1762845804230.pdf",
+      "case_title": "",
+      "download_time_seconds": 8.22,
+      "success": true,
+      "timestamp": "2025-11-11T07:24:47.728963",
+      "cnr": "",
+      "decision_year": null
+    },
+    {
+      "filename": "judgment_1762845804269_1762845804269.pdf",
+      "case_title": "",
+      "download_time_seconds": 8.52,
+      "success": true,
+      "timestamp": "2025-11-11T07:24:58.932580",
+      "cnr": "",
+      "decision_year": null
+    },
+    {
+      "filename": "judgment_1762845804302_1762845804302.pdf",
+      "case_title": "",
+      "download_time_seconds": 8.31,
+      "success": true,
+      "timestamp": "2025-11-11T07:25:09.820147",
+      "cnr": "",
+      "decision_year": null
+    },
+    {
+      "filename": "judgment_1762845804344_1762845804344.pdf",
+      "case_title": "",
+      "download_time_seconds": 7.93,
+      "success": true,
+      "timestamp": "2025-11-11T07:25:20.334694",
+      "cnr": "",
+      "decision_year": null
+    },
+    {
+      "filename": "judgment_1762845804392_1762845804392.pdf",
+      "case_title": "",
+      "download_time_seconds": 8.06,
+      "success": true,
+      "timestamp": "2025-11-11T07:25:30.974981",
+      "cnr": "",
+      "decision_year": null
+    },
+    {
+      "filename": "judgment_1762845804435_1762845804435.pdf",
+      "case_title": "",
+      "download_time_seconds": 8.32,
+      "success": true,
+      "timestamp": "2025-11-11T07:25:41.921290",
+      "cnr": "",
+      "decision_year": null
+    },
+    {
+      "filename": "judgment_1762845804469_1762845804469.pdf",
+      "case_title": "",
+      "download_time_seconds": 10.84,
+      "success": true,
+      "timestamp": "2025-11-11T07:25:55.392594",
+      "cnr": "",
+      "decision_year": null
+    },
+    {
+      "filename": "judgment_1762845804501_1762845804501.pdf",
+      "case_title": "",
+      "download_time_seconds": 8.09,
+      "success": true,
+      "timestamp": "2025-11-11T07:26:06.116964",
+      "cnr": "",
+      "decision_year": null
+    },
+    {
+      "filename": "judgment_1762845804541_1762845804541.pdf",
+      "case_title": "",
+      "download_time_seconds": 8.42,
+      "success": true,
+      "timestamp": "2025-11-11T07:26:17.159312",
+      "cnr": "",
+      "decision_year": null
+    },
+    {
+      "filename": "judgment_1762845804573_1762845804573.pdf",
+      "case_title": "",
+      "download_time_seconds": 8.25,
+      "success": true,
+      "timestamp": "2025-11-11T07:26:28.088860",
+      "cnr": "",
+      "decision_year": null
+    },
+    {
+      "filename": "judgment_1762845804611_1762845804611.pdf",
+      "case_title": "",
+      "download_time_seconds": 8.12,
+      "success": true,
+      "timestamp": "2025-11-11T07:26:38.913426",
+      "cnr": "",
+      "decision_year": null
+    },
+    {
+      "filename": "judgment_1762845804652_1762845804652.pdf",
+      "case_title": "",
+      "download_time_seconds": 8.11,
+      "success": true,
+      "timestamp": "2025-11-11T07:26:49.674902",
+      "cnr": "",
+      "decision_year": null
+    },
+    {
+      "filename": "judgment_1762845804691_1762845804691.pdf",
+      "case_title": "",
+      "download_time_seconds": 8.06,
+      "success": true,
+      "timestamp": "2025-11-11T07:27:00.379878",
+      "cnr": "",
+      "decision_year": null
+    },
+    {
+      "filename": "judgment_1762845804727_1762845804727.pdf",
+      "case_title": "",
+      "download_time_seconds": 8.12,
+      "success": true,
+      "timestamp": "2025-11-11T07:27:11.125755",
+      "cnr": "",
+      "decision_year": null
+    },
+    {
+      "filename": "judgment_1762845804762_1762845804762.pdf",
+      "case_title": "",
+      "download_time_seconds": 8.06,
+      "success": true,
+      "timestamp": "2025-11-11T07:27:21.781539",
+      "cnr": "",
+      "decision_year": null
+    },
+    {
+      "filename": "judgment_1762845804799_1762845804799.pdf",
+      "case_title": "",
+      "download_time_seconds": 7.97,
+      "success": true,
+      "timestamp": "2025-11-11T07:27:32.399567",
+      "cnr": "",
+      "decision_year": null
+    },
+    {
+      "filename": "judgment_1762845804836_1762845804836.pdf",
+      "case_title": "",
+      "download_time_seconds": 8.29,
+      "success": true,
+      "timestamp": "2025-11-11T07:27:43.284302",
+      "cnr": "",
+      "decision_year": null
+    },
+    {
+      "filename": "judgment_1762845804873_1762845804873.pdf",
+      "case_title": "",
+      "download_time_seconds": 8.18,
+      "success": true,
+      "timestamp": "2025-11-11T07:27:54.111406",
+      "cnr": "",
+      "decision_year": null
+    },
+    {
+      "filename": "judgment_1762845804907_1762845804907.pdf",
+      "case_title": "",
+      "download_time_seconds": 8.31,
+      "success": true,
+      "timestamp": "2025-11-11T07:28:05.025880",
+      "cnr": "",
+      "decision_year": null
+    },
+    {
+      "filename": "judgment_1762846119022_1762846119022.pdf",
+      "case_title": "",
+      "download_time_seconds": 8.41,
+      "success": true,
+      "timestamp": "2025-11-11T07:28:53.085382",
+      "cnr": "",
+      "decision_year": null
+    },
+    {
+      "filename": "judgment_1762846119091_1762846119091.pdf",
+      "case_title": "",
+      "download_time_seconds": 7.91,
+      "success": true,
+      "timestamp": "2025-11-11T07:29:03.568584",
+      "cnr": "",
+      "decision_year": null
+    },
+    {
+      "filename": "judgment_1762846119141_1762846119141.pdf",
+      "case_title": "",
+      "download_time_seconds": 7.96,
+      "success": true,
+      "timestamp": "2025-11-11T07:29:14.102343",
+      "cnr": "",
+      "decision_year": null
+    },
+    {
+      "filename": "judgment_1762846119176_1762846119176.pdf",
+      "case_title": "",
+      "download_time_seconds": 8.58,
+      "success": true,
+      "timestamp": "2025-11-11T07:29:25.337044",
+      "cnr": "",
+      "decision_year": null
+    },
+    {
+      "filename": "judgment_1762846119211_1762846119211.pdf",
+      "case_title": "",
+      "download_time_seconds": 8.41,
+      "success": true,
+      "timestamp": "2025-11-11T07:29:36.333818",
+      "cnr": "",
+      "decision_year": null
+    },
+    {
+      "filename": "judgment_1762846119246_1762846119246.pdf",
+      "case_title": "",
+      "download_time_seconds": 7.79,
+      "success": true,
+      "timestamp": "2025-11-11T07:29:46.711234",
+      "cnr": "",
+      "decision_year": null
+    },
+    {
+      "filename": "judgment_1762846119286_1762846119286.pdf",
+      "case_title": "",
+      "download_time_seconds": 8.19,
+      "success": true,
+      "timestamp": "2025-11-11T07:29:57.479232",
+      "cnr": "",
+      "decision_year": null
+    },
+    {
+      "filename": "judgment_1762846119325_1762846119325.pdf",
+      "case_title": "",
+      "download_time_seconds": 8.45,
+      "success": true,
+      "timestamp": "2025-11-11T07:30:20.685379",
+      "cnr": "",
+      "decision_year": null
+    },
+    {
+      "filename": "judgment_1762846119365_1762846119365.pdf",
+      "case_title": "",
+      "download_time_seconds": 8.16,
+      "success": true,
+      "timestamp": "2025-11-11T07:30:31.426260",
+      "cnr": "",
+      "decision_year": null
+    },
+    {
+      "filename": "judgment_1762846119422_1762846119422.pdf",
+      "case_title": "",
+      "download_time_seconds": 8.14,
+      "success": true,
+      "timestamp": "2025-11-11T07:30:42.140373",
+      "cnr": "",
+      "decision_year": null
+    },
+    {
+      "filename": "judgment_1762846119469_1762846119469.pdf",
+      "case_title": "",
+      "download_time_seconds": 8.22,
+      "success": true,
+      "timestamp": "2025-11-11T07:30:52.956614",
+      "cnr": "",
+      "decision_year": null
+    },
+    {
+      "filename": "judgment_1762846119534_1762846119534.pdf",
+      "case_title": "",
+      "download_time_seconds": 8.12,
+      "success": true,
+      "timestamp": "2025-11-11T07:31:03.676667",
+      "cnr": "",
+      "decision_year": null
+    },
+    {
+      "filename": "judgment_1762846119604_1762846119604.pdf",
+      "case_title": "",
+      "download_time_seconds": 8.23,
+      "success": true,
+      "timestamp": "2025-11-11T07:31:14.495233",
+      "cnr": "",
+      "decision_year": null
+    },
+    {
+      "filename": "judgment_1762846119679_1762846119679.pdf",
+      "case_title": "",
+      "download_time_seconds": 8.26,
+      "success": true,
+      "timestamp": "2025-11-11T07:31:25.332269",
+      "cnr": "",
+      "decision_year": null
+    },
+    {
+      "filename": "judgment_1762846119749_1762846119749.pdf",
+      "case_title": "",
+      "download_time_seconds": 8.18,
+      "success": true,
+      "timestamp": "2025-11-11T07:31:36.091626",
+      "cnr": "",
+      "decision_year": null
+    },
+    {
+      "filename": "judgment_1762846119792_1762846119792.pdf",
+      "case_title": "",
+      "download_time_seconds": 7.98,
+      "success": true,
+      "timestamp": "2025-11-11T07:31:46.654253",
+      "cnr": "",
+      "decision_year": null
+    },
+    {
+      "filename": "judgment_1762846119837_1762846119837.pdf",
+      "case_title": "",
+      "download_time_seconds": 9.33,
+      "success": true,
+      "timestamp": "2025-11-11T07:31:58.618853",
+      "cnr": "",
+      "decision_year": null
+    },
+    {
+      "filename": "judgment_1762846119923_1762846119923.pdf",
+      "case_title": "",
+      "download_time_seconds": 8.24,
+      "success": true,
+      "timestamp": "2025-11-11T07:32:09.448776",
+      "cnr": "",
+      "decision_year": null
+    },
+    {
+      "filename": "judgment_1762846119986_1762846119986.pdf",
+      "case_title": "",
+      "download_time_seconds": 8.47,
+      "success": true,
+      "timestamp": "2025-11-11T07:32:20.518018",
+      "cnr": "",
+      "decision_year": null
+    },
+    {
+      "filename": "judgment_1762846120032_1762846120032.pdf",
+      "case_title": "",
+      "download_time_seconds": 8.91,
+      "success": true,
+      "timestamp": "2025-11-11T07:32:32.024482",
+      "cnr": "",
+      "decision_year": null
+    }
+  ],
+  "session_statistics": [],
+  "fastest_download": {
+    "filename": "judgment_1762846119246_1762846119246.pdf",
+    "time": 7.79,
+    "case_title": ""
+  },
+  "slowest_download": {
+    "filename": "judgment_1762845804469_1762845804469.pdf",
+    "time": 10.84,
+    "case_title": ""
+  },
+  "last_updated": "2025-11-11T07:32:32.025918",
+  "script_id": 24
+}
