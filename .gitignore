@@ -8,3 +8,6 @@
 .env.instance2
 .env.instance3
 .env.instance4
+# Ignore progress and timing JSON files
+scripts/*/script*_progress.json
+scripts/*/script*_timing.json
