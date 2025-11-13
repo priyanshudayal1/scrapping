@@ -141,6 +141,9 @@ def create_full_script(script_id, start_page, end_page):
         "            # Upload to S3 with new path structure: /judgments/(filename_scriptno)\n            # Extract base filename without extension and add script ID\n            base_name = os.path.splitext(safe_filename)[0]\n            file_extension = os.path.splitext(safe_filename)[1]\n            s3_filename = f\"{base_name}_{SCRIPT_ID:02d}{file_extension}\"\n            s3_key = f\"judgments/{s3_filename}\""
     )
     
+    # Also replace any remaining INSTANCE_ID references that might have been missed
+    functions_code = functions_code.replace('INSTANCE_ID', 'SCRIPT_ID')
+    
     # Replace Google Cloud Vision API with AWS Bedrock (Claude) for captcha solving
     # Replace the client check
     functions_code = functions_code.replace(

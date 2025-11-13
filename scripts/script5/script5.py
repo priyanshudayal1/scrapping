@@ -1496,7 +1496,7 @@ def download_pdf(judgment_data):
             # Extract base filename without extension and add script ID
             base_name = os.path.splitext(safe_filename)[0]
             file_extension = os.path.splitext(safe_filename)[1]
-            s3_filename = f"{base_name}_{INSTANCE_ID:02d}{file_extension}"
+            s3_filename = f"{base_name}_{SCRIPT_ID:02d}{file_extension}"
             s3_key = f"judgments/{s3_filename}"
             upload_success = upload_to_s3(safe_filename, s3_key)
             
