@@ -71,41 +71,30 @@ logging.basicConfig(
 )
 
 
-# Initialize Google Cloud Vision API credentials
+# Initialize AWS Bedrock and S3 clients
 try:
-    from google.cloud import vision_v1
-    from google.oauth2 import service_account
+    from botocore.config import Config
+    from botocore.exceptions import ClientError, EndpointConnectionError, ReadTimeoutError, ConnectTimeoutError
     
-    credentials = service_account.Credentials.from_service_account_info({
-        "type": "service_account",
-        "project_id": os.getenv('GCP_PROJECT_ID'),
-        "private_key_id": os.getenv('GCP_PRIVATE_KEY_ID'),
-        "private_key": os.getenv('GCP_PRIVATE_KEY', '').replace('\\n', '\n'),
-        "client_email": os.getenv('GCP_CLIENT_EMAIL'),
-        "client_id": os.getenv('GCP_CLIENT_ID'),
-        "auth_uri": os.getenv('GCP_AUTH_URI', 'https://accounts.google.com/o/oauth2/auth'),
-        "token_uri": os.getenv('GCP_TOKEN_URI', 'https://oauth2.googleapis.com/token'),
-        "auth_provider_x509_cert_url": os.getenv('GCP_AUTH_PROVIDER_CERT_URL', 'https://www.googleapis.com/oauth2/v1/certs'),
-        "client_x509_cert_url": os.getenv('GCP_CLIENT_CERT_URL'),
-    })
-    vision_client = vision_v1.ImageAnnotatorClient(credentials=credentials)
-    logger.info("Google Cloud Vision API initialized successfully")
-except Exception as e:
-    logger.error(f"Failed to initialize Google Cloud Vision API: {str(e)}")
-    vision_client = None
+    config = Config(
+        connect_timeout=30,
+        read_timeout=30,
+        retries={'max_attempts': 2}
+    )
 
-# Initialize AWS S3 client for file uploads
-try:
+    # Initialize AWS session with credentials from environment variables
     session = boto3.Session(
         aws_access_key_id=os.getenv('AWS_ACCESS_KEY_ID'),
         aws_secret_access_key=os.getenv('AWS_SECRET_ACCESS_KEY'),
         region_name=os.getenv('AWS_REGION', 'us-east-1')
     )
-    s3_client = session.client("s3")
+    bedrock_runtime = session.client("bedrock-runtime", config=config)
+    s3_client = session.client("s3", config=config)
     S3_BUCKET_NAME = "judgements-vectors-pdf"
-    logger.info("AWS S3 client initialized successfully")
+    logger.info("AWS Bedrock and S3 clients initialized successfully")
 except Exception as e:
-    logger.error(f"Failed to initialize AWS S3 client: {str(e)}")
+    logger.error(f"Failed to initialize AWS clients: {str(e)}")
+    bedrock_runtime = None
     s3_client = None
     S3_BUCKET_NAME = None
 
@@ -1092,8 +1081,8 @@ def fill_captcha():
         logger.error("Driver not initialized.")
         return False
     
-    if vision_client is None:
-        logger.error("Google Cloud Vision API client is not initialized.")
+    if bedrock_runtime is None:
+        logger.error("AWS Bedrock runtime client is not initialized.")
         return False
 
     attempt = 0
@@ -1114,35 +1103,47 @@ def fill_captcha():
                 time.sleep(3)
                 continue
             
-            # Use Google Cloud Vision API to solve captcha
+            # Use AWS Bedrock (Claude) to solve captcha
             with open(f"captcha_script_{SCRIPT_ID}.png", "rb") as image_file:
-                image_content = image_file.read()
-            
-            # Create image object for Vision API
-            image = vision_v1.Image(content=image_content)
-            
-            # Set up image context for better OCR results
-            ctx = vision_v1.ImageContext(language_hints=["en"])
-            
-            # Perform text detection
-            response = vision_client.text_detection(image=image, image_context=ctx)
-            
-            # Check for errors
-            if response.error.message:
-                logger.error(f"Vision API error: {response.error.message}")
-                driver.refresh()
-                time.sleep(3)
-                continue
-            
-            # Extract text from response
-            if response.text_annotations:
-                # First annotation contains the full detected text
-                result = response.text_annotations[0].description.strip()
+                captcha_base64 = base64.b64encode(image_file.read()).decode('utf-8')
+
+            body = {
+                "anthropic_version": "bedrock-2023-05-31",
+                "max_tokens": 30,
+                "messages": [
+                    {
+                        "role": "user",
+                        "content": [
+                            {
+                                "type": "image",
+                                "source": {
+                                    "type": "base64",
+                                    "media_type": "image/png",
+                                    "data": captcha_base64
+                                }
+                            },
+                            {
+                                "type": "text",
+                                "text": "What text is shown in this image? Only respond with the text—no explanation."
+                            }
+                        ]
+                    }
+                ]
+            }
+
+            try:
+                response = bedrock_runtime.invoke_model(
+                    modelId="arn:aws:bedrock:ap-south-1:491085399248:inference-profile/apac.anthropic.claude-3-7-sonnet-20250219-v1:0",
+                    body=json.dumps(body)
+                )
+
+                result_json = json.loads(response['body'].read())
+                result = result_json['content'][0]['text'].strip()
                 # Remove any newlines or spaces
                 result = result.replace('\n', '').replace(' ', '')
-                logger.info(f"Vision API Prediction: {result}")
-            else:
-                logger.warning("No text detected in captcha image")
+                logger.info(f"Claude Prediction: {result}")
+            except Exception as bedrock_error:
+                logger.error(f"Bedrock API error: {bedrock_error}")
                 driver.refresh()
                 time.sleep(3)
                 continue
