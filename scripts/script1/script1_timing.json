@@ -1,5 +1,5 @@
 {
-  "session_start": "2025-11-13T02:04:28.471653",
+  "session_start": "2025-11-16T23:20:54.009679",
   "session_end": null,
   "total_files_processed": 1,
   "total_successful_downloads": 0,
@@ -8,11 +8,11 @@
   "average_time_per_file": 0,
   "individual_file_times": [
     {
-      "filename": "WP_12923_2016_of_M._SEENAPPA,_CHITTOOR_DIST_AND_3_OTHERS_Vs_PRL_SECY,_ANIMAL_HUSBANDRY_DAIRY_DEV._AND_FISHERIES_DEPT.,_HYD_CNR_APHC010460892016_1762981012354.pdf",
+      "filename": "WP_12923_2016_of_M._SEENAPPA,_CHITTOOR_DIST_AND_3_OTHERS_Vs_PRL_SECY,_ANIMAL_HUSBANDRY_DAIRY_DEV._AND_FISHERIES_DEPT.,_HYD_CNR_APHC010460892016_1763315796198.pdf",
       "case_title": "WP/12923/2016 of M. SEENAPPA, CHITTOOR DIST AND 3 ",
-      "download_time_seconds": 7.19,
+      "download_time_seconds": 6.45,
       "success": false,
-      "timestamp": "2025-11-13T02:27:18.144965",
+      "timestamp": "2025-11-16T23:27:03.858239",
       "cnr": "APHC010460892016",
       "decision_year": 5000
     }
@@ -20,6 +20,6 @@
   "session_statistics": [],
   "fastest_download": null,
   "slowest_download": null,
-  "last_updated": "2025-11-13T02:27:18.146196",
+  "last_updated": "2025-11-16T23:27:03.859953",
   "script_id": 1
 }

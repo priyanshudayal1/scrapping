@@ -182,45 +182,44 @@ def create_full_script(script_id, start_page, end_page):
                 time.sleep(3)
                 continue'''
     
-    new_bedrock_logic = '''# Use AWS Bedrock (Claude) to solve captcha
+    new_bedrock_logic = '''# Use AWS Bedrock (Amazon Nova Lite) to solve captcha
             with open(f"captcha_script_{SCRIPT_ID}.png", "rb") as image_file:
                 captcha_base64 = base64.b64encode(image_file.read()).decode('utf-8')
-
-            body = {
-                "anthropic_version": "bedrock-2023-05-31",
-                "max_tokens": 30,
-                "messages": [
-                    {
-                        "role": "user",
-                        "content": [
-                            {
-                                "type": "image",
-                                "source": {
-                                    "type": "base64",
-                                    "media_type": "image/png",
-                                    "data": captcha_base64
-                                }
-                            },
-                            {
-                                "type": "text",
-                                "text": "What text is shown in this image? Only respond with the text—no explanation."
-                            }
-                        ]
-                    }
-                ]
-            }
-
+            
             try:
-                response = bedrock_runtime.invoke_model(
-                    modelId="arn:aws:bedrock:ap-south-1:491085399248:inference-profile/apac.anthropic.claude-3-7-sonnet-20250219-v1:0",
-                    body=json.dumps(body)
+                response = bedrock_runtime.converse(
+                    modelId="arn:aws:bedrock:ap-south-1:491085399248:inference-profile/apac.amazon.nova-lite-v1:0",
+                    messages=[
+                        {
+                            "role": "user",
+                            "content": [
+                                {
+                                    "image": {
+                                        "format": "png",
+                                        "source": {
+                                            "bytes": base64.b64decode(captcha_base64)
+                                        }
+                                    }
+                                },
+                                {
+                                    "text": "What text is shown in this image? Only respond with the text—no explanation."
+                                }
+                            ]
+                        }
+                    ],
+                    inferenceConfig={
+                        "maxTokens": 512,
+                        "temperature": 0.7,
+                        "topP": 0.9,
+                        "stopSequences": []
+                    },
+                    additionalModelRequestFields={}
                 )
-
-                result_json = json.loads(response['body'].read())
-                result = result_json['content'][0]['text'].strip()
+                
+                result = response['output']['message']['content'][0]['text'].strip()
                 # Remove any newlines or spaces
                 result = result.replace('\\n', '').replace(' ', '')
-                logger.info(f"Claude Prediction: {result}")
+                logger.info(f"Amazon Nova Lite Prediction: {result}")
             except Exception as bedrock_error:
                 logger.error(f"Bedrock API error: {bedrock_error}")
                 driver.refresh()
@@ -649,29 +648,22 @@ def close_any_open_modal():"""
                     raise nav_error
                 time.sleep(5)
         
-        # Solve captcha with retry logic
+        # Solve captcha with infinite retry logic
         captcha_attempts = 0
-        max_captcha_attempts = 50
         
-        while captcha_attempts < max_captcha_attempts:
+        while True:
             try:
                 if fill_captcha():
                     logger.info("Captcha solved successfully during recovery")
                     break
                 else:
                     captcha_attempts += 1
-                    logger.warning(f"Captcha attempt {{captcha_attempts}} failed during recovery")
-                    if captcha_attempts < max_captcha_attempts:
-                        time.sleep(3)
+                    logger.warning(f"Captcha attempt {{captcha_attempts}} failed during recovery - will retry infinitely")
+                    time.sleep(3)
             except Exception as captcha_error:
                 captcha_attempts += 1
-                logger.warning(f"Captcha error during recovery: {{captcha_error}}")
-                if captcha_attempts < max_captcha_attempts:
-                    time.sleep(3)
-        
-        if captcha_attempts >= max_captcha_attempts:
-            logger.error("Failed to solve captcha during recovery after multiple attempts")
-            return False
+                logger.warning(f"Captcha error during recovery (attempt {{captcha_attempts}}): {{captcha_error}} - will retry infinitely")
+                time.sleep(3)
         
         # Wait for loading to complete
         wait_for_loading_component()
@@ -1719,13 +1711,22 @@ if __name__ == "__main__":
         logger.info("Initializing browser...")
         initialize_browser()
 
-        # Step 2: Solve captcha with retry logic
+        # Step 2: Solve captcha with infinite retry logic
         logger.info("Solving captcha...")
-        if not fill_captcha():
-            logger.error("Failed to solve captcha after multiple attempts")
-            if driver:
-                driver.quit()
-            sys.exit(1)
+        captcha_attempts = 0
+        while True:
+            try:
+                if fill_captcha():
+                    logger.info("Captcha solved successfully")
+                    break
+                else:
+                    captcha_attempts += 1
+                    logger.warning(f"Captcha attempt {{captcha_attempts}} failed - will retry infinitely")
+                    time.sleep(3)
+            except Exception as captcha_error:
+                captcha_attempts += 1
+                logger.warning(f"Captcha error (attempt {{captcha_attempts}}): {{captcha_error}} - will retry infinitely")
+                time.sleep(3)
         
         # Step 3: Wait until the loading component is invisible
         logger.info("Waiting for page to load...")

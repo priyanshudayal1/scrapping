@@ -6,8 +6,8 @@
   "estimated_results": 255900,
   "current_page": 1,
   "total_files_downloaded": 0,
-  "start_time": "2025-11-13T02:04:28.471643",
-  "last_updated": "2025-11-13T02:27:18.144986",
+  "start_time": "2025-11-16T23:20:54.009673",
+  "last_updated": "2025-11-16T23:27:03.858257",
   "status": "not_started",
   "pages_completed": [],
   "failed_downloads": [
@@ -15,7 +15,7 @@
       "success": false,
       "error": "name 'INSTANCE_ID' is not defined",
       "case_title": "WP/12923/2016 of M. SEENAPPA, CHITTOOR DIST AND 3 OTHERS Vs PRL SECY, ANIMAL HUSBANDRY DAIRY DEV. AND FISHERIES DEPT., HYD",
-      "download_duration_seconds": 7.19
+      "download_duration_seconds": 6.45
     }
   ],
   "yearly_counts": {},

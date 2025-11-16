@@ -6,10 +6,11 @@
   "estimated_results": 255900,
   "current_page": 5119,
   "total_files_downloaded": 0,
-  "start_time": null,
-  "last_updated": null,
+  "start_time": "2025-11-16T23:27:08.455310",
+  "last_updated": "2025-11-16T23:27:08.455553",
   "status": "not_started",
   "pages_completed": [],
   "failed_downloads": [],
-  "yearly_counts": {}
+  "yearly_counts": {},
+  "downloaded_files": []
 }

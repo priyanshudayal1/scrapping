@@ -1,0 +1,25 @@
+{
+  "session_start": "2025-11-16T23:25:57.632651",
+  "session_end": null,
+  "total_files_processed": 1,
+  "total_successful_downloads": 0,
+  "total_failed_downloads": 1,
+  "total_time_seconds": 0,
+  "average_time_per_file": 0,
+  "individual_file_times": [
+    {
+      "filename": "WPA_24207_2025_of_MILAN_KANTI_PAL_Vs_STATE_OF_WEST_BENGAL_AND_ORS_CNR_WBCHCA0477242025_1763315784239.pdf",
+      "case_title": "WPA/24207/2025 of MILAN KANTI PAL Vs STATE OF WEST",
+      "download_time_seconds": 7.96,
+      "success": false,
+      "timestamp": "2025-11-16T23:27:00.824727",
+      "cnr": "WBCHCA0477242025",
+      "decision_year": 2025
+    }
+  ],
+  "session_statistics": [],
+  "fastest_download": null,
+  "slowest_download": null,
+  "last_updated": "2025-11-16T23:27:00.825778",
+  "script_id": 2
+}

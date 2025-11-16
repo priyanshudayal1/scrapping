@@ -6,10 +6,18 @@
   "estimated_results": 255900,
   "current_page": 2560,
   "total_files_downloaded": 0,
-  "start_time": null,
-  "last_updated": null,
+  "start_time": "2025-11-16T23:25:57.632643",
+  "last_updated": "2025-11-16T23:27:00.824747",
   "status": "not_started",
   "pages_completed": [],
-  "failed_downloads": [],
-  "yearly_counts": {}
+  "failed_downloads": [
+    {
+      "success": false,
+      "error": "name 'INSTANCE_ID' is not defined",
+      "case_title": "WPA/24207/2025 of MILAN KANTI PAL Vs STATE OF WEST BENGAL AND ORS.",
+      "download_duration_seconds": 7.96
+    }
+  ],
+  "yearly_counts": {},
+  "downloaded_files": []
 }
