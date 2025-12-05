@@ -1086,11 +1086,11 @@ def fill_captcha():
         return False
 
     attempt = 0
-    max_attempts = 15
-    while attempt < max_attempts:
+    # Unlimited retries - keep trying until captcha is solved
+    while True:
         attempt += 1
         try:
-            logger.info(f"Attempting to solve captcha (attempt {attempt}/{max_attempts})...")
+            logger.info(f"Attempting to solve captcha (attempt {attempt})...")
             
             # Ensure we have a fresh captcha image
             try:
@@ -1103,47 +1103,68 @@ def fill_captcha():
                 time.sleep(3)
                 continue
             
-            # Use AWS Bedrock (Claude) to solve captcha
+            # Use AWS Bedrock (Amazon Nova) to solve captcha with fallback
             with open(f"captcha_script_{SCRIPT_ID}.png", "rb") as image_file:
                 captcha_base64 = base64.b64encode(image_file.read()).decode('utf-8')
-
-            body = {
-                "anthropic_version": "bedrock-2023-05-31",
-                "max_tokens": 30,
-                "messages": [
-                    {
-                        "role": "user",
-                        "content": [
+            
+            # Try Amazon Nova Lite first, fallback to Nova Pro if it fails
+            models_to_try = [
+                ("arn:aws:bedrock:ap-south-1:491085399248:inference-profile/apac.amazon.nova-lite-v1:0", "Amazon Nova Lite"),
+                ("arn:aws:bedrock:ap-south-1:491085399248:inference-profile/apac.amazon.nova-pro-v1:0", "Amazon Nova Pro")
+            ]
+            
+            result = None
+            for model_id, model_name in models_to_try:
+                try:
+                    logger.info(f"Attempting captcha with {model_name}...")
+                    response = bedrock_runtime.converse(
+                        modelId=model_id,
+                        messages=[
                             {
-                                "type": "image",
-                                "source": {
-                                    "type": "base64",
-                                    "media_type": "image/png",
-                                    "data": captcha_base64
-                                }
-                            },
-                            {
-                                "type": "text",
-                                "text": "What text is shown in this image? Only respond with the text—no explanation."
+                                "role": "user",
+                                "content": [
+                                    {
+                                        "image": {
+                                            "format": "png",
+                                            "source": {
+                                                "bytes": base64.b64decode(captcha_base64)
+                                            }
+                                        }
+                                    },
+                                    {
+                                        "text": "What text is shown in this image? Only respond with the text—no explanation."
+                                    }
+                                ]
                             }
-                        ]
-                    }
-                ]
-            }
-
-            try:
-                response = bedrock_runtime.invoke_model(
-                    modelId="arn:aws:bedrock:ap-south-1:491085399248:inference-profile/apac.anthropic.claude-3-7-sonnet-20250219-v1:0",
-                    body=json.dumps(body)
-                )
-
-                result_json = json.loads(response['body'].read())
-                result = result_json['content'][0]['text'].strip()
-                # Remove any newlines or spaces
-                result = result.replace('\n', '').replace(' ', '')
-                logger.info(f"Claude Prediction: {result}")
-            except Exception as bedrock_error:
-                logger.error(f"Bedrock API error: {bedrock_error}")
+                        ],
+                        inferenceConfig={
+                            "maxTokens": 512,
+                            "temperature": 0.7,
+                            "topP": 0.9,
+                            "stopSequences": []
+                        },
+                        additionalModelRequestFields={}
+                    )
+                    
+                    result = response['output']['message']['content'][0]['text'].strip()
+                    # Remove any newlines or spaces
+                    result = result.replace('\n', '').replace(' ', '')
+                    logger.info(f"{model_name} Prediction: {result}")
+                    break  # Success, exit the loop
+                    
+                except Exception as bedrock_error:
+                    logger.warning(f"{model_name} failed: {bedrock_error}")
+                    if model_id == models_to_try[-1][0]:  # Last model failed
+                        logger.error(f"All models failed. Last error: {bedrock_error}")
+                        driver.refresh()
+                        time.sleep(3)
+                        continue
+                    else:
+                        logger.info(f"Trying fallback model...")
+                        time.sleep(1)  # Brief pause before fallback
+            
+            if result is None:
+                logger.error("Failed to get captcha result from all models")
                 driver.refresh()
                 time.sleep(3)
                 continue

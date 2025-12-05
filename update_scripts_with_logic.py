@@ -43,6 +43,12 @@ def create_full_script(script_id, start_page, end_page):
     functions_code = functions_code.replace('logger.info(f"Instance ID: {INSTANCE_ID}', 'logger.info(f"Script ID: {SCRIPT_ID}')
     functions_code = functions_code.replace('timing_data["instance_id"] = INSTANCE_ID', 'timing_data["script_id"] = SCRIPT_ID')
     
+    # CRITICAL: Replace INSTANCE_ID in S3 filename generation
+    functions_code = functions_code.replace('_{INSTANCE_ID:02d}', '_{SCRIPT_ID:02d}')
+    functions_code = functions_code.replace('INSTANCE_ID:02d', 'SCRIPT_ID:02d')
+    # Also replace any remaining standalone INSTANCE_ID references
+    functions_code = functions_code.replace('INSTANCE_ID', 'SCRIPT_ID')
+    
     # Fix all double curly brace placeholders with proper single braces
     functions_code = functions_code.replace('{{SCRIPT_ID}}', '{SCRIPT_ID}')
     functions_code = functions_code.replace('{{9222 + SCRIPT_ID}}', '{9222 + SCRIPT_ID}')
@@ -63,6 +69,9 @@ def create_full_script(script_id, start_page, end_page):
     # Fix any remaining double braces that might appear in other contexts
     import re
     functions_code = re.sub(r'\{\{([^}]+)\}\}', r'{\1}', functions_code)
+    
+    # UNLIMITED CAPTCHA RETRIES - already in legacy file now, but ensure it's present
+    # The legacy file uses "while True:" which is copied directly
     
     # Make captcha filenames unique per script to avoid conflicts
     functions_code = functions_code.replace(
@@ -1390,41 +1399,30 @@ logging.basicConfig(
 )
 
 
-# Initialize Google Cloud Vision API credentials
+# Initialize AWS Bedrock and S3 clients
 try:
-    from google.cloud import vision_v1
-    from google.oauth2 import service_account
+    from botocore.config import Config
+    from botocore.exceptions import ClientError, EndpointConnectionError, ReadTimeoutError, ConnectTimeoutError
     
-    credentials = service_account.Credentials.from_service_account_info({{
-        "type": "service_account",
-        "project_id": os.getenv('GCP_PROJECT_ID'),
-        "private_key_id": os.getenv('GCP_PRIVATE_KEY_ID'),
-        "private_key": os.getenv('GCP_PRIVATE_KEY', '').replace('\\\\n', '\\n'),
-        "client_email": os.getenv('GCP_CLIENT_EMAIL'),
-        "client_id": os.getenv('GCP_CLIENT_ID'),
-        "auth_uri": os.getenv('GCP_AUTH_URI', 'https://accounts.google.com/o/oauth2/auth'),
-        "token_uri": os.getenv('GCP_TOKEN_URI', 'https://oauth2.googleapis.com/token'),
-        "auth_provider_x509_cert_url": os.getenv('GCP_AUTH_PROVIDER_CERT_URL', 'https://www.googleapis.com/oauth2/v1/certs'),
-        "client_x509_cert_url": os.getenv('GCP_CLIENT_CERT_URL'),
-    }})
-    vision_client = vision_v1.ImageAnnotatorClient(credentials=credentials)
-    logger.info("Google Cloud Vision API initialized successfully")
-except Exception as e:
-    logger.error(f"Failed to initialize Google Cloud Vision API: {{str(e)}}")
-    vision_client = None
+    config = Config(
+        connect_timeout=30,
+        read_timeout=30,
+        retries={{'max_attempts': 2}}
+    )
 
-# Initialize AWS S3 client for file uploads
-try:
+    # Initialize AWS session with credentials from environment variables
     session = boto3.Session(
         aws_access_key_id=os.getenv('AWS_ACCESS_KEY_ID'),
         aws_secret_access_key=os.getenv('AWS_SECRET_ACCESS_KEY'),
-        region_name=os.getenv('AWS_REGION', 'us-east-1')
+        region_name=os.getenv('AWS_REGION', 'ap-south-1')
     )
-    s3_client = session.client("s3")
+    bedrock_runtime = session.client("bedrock-runtime", config=config)
+    s3_client = session.client("s3", config=config)
     S3_BUCKET_NAME = "judgements-vectors-pdf"
-    logger.info("AWS S3 client initialized successfully")
+    logger.info("AWS Bedrock and S3 clients initialized successfully")
 except Exception as e:
-    logger.error(f"Failed to initialize AWS S3 client: {{str(e)}}")
+    logger.error(f"Failed to initialize AWS clients: {{str(e)}}")
+    bedrock_runtime = None
     s3_client = None
     S3_BUCKET_NAME = None
 
