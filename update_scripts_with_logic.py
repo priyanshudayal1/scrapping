@@ -1399,27 +1399,39 @@ logging.basicConfig(
 )
 
 
-# Initialize AWS Bedrock and S3 clients
+# Initialize AWS Bedrock and S3 clients with separate sessions
 try:
     from botocore.config import Config
     from botocore.exceptions import ClientError, EndpointConnectionError, ReadTimeoutError, ConnectTimeoutError
     
-    config = Config(
+    api_config = Config(
         connect_timeout=30,
         read_timeout=30,
         retries={{'max_attempts': 2}}
     )
 
-    # Initialize AWS session with credentials from environment variables
-    session = boto3.Session(
-        aws_access_key_id=os.getenv('AWS_ACCESS_KEY_ID'),
-        aws_secret_access_key=os.getenv('AWS_SECRET_ACCESS_KEY'),
-        region_name=os.getenv('AWS_REGION', 'ap-south-1')
+    # Get AWS credentials from environment variables
+    aws_access_key = os.getenv('AWS_ACCESS_KEY_ID')
+    aws_secret_key = os.getenv('AWS_SECRET_ACCESS_KEY')
+    
+    # Initialize Bedrock client with us-east-1 region (for AI model)
+    bedrock_session = boto3.Session(
+        aws_access_key_id=aws_access_key,
+        aws_secret_access_key=aws_secret_key,
+        region_name='ap-south-1'
     )
-    bedrock_runtime = session.client("bedrock-runtime", config=config)
-    s3_client = session.client("s3", config=config)
+    bedrock_runtime = bedrock_session.client("bedrock-runtime", config=api_config)
+    logger.info("AWS Bedrock client initialized successfully (region: us-east-1)")
+    
+    # Initialize S3 client with us-east-1 region (for storage)
+    s3_session = boto3.Session(
+        aws_access_key_id=aws_access_key,
+        aws_secret_access_key=aws_secret_key,
+        region_name='us-east-1'
+    )
+    s3_client = s3_session.client("s3", config=api_config)
     S3_BUCKET_NAME = "judgements-vectors-pdf"
-    logger.info("AWS Bedrock and S3 clients initialized successfully")
+    logger.info("AWS S3 client initialized successfully (region: us-east-1)")
 except Exception as e:
     logger.error(f"Failed to initialize AWS clients: {{str(e)}}")
     bedrock_runtime = None
