@@ -2,26 +2,37 @@
 """
 Service Management Script
 Helps manage all scraping services easily
+Auto-detects paths when running on the server
 """
 
 import json
 import subprocess
 import sys
+import getpass
 from pathlib import Path
 from datetime import datetime
 
 def load_config():
-    """Load service configuration"""
+    """Load service configuration with auto-detected paths"""
     config_file = Path(__file__).parent / 'service_config.json'
     try:
         with open(config_file, 'r') as f:
-            return json.load(f)
+            config = json.load(f)
     except FileNotFoundError:
         print(f"Error: {config_file} not found!")
         sys.exit(1)
     except json.JSONDecodeError as e:
         print(f"Error: Invalid JSON in {config_file}: {e}")
         sys.exit(1)
+    
+    # Auto-detect paths
+    current_user = getpass.getuser()
+    script_dir = Path(__file__).parent.resolve()
+    
+    config['user'] = current_user
+    config['working_directory'] = str(script_dir)
+    
+    return config
 
 def get_enabled_services():
     """Get list of enabled service names"""
@@ -190,6 +201,69 @@ def list_command():
     print(f"Restart on Failure: {config['restart_on_failure']}")
     print(f"Restart Delay: {config['restart_delay_seconds']} seconds")
 
+def install_command():
+    """Full installation: generate services, copy to systemd, reload, and start"""
+    config = load_config()
+    user = config['user']
+    
+    print("=" * 80)
+    print("FULL SERVICE INSTALLATION")
+    print("=" * 80)
+    print()
+    
+    # Step 1: Create log directory
+    print("Step 1: Creating log directory...")
+    returncode, stdout, stderr = run_command("sudo mkdir -p /var/log/scraping")
+    if returncode != 0:
+        print(f"  ✗ Failed to create log directory: {stderr}")
+    else:
+        print("  ✓ Created /var/log/scraping")
+    
+    returncode, stdout, stderr = run_command(f"sudo chown {user}:{user} /var/log/scraping")
+    if returncode != 0:
+        print(f"  ✗ Failed to set ownership: {stderr}")
+    else:
+        print(f"  ✓ Set ownership to {user}")
+    print()
+    
+    # Step 2: Generate service files
+    print("Step 2: Generating service files...")
+    script_dir = Path(__file__).parent
+    returncode, stdout, stderr = run_command(f"python3 {script_dir / 'generate_services.py'}")
+    if returncode != 0:
+        print(f"  ✗ Failed to generate services: {stderr}")
+        return
+    print(stdout)
+    print()
+    
+    # Step 3: Remove old service files and copy new ones
+    print("Step 3: Installing service files to systemd...")
+    run_command("sudo rm -f /etc/systemd/system/scraping-script*.service")
+    returncode, stdout, stderr = run_command(f"sudo cp {script_dir / 'systemd_services'}/*.service /etc/systemd/system/")
+    if returncode != 0:
+        print(f"  ✗ Failed to copy service files: {stderr}")
+        return
+    print("  ✓ Copied service files to /etc/systemd/system/")
+    print()
+    
+    # Step 4: Reload systemd
+    print("Step 4: Reloading systemd...")
+    returncode, stdout, stderr = run_command("sudo systemctl daemon-reload")
+    if returncode != 0:
+        print(f"  ✗ Failed to reload systemd: {stderr}")
+        return
+    print("  ✓ Systemd reloaded")
+    print()
+    
+    # Step 5: Enable services
+    print("Step 5: Enabling services...")
+    enable_command()
+    print()
+    
+    # Step 6: Start services
+    print("Step 6: Starting services...")
+    start_command()
+
 def print_usage():
     """Print usage information"""
     print("Scraping Services Management Script")
@@ -197,6 +271,7 @@ def print_usage():
     print("Usage: python3 manage_services.py [command]")
     print()
     print("Commands:")
+    print("  install         Full installation (generate, copy, reload, enable, start)")
     print("  status          Show status of all services")
     print("  start           Start all services")
     print("  stop            Stop all services")
@@ -208,10 +283,10 @@ def print_usage():
     print("  help            Show this help message")
     print()
     print("Examples:")
+    print("  python3 manage_services.py install    # First time setup")
     print("  python3 manage_services.py status")
     print("  python3 manage_services.py start")
-    print("  python3 manage_services.py logs 1")
-    print("  python3 manage_services.py logs")
+    print("  python3 manage_services.py logs 23")
 
 def main():
     """Main function"""
@@ -221,7 +296,9 @@ def main():
     
     command = sys.argv[1].lower()
     
-    if command == 'status':
+    if command == 'install':
+        install_command()
+    elif command == 'status':
         status_command()
     elif command == 'start':
         start_command()

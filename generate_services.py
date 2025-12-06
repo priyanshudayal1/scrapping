@@ -2,26 +2,57 @@
 """
 Generate systemd service files for scraping scripts
 This script reads service_config.json and generates systemd service files
+Auto-detects paths when running on the server
 """
 
 
 import json
 import os
 import sys
+import getpass
 from pathlib import Path
 
 def load_config():
-    """Load service configuration"""
+    """Load service configuration and auto-detect paths"""
     config_file = Path(__file__).parent / 'service_config.json'
     try:
         with open(config_file, 'r') as f:
-            return json.load(f)
+            config = json.load(f)
     except FileNotFoundError:
         print(f"Error: {config_file} not found!")
         sys.exit(1)
     except json.JSONDecodeError as e:
         print(f"Error: Invalid JSON in {config_file}: {e}")
         sys.exit(1)
+    
+    # Auto-detect paths based on current environment
+    current_user = getpass.getuser()
+    script_dir = Path(__file__).parent.resolve()
+    
+    # Check for venv python
+    venv_python = script_dir / 'venv' / 'bin' / 'python'
+    venv_python3 = script_dir / 'venv' / 'bin' / 'python3'
+    
+    # Override config with detected values
+    config['user'] = current_user
+    config['working_directory'] = str(script_dir)
+    
+    if venv_python.exists():
+        config['python_path'] = str(venv_python)
+    elif venv_python3.exists():
+        config['python_path'] = str(venv_python3)
+    else:
+        print(f"Warning: Virtual environment not found at {script_dir / 'venv'}")
+        print("Using system python3")
+        config['python_path'] = '/usr/bin/python3'
+    
+    print(f"Auto-detected configuration:")
+    print(f"  User: {config['user']}")
+    print(f"  Working Directory: {config['working_directory']}")
+    print(f"  Python Path: {config['python_path']}")
+    print()
+    
+    return config
 
 def generate_service_file(script_num, config):
     """Generate a systemd service file for a specific script"""
