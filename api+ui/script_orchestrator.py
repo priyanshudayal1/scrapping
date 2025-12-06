@@ -40,6 +40,10 @@ class ScriptOrchestrator:
                 with open(progress_file, 'r', encoding='utf-8') as f:
                     progress = json.load(f)
                 
+                # Ensure script_id is always present
+                if 'script_id' not in progress:
+                    progress['script_id'] = script_id
+                
                 # Check if process is running
                 is_running = script_id in self.running_scripts and self.running_scripts[script_id].poll() is None
                 progress['is_running'] = is_running

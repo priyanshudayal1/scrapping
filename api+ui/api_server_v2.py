@@ -167,6 +167,15 @@ def get_overall_status():
     
     try:
         status = orchestrator.get_overall_status()
+        
+        # Log for debugging
+        logger.info(f"Returning status for {len(status.get('scripts', []))} scripts")
+        
+        # Validate that all scripts have script_id
+        for script in status.get('scripts', []):
+            if 'script_id' not in script:
+                logger.warning(f"Script missing script_id field: {script}")
+        
         return jsonify({
             'status': 'success',
             'data': status,
@@ -200,8 +209,11 @@ def get_script_logs(script_id):
         return jsonify({'status': 'error', 'message': 'Orchestrator not initialized'}), 500
     
     try:
+        logger.info(f"Fetching logs for script {script_id}")
+        
         lines = request.args.get('lines', 50, type=int)
         logs = orchestrator.get_script_logs(script_id, lines)
+        
         return jsonify({
             'status': 'success',
             'script_id': script_id,

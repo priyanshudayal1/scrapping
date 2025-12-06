@@ -205,6 +205,11 @@
             const status = data.data;
             allScripts = status.scripts;
 
+            // Debug logging
+            console.log("Fetched scripts:", allScripts.length);
+            console.log("First script:", allScripts[0]);
+            console.log("Last script:", allScripts[allScripts.length - 1]);
+
             // Update overall statistics
             document.getElementById("totalScripts").textContent =
               status.total_scripts;
@@ -272,6 +277,8 @@
 
         grid.innerHTML = scripts
           .map((script) => {
+            // Ensure script_id is always defined
+            const scriptId = script.script_id || script.scriptId || "unknown";
             const statusColor = getStatusColor(script.status);
             const isRunning = script.is_running;
             const progress =
@@ -287,9 +294,7 @@
                     <div class="bg-gray-700 rounded-lg p-4 border-l-4 ${statusColor}">
                         <div class="flex justify-between items-start mb-2">
                             <div>
-                                <h3 class="font-bold text-lg">Script ${
-                                  script.script_id
-                                }</h3>
+                                <h3 class="font-bold text-lg">Script ${scriptId}</h3>
                                 <p class="text-sm text-gray-400">Pages ${
                                   script.start_page?.toLocaleString() || "N/A"
                                 } - ${
@@ -299,7 +304,11 @@
                             <span class="px-2 py-1 rounded text-xs font-bold ${getStatusBadgeColor(
                               script.status
                             )}">
-                                ${isRunning ? "🟢 Running" : script.status}
+                                ${
+                                  isRunning
+                                    ? "🟢 Running"
+                                    : script.status || "unknown"
+                                }
                             </span>
                         </div>
                         
@@ -330,19 +339,19 @@
                             ${
                               !isRunning
                                 ? `
-                                <button onclick="startScript(${script.script_id})" 
+                                <button onclick="startScript(${scriptId})" 
                                         class="flex-1 bg-green-600 hover:bg-green-700 px-3 py-1 rounded text-sm">
                                     ▶️ Start
                                 </button>
                             `
                                 : `
-                                <button onclick="stopScript(${script.script_id})" 
+                                <button onclick="stopScript(${scriptId})" 
                                         class="flex-1 bg-red-600 hover:bg-red-700 px-3 py-1 rounded text-sm">
                                     ⏹️ Stop
                                 </button>
                             `
                             }
-                            <button onclick="viewLogs(${script.script_id})" 
+                            <button onclick="viewLogs(${scriptId})" 
                                     class="flex-1 bg-blue-600 hover:bg-blue-700 px-3 py-1 rounded text-sm">
                                 📄 Logs
                             </button>
@@ -487,6 +496,8 @@
 
       async function viewLogs(scriptId) {
         try {
+          console.log(`Viewing logs for script ${scriptId}`);
+
           const response = await fetch(
             `${API_BASE_URL}/scripts/${scriptId}/logs?lines=50`
           );
@@ -510,6 +521,8 @@
                         </body>
                         </html>
                     `);
+          } else {
+            alert(`Error fetching logs: ${data.message || "Unknown error"}`);
           }
         } catch (error) {
           console.error("Error fetching logs:", error);
