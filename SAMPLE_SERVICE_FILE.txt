@@ -9,10 +9,10 @@ StartLimitIntervalSec=0
 
 [Service]
 Type=simple
-User=your_username
-WorkingDirectory=/path/to/your/scrapping-app
+User=admin
+WorkingDirectory=/home/admin/scrapping
 Environment="PYTHONUNBUFFERED=1"
-ExecStart=/usr/bin/python3 /path/to/your/scrapping-app/scripts/script1/script1.py
+ExecStart=/home/admin/scrapping/venv/bin/python /home/admin/scrapping/scripts/script1/script1.py
 Restart=always
 RestartSec=10
 StandardOutput=append:/var/log/scraping/script1.log
